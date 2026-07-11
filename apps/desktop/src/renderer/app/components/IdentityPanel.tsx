@@ -1,5 +1,4 @@
-import { ShieldCheck, TriangleAlert, UserRound } from "lucide-react";
-import { gestures, riskEvents } from "../data";
+import { ShieldCheck, UserRound } from "lucide-react";
 
 export function IdentityPanel() {
   return (
@@ -9,7 +8,7 @@ export function IdentityPanel() {
           <h2>Active User</h2>
           <span className="verified-chip">
             <ShieldCheck size={15} />
-            Verified
+            Unverified
           </span>
         </div>
 
@@ -18,25 +17,23 @@ export function IdentityPanel() {
             <UserRound size={54} />
           </div>
           <div>
-            <strong>Operator</strong>
-            <span>Security Team</span>
-            <small>Session ID: 9f3a7c2e-1b6d-4f21</small>
-            <small>Since 10:39:12 AM (00:03:06)</small>
+            <strong>—</strong>
+            <span>No active session</span>
           </div>
         </div>
 
         <div className="trust-card">
           <div>
             <span>Confidence</span>
-            <strong>97.8%</strong>
+            <strong>—</strong>
           </div>
           <div className="trust-ring">
-            <strong>97</strong>
+            <strong>—</strong>
             <span>/100</span>
           </div>
           <div>
             <span>Gesture Match</span>
-            <strong>96.4%</strong>
+            <strong>—</strong>
           </div>
         </div>
       </section>
@@ -47,36 +44,14 @@ export function IdentityPanel() {
           <button type="button">View All</button>
         </div>
         <div className="risk-list">
-          {riskEvents.map((event, index) => (
-            <article className="risk-item" key={event.label}>
-              <TriangleAlert size={24} className={index === 0 ? "risk-low" : "risk-medium"} />
-              <div>
-                <strong>{event.label}</strong>
-                <span>{event.time}</span>
-              </div>
-              <em className={index === 0 ? "low" : "medium"}>{event.severity}</em>
-            </article>
-          ))}
+          <p className="risk-empty">No risk events.</p>
         </div>
       </section>
 
       <section className="panel gesture-panel">
         <h2>Gesture Activity <span>(Live)</span></h2>
         <div className="gesture-grid">
-          {gestures.map((gesture) => {
-            const Icon = gesture.icon;
-
-            return (
-              <article className="gesture-card" key={gesture.label}>
-                <Icon size={46} />
-                <strong>{gesture.label}</strong>
-                <span>{gesture.time}</span>
-                <div className="progress-track">
-                  <i style={{ width: `${gesture.progress}%` }} />
-                </div>
-              </article>
-            );
-          })}
+          <p className="gesture-empty">No gesture data.</p>
         </div>
       </section>
     </aside>

@@ -1,5 +1,4 @@
-import { CheckCircle2, Pause, TriangleAlert } from "lucide-react";
-import { events } from "../data";
+import { Pause } from "lucide-react";
 
 export function EventTimeline() {
   return (
@@ -27,24 +26,7 @@ export function EventTimeline() {
           <span>Confidence</span>
           <span>Source</span>
         </div>
-        {events.map((event) => {
-          const isWarning = event.level === "warning";
-          const Icon = isWarning ? TriangleAlert : CheckCircle2;
-
-          return (
-            <div className={`event-row ${event.level}`} role="row" key={`${event.time}-${event.event}`}>
-              <span>{event.time}</span>
-              <span className="event-name">
-                <Icon size={16} />
-                {event.event}
-              </span>
-              <span>{event.category}</span>
-              <span>{event.details}</span>
-              <span>{event.confidence}</span>
-              <span>Desk Camera</span>
-            </div>
-          );
-        })}
+        <div className="event-empty">No events yet.</div>
       </div>
     </section>
   );

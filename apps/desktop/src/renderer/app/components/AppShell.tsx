@@ -8,6 +8,7 @@ import {
   SlidersHorizontal,
   SunMedium
 } from "lucide-react";
+import { useEffect, useState } from "react";
 import { navItems } from "../data";
 
 type AppShellProps = {
@@ -24,6 +25,12 @@ export function AppShell({
   onToggleCamera
 }: AppShellProps) {
   const sessionLabel = isCameraActive ? "Stop Session" : "Start Session";
+
+  const [now, setNow] = useState(new Date());
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
 
   return (
     <div className="app-shell">
@@ -86,8 +93,8 @@ export function AppShell({
           </button>
 
           <div className="clock">
-            <strong>10:42:18 AM</strong>
-            <span>May 20, 2025</span>
+            <strong>{now.toLocaleTimeString()}</strong>
+            <span>{now.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" })}</span>
           </div>
 
           <button className="icon-button" type="button" aria-label="More">
