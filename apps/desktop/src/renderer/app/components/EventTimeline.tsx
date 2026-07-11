@@ -1,0 +1,51 @@
+import { CheckCircle2, Pause, TriangleAlert } from "lucide-react";
+import { events } from "../data";
+
+export function EventTimeline() {
+  return (
+    <section className="panel event-timeline">
+      <div className="section-heading">
+        <h2>Event Timeline</h2>
+        <div className="timeline-controls">
+          <button type="button">All Events</button>
+          <button className="pause-button" type="button" aria-label="Pause">
+            <Pause size={14} />
+          </button>
+          <label className="toggle">
+            <span>Auto-scroll</span>
+            <input type="checkbox" defaultChecked />
+          </label>
+        </div>
+      </div>
+
+      <div className="event-table" role="table">
+        <div className="event-row event-head" role="row">
+          <span>Time</span>
+          <span>Event</span>
+          <span>Category</span>
+          <span>Details</span>
+          <span>Confidence</span>
+          <span>Source</span>
+        </div>
+        {events.map((event) => {
+          const isWarning = event.level === "warning";
+          const Icon = isWarning ? TriangleAlert : CheckCircle2;
+
+          return (
+            <div className={`event-row ${event.level}`} role="row" key={`${event.time}-${event.event}`}>
+              <span>{event.time}</span>
+              <span className="event-name">
+                <Icon size={16} />
+                {event.event}
+              </span>
+              <span>{event.category}</span>
+              <span>{event.details}</span>
+              <span>{event.confidence}</span>
+              <span>Desk Camera</span>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}

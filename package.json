@@ -11,5 +11,8 @@
     "desktop:dev": "npm run dev -w @visionguard/desktop",
     "desktop:build": "npm run build -w @visionguard/desktop",
     "desktop:preview": "npm run preview -w @visionguard/desktop"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.61.1"
   }
 }

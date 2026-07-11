@@ -1,14 +1,20 @@
+import { AppShell } from "./components/AppShell";
+import { EventTimeline } from "./components/EventTimeline";
+import { IdentityPanel } from "./components/IdentityPanel";
+import { LiveVisionPanel } from "./components/LiveVisionPanel";
+import { ModelHealth } from "./components/ModelHealth";
+
 export function App() {
   return (
-    <main className="app-shell">
-      <section className="status-panel">
-        <p className="eyebrow">VisionGuard Desktop</p>
-        <h1>Gesture recognition and continuous authentication</h1>
-        <p className="summary">
-          Electron, TypeScript, and the DDD app boundary are ready for the next
-          implementation step.
-        </p>
-      </section>
-    </main>
+    <AppShell>
+      <div className="dashboard-grid">
+        <div className="main-column">
+          <LiveVisionPanel />
+          <ModelHealth />
+          <EventTimeline />
+        </div>
+        <IdentityPanel />
+      </div>
+    </AppShell>
   );
 }
