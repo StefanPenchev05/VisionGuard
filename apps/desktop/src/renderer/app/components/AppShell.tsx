@@ -11,17 +11,21 @@ import {
 import { useEffect, useState } from "react";
 import { navItems } from "../data";
 
-type AppShellProps = {
+type AppShellProps = Readonly<{
   children: React.ReactNode;
   isCameraActive: boolean;
   isCameraRequesting: boolean;
+  onCalibrate: () => void;
+  onExport: () => void;
   onToggleCamera: () => void;
-};
+}>;
 
 export function AppShell({
   children,
   isCameraActive,
   isCameraRequesting,
+  onCalibrate,
+  onExport,
   onToggleCamera
 }: AppShellProps) {
   const sessionLabel = isCameraActive ? "Stop Session" : "Start Session";
@@ -115,11 +119,11 @@ export function AppShell({
                 <Play size={20} fill="currentColor" />
                 <span>{isCameraRequesting ? "Connecting..." : sessionLabel}</span>
               </button>
-              <button className="secondary-action" type="button">
+              <button className="secondary-action" onClick={onCalibrate} type="button">
                 <SlidersHorizontal size={19} />
                 <span>Calibrate</span>
               </button>
-              <button className="secondary-action" type="button">
+              <button className="secondary-action" onClick={onExport} type="button">
                 <Download size={19} />
                 <span>Export</span>
               </button>
