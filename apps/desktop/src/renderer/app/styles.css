@@ -1145,6 +1145,477 @@ h2 {
   background: linear-gradient(90deg, #18c9c9, #46f0de);
 }
 
+.gestures-workspace {
+  display: grid;
+  grid-template-columns: minmax(560px, 1.35fr) minmax(360px, 0.9fr);
+  grid-template-areas:
+    "recorder mapper"
+    "library queue";
+  gap: 16px;
+}
+
+.gesture-recorder {
+  grid-area: recorder;
+  padding: 16px;
+}
+
+.action-mapper {
+  grid-area: mapper;
+  padding: 16px;
+}
+
+.gesture-library {
+  grid-area: library;
+  padding: 16px;
+}
+
+.training-queue {
+  grid-area: queue;
+  padding: 16px;
+}
+
+.gestures-workspace .section-heading span {
+  display: block;
+  margin-top: 5px;
+  color: #8fa2ab;
+  font-size: 0.76rem;
+  line-height: 1.35;
+}
+
+.capture-chip {
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  border: 1px solid rgba(255, 178, 42, 0.4);
+  border-radius: 6px;
+  background: rgba(91, 59, 13, 0.42);
+  color: #ffbd44;
+  font-size: 0.72rem;
+}
+
+.capture-chip.active {
+  border-color: rgba(73, 218, 132, 0.34);
+  background: rgba(26, 79, 47, 0.76);
+  color: #a8f5c6;
+}
+
+.recording-stage {
+  display: grid;
+  grid-template-columns: minmax(300px, 1fr) minmax(270px, 0.75fr);
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.gesture-capture-frame {
+  position: relative;
+  min-height: 380px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 11px;
+  overflow: hidden;
+  border: 1px solid rgba(34, 218, 205, 0.2);
+  border-radius: 8px;
+  background:
+    linear-gradient(rgba(35, 254, 236, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(35, 254, 236, 0.045) 1px, transparent 1px),
+    radial-gradient(circle at 50% 44%, rgba(36, 219, 207, 0.12), transparent 34%),
+    #09161c;
+  background-size: 18px 18px, 18px 18px, auto, auto;
+}
+
+.gesture-capture-frame.has-video {
+  background:
+    linear-gradient(rgba(35, 254, 236, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(35, 254, 236, 0.045) 1px, transparent 1px),
+    #05090c;
+  background-size: 18px 18px, 18px 18px, auto;
+}
+
+.gesture-capture-frame.has-video::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(3, 8, 11, 0.04), rgba(3, 8, 11, 0.42)),
+    radial-gradient(circle at center, transparent 0 34%, rgba(2, 7, 10, 0.28) 76%);
+  pointer-events: none;
+}
+
+.gesture-capture-frame::before {
+  content: "";
+  position: absolute;
+  inset: 28px;
+  z-index: 2;
+  border: 1px dashed rgba(72, 239, 226, 0.26);
+  border-radius: 50%;
+}
+
+.gesture-camera-video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+  filter: saturate(0.95) contrast(1.04) brightness(0.96);
+}
+
+.gesture-capture-frame svg {
+  position: relative;
+  z-index: 2;
+  color: #4ee7e0;
+  filter: drop-shadow(0 0 24px rgba(78, 231, 224, 0.32));
+}
+
+.capture-overlay-text {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border: 1px solid rgba(34, 218, 205, 0.22);
+  border-radius: 8px;
+  background: rgba(3, 9, 12, 0.58);
+  backdrop-filter: blur(8px);
+}
+
+.capture-overlay-text strong,
+.capture-overlay-text span {
+  display: block;
+}
+
+.capture-overlay-text strong {
+  color: #f2fbfc;
+  font-size: 1rem;
+}
+
+.capture-overlay-text span {
+  color: #90a4ad;
+  font-size: 0.8rem;
+}
+
+.gesture-capture-frame.is-recording {
+  border-color: rgba(34, 218, 205, 0.58);
+  box-shadow: inset 0 0 46px rgba(34, 218, 205, 0.08);
+}
+
+.capture-reticle {
+  position: absolute;
+  z-index: 2;
+  width: 210px;
+  height: 210px;
+  border: 1px solid rgba(78, 231, 224, 0.28);
+  border-radius: 50%;
+}
+
+.capture-reticle::before,
+.capture-reticle::after {
+  content: "";
+  position: absolute;
+  background: rgba(78, 231, 224, 0.58);
+}
+
+.capture-reticle::before {
+  left: 50%;
+  top: -20px;
+  width: 1px;
+  height: 250px;
+}
+
+.capture-reticle::after {
+  left: -20px;
+  top: 50%;
+  width: 250px;
+  height: 1px;
+}
+
+.recording-controls {
+  display: grid;
+  align-content: start;
+  gap: 16px;
+}
+
+.recording-controls label,
+.action-target {
+  display: grid;
+  gap: 7px;
+}
+
+.recording-controls label span,
+.action-target span {
+  color: #a8bac2;
+  font-size: 0.74rem;
+  font-weight: 650;
+}
+
+.recording-controls input,
+.action-target input {
+  width: 100%;
+  height: 42px;
+  border: 1px solid rgba(140, 170, 184, 0.2);
+  border-radius: 6px;
+  background: rgba(5, 13, 17, 0.72);
+  color: #ecf6f8;
+  padding: 0 12px;
+  outline: none;
+}
+
+.recording-controls input:focus,
+.action-target input:focus {
+  border-color: rgba(34, 218, 205, 0.58);
+  box-shadow: 0 0 0 3px rgba(34, 218, 205, 0.12);
+}
+
+.sample-meter {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid rgba(140, 170, 184, 0.15);
+  border-radius: 8px;
+  background: rgba(15, 27, 35, 0.78);
+}
+
+.sample-meter > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.sample-meter span {
+  color: #9badb6;
+  font-size: 0.78rem;
+}
+
+.sample-meter strong {
+  color: #5ee397;
+  font-size: 1rem;
+}
+
+.sample-bars {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 5px;
+}
+
+.sample-bars i {
+  height: 30px;
+  border-radius: 4px;
+  background: rgba(140, 170, 184, 0.16);
+}
+
+.sample-bars i.filled {
+  background: linear-gradient(180deg, #4ee7e0, #14a9a5);
+  box-shadow: 0 0 16px rgba(78, 231, 224, 0.18);
+}
+
+.recorder-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.action-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 14px 0 16px;
+}
+
+.action-option {
+  min-height: 76px;
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid rgba(140, 170, 184, 0.17);
+  border-radius: 8px;
+  background: rgba(17, 29, 37, 0.78);
+  color: #dce9ed;
+  text-align: left;
+}
+
+.action-option svg {
+  color: #9fb3bd;
+}
+
+.action-option span {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.action-option.is-selected {
+  border-color: rgba(34, 218, 205, 0.52);
+  background: rgba(18, 74, 78, 0.42);
+  color: #f2ffff;
+}
+
+.action-option.is-selected svg {
+  color: #4ee7e0;
+}
+
+.library-search {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #a6b7bf;
+  font-size: 0.74rem;
+}
+
+.gesture-library-list {
+  display: grid;
+  gap: 9px;
+  margin-top: 14px;
+}
+
+.gesture-library-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  min-height: 68px;
+  padding: 10px 12px;
+  border: 1px solid rgba(140, 170, 184, 0.14);
+  border-radius: 8px;
+  background: rgba(17, 29, 37, 0.72);
+  color: inherit;
+  text-align: left;
+}
+
+.gesture-library-row.is-selected {
+  border-color: rgba(34, 218, 205, 0.42);
+  background: rgba(22, 53, 58, 0.58);
+}
+
+.gesture-row-icon {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: rgba(34, 218, 205, 0.12);
+  color: #4ee7e0;
+}
+
+.gesture-library-row strong,
+.gesture-library-row span {
+  display: block;
+}
+
+.gesture-library-row strong {
+  color: #f2f8f9;
+  font-size: 0.86rem;
+}
+
+.gesture-library-row span {
+  margin-top: 4px;
+  color: #92a5ae;
+  font-size: 0.74rem;
+}
+
+.gesture-library-row em {
+  padding: 5px 8px;
+  border-radius: 5px;
+  font-size: 0.68rem;
+  font-style: normal;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.gesture-library-row em.ready {
+  background: rgba(26, 79, 47, 0.82);
+  color: #a8f5c6;
+}
+
+.gesture-library-row em.draft {
+  background: rgba(91, 59, 13, 0.62);
+  color: #ffbd44;
+}
+
+.gesture-library-row em.training {
+  background: rgba(68, 43, 109, 0.78);
+  color: #d5b3ff;
+}
+
+.training-detail {
+  display: grid;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.training-card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px;
+  border-radius: 8px;
+  background: rgba(15, 27, 35, 0.78);
+}
+
+.training-card-header strong,
+.training-card-header span {
+  display: block;
+}
+
+.training-card-header strong {
+  color: #f2f8f9;
+  font-size: 0.94rem;
+}
+
+.training-card-header span {
+  margin-top: 5px;
+  color: #93a5ad;
+  font-size: 0.76rem;
+}
+
+.training-card-header svg {
+  flex: 0 0 auto;
+  color: #5ee397;
+}
+
+.training-detail dl {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.training-detail dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(140, 170, 184, 0.1);
+}
+
+.training-detail dt,
+.training-detail dd {
+  margin: 0;
+  font-size: 0.8rem;
+}
+
+.training-detail dt {
+  color: #90a3ac;
+}
+
+.training-detail dd {
+  color: #eef7f8;
+  font-weight: 700;
+  text-align: right;
+}
+
+.empty-state {
+  margin-top: 16px;
+  padding: 24px;
+  border: 1px dashed rgba(140, 170, 184, 0.18);
+  border-radius: 8px;
+  color: #8fa2ab;
+  text-align: center;
+}
+
 /* ─── Modal ──────────────────────────────────────────────── */
 .modal-dialog {
   position: fixed;
@@ -1403,5 +1874,14 @@ h2 {
 
   .gesture-panel {
     grid-column: 1 / -1;
+  }
+
+  .gestures-workspace {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "recorder"
+      "mapper"
+      "library"
+      "queue";
   }
 }

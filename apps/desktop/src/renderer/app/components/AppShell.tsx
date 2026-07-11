@@ -10,23 +10,28 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { navItems } from "../data";
+import type { AppView } from "../data";
 
 type AppShellProps = Readonly<{
+  activeView: AppView;
   children: React.ReactNode;
   isCameraActive: boolean;
   isCameraRequesting: boolean;
   onCalibrate: () => void;
   onExport: () => void;
   onToggleCamera: () => void;
+  onViewChange: (view: AppView) => void;
 }>;
 
 export function AppShell({
+  activeView,
   children,
   isCameraActive,
   isCameraRequesting,
   onCalibrate,
   onExport,
-  onToggleCamera
+  onToggleCamera,
+  onViewChange
 }: AppShellProps) {
   const sessionLabel = isCameraActive ? "Stop Session" : "Start Session";
 
@@ -50,8 +55,10 @@ export function AppShell({
 
             return (
               <button
-                className={`nav-item${item.active ? " is-active" : ""}`}
+                aria-label={item.label}
+                className={`nav-item${activeView === item.label ? " is-active" : ""}`}
                 key={item.label}
+                onClick={() => onViewChange(item.label)}
                 type="button"
               >
                 <Icon size={23} />
@@ -108,7 +115,7 @@ export function AppShell({
 
         <main className="dashboard">
           <div className="dashboard-header">
-            <h1>Live Monitor</h1>
+            <h1>{activeView === "Monitor" ? "Live Monitor" : activeView}</h1>
             <div className="actions">
               <button
                 className={`primary-action${isCameraActive ? " is-live" : ""}`}
