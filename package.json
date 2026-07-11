@@ -1,0 +1,15 @@
+{
+  "name": "visionguard",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "services/*"
+  ],
+  "scripts": {
+    "desktop:dev": "npm run dev -w @visionguard/desktop",
+    "desktop:build": "npm run build -w @visionguard/desktop",
+    "desktop:preview": "npm run preview -w @visionguard/desktop"
+  }
+}
