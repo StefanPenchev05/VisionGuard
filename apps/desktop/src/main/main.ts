@@ -1,9 +1,13 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, session } from "electron";
 import { createMainWindow } from "./presentation/windows/create-main-window";
 
 const isMac = process.platform === "darwin";
 
 app.whenReady().then(() => {
+  session.defaultSession.setPermissionRequestHandler((_webContents, permission, callback) => {
+    callback(permission === "media");
+  });
+
   createMainWindow();
 
   app.on("activate", () => {

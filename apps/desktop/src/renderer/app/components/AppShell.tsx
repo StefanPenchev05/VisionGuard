@@ -12,9 +12,19 @@ import { navItems } from "../data";
 
 type AppShellProps = {
   children: React.ReactNode;
+  isCameraActive: boolean;
+  isCameraRequesting: boolean;
+  onToggleCamera: () => void;
 };
 
-export function AppShell({ children }: AppShellProps) {
+export function AppShell({
+  children,
+  isCameraActive,
+  isCameraRequesting,
+  onToggleCamera
+}: AppShellProps) {
+  const sessionLabel = isCameraActive ? "Stop Session" : "Start Session";
+
   return (
     <div className="app-shell">
       <aside className="sidebar">
@@ -89,9 +99,14 @@ export function AppShell({ children }: AppShellProps) {
           <div className="dashboard-header">
             <h1>Live Monitor</h1>
             <div className="actions">
-              <button className="primary-action" type="button">
+              <button
+                className={`primary-action${isCameraActive ? " is-live" : ""}`}
+                disabled={isCameraRequesting}
+                onClick={onToggleCamera}
+                type="button"
+              >
                 <Play size={20} fill="currentColor" />
-                <span>Start Session</span>
+                <span>{isCameraRequesting ? "Connecting..." : sessionLabel}</span>
               </button>
               <button className="secondary-action" type="button">
                 <SlidersHorizontal size={19} />

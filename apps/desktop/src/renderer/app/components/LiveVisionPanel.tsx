@@ -1,4 +1,28 @@
-export function LiveVisionPanel() {
+import { useEffect, useRef } from "react";
+
+type LiveVisionPanelProps = {
+  errorMessage: string | null;
+  isCameraActive: boolean;
+  status: "idle" | "requesting" | "active" | "error";
+  stream: MediaStream | null;
+};
+
+export function LiveVisionPanel({
+  errorMessage,
+  isCameraActive,
+  status,
+  stream
+}: LiveVisionPanelProps) {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    if (!videoRef.current) {
+      return;
+    }
+
+    videoRef.current.srcObject = stream;
+  }, [stream]);
+
   return (
     <section className="video-panel" aria-label="Desk Camera live monitor">
       <div className="video-toolbar">
@@ -6,22 +30,51 @@ export function LiveVisionPanel() {
         <div className="video-meta">
           <span>1920x1080</span>
           <span>30 FPS</span>
-          <span className="live-dot">Live</span>
+          <span className={isCameraActive ? "live-dot" : "standby-dot"}>
+            {isCameraActive ? "Live" : "Standby"}
+          </span>
         </div>
       </div>
 
-      <div className="camera-frame">
-        <div className="room room-left" />
-        <div className="room room-right" />
-        <div className="desk" />
-        <div className="monitor-shape" />
-        <div className="lamp" />
-        <div className="person">
-          <div className="head" />
-          <div className="torso" />
-          <div className="arm arm-left" />
-          <div className="arm arm-right" />
-        </div>
+      <div className={`camera-frame${isCameraActive ? " has-video" : ""}`}>
+        {isCameraActive ? (
+          <video
+            ref={videoRef}
+            autoPlay
+            className="camera-video"
+            muted
+            playsInline
+          />
+        ) : (
+          <>
+            <div className="room room-left" />
+            <div className="room room-right" />
+            <div className="desk" />
+            <div className="monitor-shape" />
+            <div className="lamp" />
+            <div className="person">
+              <div className="head" />
+              <div className="torso" />
+              <div className="arm arm-left" />
+              <div className="arm arm-right" />
+            </div>
+          </>
+        )}
+
+        {!isCameraActive ? (
+          <div className="camera-status">
+            <strong>
+              {status === "requesting"
+                ? "Requesting camera access"
+                : status === "error"
+                  ? "Camera unavailable"
+                  : "Camera standby"}
+            </strong>
+            <span>
+              {errorMessage ?? "Press Start Session to connect Desk Camera."}
+            </span>
+          </div>
+        ) : null}
 
         <div className="face-box">
           <span />
@@ -66,7 +119,7 @@ export function LiveVisionPanel() {
         <div className="tracking-stats">
           <p>
             <span>Tracking</span>
-            <strong>Active</strong>
+            <strong>{isCameraActive ? "Active" : "Standby"}</strong>
           </p>
           <p>
             <span>Pose</span>
