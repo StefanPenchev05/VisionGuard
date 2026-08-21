@@ -14,26 +14,7 @@ import {
   Volume2
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
-
-type GestureActionType =
-  | "open-app"
-  | "volume-down"
-  | "volume-up"
-  | "mute"
-  | "keyboard-shortcut"
-  | "mouse-click";
-
-export type GestureDefinition = {
-  id: string;
-  actionTarget: string;
-  actionType: GestureActionType;
-  confidenceTarget: number;
-  createdAt: string;
-  description: string;
-  name: string;
-  samples: number;
-  status: "draft" | "ready" | "training";
-};
+import type { GestureActionType, GestureDefinition } from "../types/gestures";
 
 type GesturesPanelProps = Readonly<{
   gestures: GestureDefinition[];
@@ -41,6 +22,8 @@ type GesturesPanelProps = Readonly<{
   onAddGesture: (gesture: GestureDefinition) => void;
   onStartCamera: () => void;
   onUpdateGesture: (gesture: GestureDefinition) => void;
+  persistenceError: string | null;
+  persistenceStatus: "loading" | "ready" | "saving" | "error";
   stream: MediaStream | null;
 }>;
 
@@ -92,6 +75,8 @@ export function GesturesPanel({
   onAddGesture,
   onStartCamera,
   onUpdateGesture,
+  persistenceError,
+  persistenceStatus,
   stream
 }: GesturesPanelProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -310,11 +295,25 @@ export function GesturesPanel({
             <h2>Gesture Library</h2>
             <span>Recorded gestures waiting for model training.</span>
           </div>
-          <div className="library-search">
-            <Search size={15} />
-            <span>{gestures.length} gestures</span>
+          <div className="library-meta">
+            <div className={`persistence-chip ${persistenceStatus}`}>
+              {persistenceStatus === "loading"
+                ? "Loading"
+                : persistenceStatus === "saving"
+                  ? "Saving"
+                  : persistenceStatus === "error"
+                    ? "Storage error"
+                    : "Saved"}
+            </div>
+            <div className="library-search">
+              <Search size={15} />
+              <span>{gestures.length} gestures</span>
+            </div>
           </div>
         </div>
+        {persistenceError ? (
+          <p className="persistence-error">{persistenceError}</p>
+        ) : null}
 
         <div className="gesture-library-list">
           {gestures.map((gesture) => (

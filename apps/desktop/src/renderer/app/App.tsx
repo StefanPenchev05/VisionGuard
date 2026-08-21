@@ -3,12 +3,13 @@ import { AppShell } from "./components/AppShell";
 import { CalibrationModal } from "./components/CalibrationModal";
 import { EventTimeline } from "./components/EventTimeline";
 import { GesturesPanel } from "./components/GesturesPanel";
-import type { GestureDefinition } from "./components/GesturesPanel";
 import { IdentityPanel } from "./components/IdentityPanel";
 import { LiveVisionPanel } from "./components/LiveVisionPanel";
 import { ModelHealth } from "./components/ModelHealth";
 import { useCameraStream } from "../shared/hooks/useCameraStream";
+import { usePersistentGestures } from "../shared/hooks/usePersistentGestures";
 import type { AppView } from "./data";
+import type { GestureDefinition } from "./types/gestures";
 
 const initialGestures: GestureDefinition[] = [
   {
@@ -50,7 +51,12 @@ export function App() {
   const camera = useCameraStream();
   const [isCalibrating, setIsCalibrating] = useState(false);
   const [activeView, setActiveView] = useState<AppView>("Monitor");
-  const [gestureDefinitions, setGestureDefinitions] = useState(initialGestures);
+  const {
+    errorMessage: gesturePersistenceError,
+    gestures: gestureDefinitions,
+    setGestures: setGestureDefinitions,
+    status: gesturePersistenceStatus
+  } = usePersistentGestures(initialGestures);
 
   const handleExport = () => {
     const track = camera.stream?.getVideoTracks()[0];
@@ -104,6 +110,8 @@ export function App() {
                 )
               )
             }
+            persistenceError={gesturePersistenceError}
+            persistenceStatus={gesturePersistenceStatus}
             stream={camera.stream}
           />
         ) : (

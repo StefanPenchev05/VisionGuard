@@ -1,4 +1,5 @@
 import { app, BrowserWindow, session } from "electron";
+import { registerGestureHandlers } from "./infrastructure/ipc/gesture-handlers";
 import { createMainWindow } from "./presentation/windows/create-main-window";
 
 const isMac = process.platform === "darwin";
@@ -8,6 +9,7 @@ app.whenReady().then(() => {
     callback(permission === "media");
   });
 
+  registerGestureHandlers();
   createMainWindow();
 
   app.on("activate", () => {
