@@ -37,7 +37,11 @@ function normalizeGestureDefinition(value: unknown): GestureDefinition | null {
     name: gesture.name,
     sampleFiles: Array.isArray(gesture.sampleFiles) ? gesture.sampleFiles : [],
     samples: gesture.samples,
-    status: gesture.status
+    status: gesture.status,
+    training:
+      gesture.training && typeof gesture.training === "object"
+        ? gesture.training
+        : undefined
   } as GestureDefinition;
 }
 

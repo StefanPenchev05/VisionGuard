@@ -118,6 +118,14 @@ export function App() {
     }));
   };
 
+  const handleStartGestureTraining = async (gesture: GestureDefinition) => {
+    if (!window.visionGuard?.training) {
+      throw new Error("Training is available only in the Electron desktop app.");
+    }
+
+    return window.visionGuard.training.startGesture(gesture);
+  };
+
   return (
     <>
       <AppShell
@@ -142,6 +150,7 @@ export function App() {
             }
             onSaveSamples={handleSaveGestureSamples}
             onStartCamera={camera.startCamera}
+            onStartTraining={handleStartGestureTraining}
             onUpdateGesture={(updatedGesture) =>
               setGestureDefinitions((current) =>
                 current.map((gesture) =>

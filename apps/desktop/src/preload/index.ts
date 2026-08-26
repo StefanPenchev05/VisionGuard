@@ -9,5 +9,9 @@ contextBridge.exposeInMainWorld("visionGuard", {
   samples: {
     saveBatch: (gestureId: string, samples: unknown[]) =>
       ipcRenderer.invoke("gesture-samples:save-batch", gestureId, samples)
+  },
+  training: {
+    startGesture: (gesture: unknown) =>
+      ipcRenderer.invoke("training:start-gesture", gesture)
   }
 });

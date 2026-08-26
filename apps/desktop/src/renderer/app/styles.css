@@ -1717,6 +1717,16 @@ h2 {
   color: #d5b3ff;
 }
 
+.gesture-library-row em.trained {
+  background: rgba(26, 79, 47, 0.82);
+  color: #a8f5c6;
+}
+
+.gesture-library-row em.training-failed {
+  background: rgba(91, 28, 28, 0.78);
+  color: #ffb5b5;
+}
+
 .training-detail {
   display: grid;
   gap: 14px;
@@ -1781,6 +1791,31 @@ h2 {
   color: #eef7f8;
   font-weight: 700;
   text-align: right;
+}
+
+.training-message {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(94, 227, 151, 0.2);
+  border-radius: 6px;
+  background: rgba(26, 79, 47, 0.22);
+  color: #b8f5ce;
+  font-size: 0.76rem;
+  line-height: 1.4;
+}
+
+.training-message.error {
+  border-color: rgba(255, 98, 98, 0.24);
+  background: rgba(91, 28, 28, 0.26);
+  color: #ffc3c3;
+}
+
+.training-message svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
 }
 
 .empty-state {

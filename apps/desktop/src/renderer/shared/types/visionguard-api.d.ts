@@ -1,3 +1,4 @@
+import type { TrainingDataset, TrainingJob } from "@visionguard/shared-kernel/contracts/ai";
 import type { GestureDefinition, GestureSample } from "../../app/types/gestures";
 
 type CapturedGestureSample = {
@@ -19,6 +20,12 @@ declare global {
           gestureId: string,
           samples: CapturedGestureSample[]
         ) => Promise<GestureSample[]>;
+      };
+      training: {
+        startGesture: (gesture: GestureDefinition) => Promise<{
+          dataset: TrainingDataset;
+          job: TrainingJob;
+        }>;
       };
     };
   }

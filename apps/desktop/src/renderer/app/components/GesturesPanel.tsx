@@ -1,5 +1,6 @@
 import {
   AppWindow,
+  AlertCircle,
   CheckCircle2,
   Hand,
   Keyboard,
@@ -15,6 +16,7 @@ import {
   Volume2
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
+import type { TrainingDataset, TrainingJob } from "@visionguard/shared-kernel/contracts/ai";
 import type { GestureActionType, GestureDefinition, GestureSample } from "../types/gestures";
 
 type CapturedGestureSample = {
@@ -32,6 +34,10 @@ type GesturesPanelProps = Readonly<{
     samples: CapturedGestureSample[]
   ) => Promise<GestureSample[]>;
   onStartCamera: () => void;
+  onStartTraining: (gesture: GestureDefinition) => Promise<{
+    dataset: TrainingDataset;
+    job: TrainingJob;
+  }>;
   onUpdateGesture: (gesture: GestureDefinition) => void;
   persistenceError: string | null;
   persistenceStatus: "loading" | "ready" | "saving" | "error";
@@ -114,6 +120,7 @@ export function GesturesPanel({
   onAddGesture,
   onSaveSamples,
   onStartCamera,
+  onStartTraining,
   onUpdateGesture,
   persistenceError,
   persistenceStatus,
@@ -130,6 +137,8 @@ export function GesturesPanel({
   const [capturedSamples, setCapturedSamples] = useState<CapturedGestureSample[]>([]);
   const [captureError, setCaptureError] = useState<string | null>(null);
   const [isSavingGesture, setIsSavingGesture] = useState(false);
+  const [trainingGestureId, setTrainingGestureId] = useState<string | null>(null);
+  const [trainingError, setTrainingError] = useState<string | null>(null);
   const [isRecording, setIsRecording] = useState(false);
   const [selectedGestureId, setSelectedGestureId] = useState<string | null>(
     gestures[0]?.id ?? null
@@ -237,13 +246,73 @@ export function GesturesPanel({
     }
   };
 
-  const handleSendToTraining = () => {
+  const handleSendToTraining = async () => {
     if (!selectedGesture) {
       return;
     }
 
-    onUpdateGesture({ ...selectedGesture, status: "training" });
+    if (selectedGesture.sampleFiles.length < 12) {
+      setTrainingError("Save at least 12 sample files before training.");
+      return;
+    }
+
+    setTrainingError(null);
+    setTrainingGestureId(selectedGesture.id);
+    onUpdateGesture({
+      ...selectedGesture,
+      status: "training",
+      training: {
+        ...selectedGesture.training,
+        errorMessage: undefined,
+        updatedAt: new Date().toISOString()
+      }
+    });
+
+    try {
+      const result = await onStartTraining(selectedGesture);
+      const status = result.job.status === "completed" ? "trained" : "training";
+
+      onUpdateGesture({
+        ...selectedGesture,
+        status,
+        training: {
+          datasetId: result.dataset.id,
+          jobId: result.job.id,
+          jobProgress: result.job.progress,
+          jobStatus: result.job.status,
+          queuedAt: result.job.startedAt ?? new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        }
+      });
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Could not start gesture training.";
+
+      setTrainingError(message);
+      onUpdateGesture({
+        ...selectedGesture,
+        status: "training-failed",
+        training: {
+          ...selectedGesture.training,
+          errorMessage: message,
+          updatedAt: new Date().toISOString()
+        }
+      });
+    } finally {
+      setTrainingGestureId(null);
+    }
   };
+
+  const isSelectedGestureTraining = trainingGestureId === selectedGesture?.id;
+  const isTrainingApiAvailable = Boolean(window.visionGuard?.training);
+  const selectedGestureCanTrain = Boolean(selectedGesture && selectedGesture.sampleFiles.length >= 12);
+  const trainingButtonTitle = !isTrainingApiAvailable
+    ? "Training is available in the Electron desktop app."
+    : selectedGestureCanTrain
+    ? "Send saved gesture samples to the local AI service."
+    : "Save at least 12 sample files before training.";
 
   return (
     <div className="gestures-workspace">
@@ -484,16 +553,42 @@ export function GesturesPanel({
                 <dt>Action</dt>
                 <dd>{selectedGesture.actionTarget}</dd>
               </div>
+              <div>
+                <dt>Training job</dt>
+                <dd>{selectedGesture.training?.jobId ?? "Not started"}</dd>
+              </div>
+              <div>
+                <dt>Progress</dt>
+                <dd>
+                  {typeof selectedGesture.training?.jobProgress === "number"
+                    ? `${Math.round(selectedGesture.training.jobProgress * 100)}%`
+                    : "Pending"}
+                </dd>
+              </div>
             </dl>
+            {trainingError || selectedGesture.training?.errorMessage ? (
+              <p className="training-message error">
+                <AlertCircle size={15} />
+                <span>{trainingError ?? selectedGesture.training?.errorMessage}</span>
+              </p>
+            ) : selectedGesture.training?.jobId ? (
+              <p className="training-message">
+                <CheckCircle2 size={15} />
+                <span>
+                  Dataset {selectedGesture.training.datasetId} queued as job{" "}
+                  {selectedGesture.training.jobId}.
+                </span>
+              </p>
+            ) : null}
             <button
               className="primary-action"
-              disabled
+              disabled={!isTrainingApiAvailable || !selectedGestureCanTrain || isSelectedGestureTraining}
               onClick={handleSendToTraining}
-              title="The AI service API exists, but this desktop action is not connected yet."
+              title={trainingButtonTitle}
               type="button"
             >
               <Plus size={18} />
-              <span>Training API not connected</span>
+              <span>{isSelectedGestureTraining ? "Sending..." : "Send To Training"}</span>
             </button>
           </div>
         ) : (
