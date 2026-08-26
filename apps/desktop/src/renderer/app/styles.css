@@ -767,6 +767,51 @@ h2 {
   backdrop-filter: blur(10px);
 }
 
+.prediction-card {
+  position: absolute;
+  left: 50%;
+  top: 14px;
+  z-index: 5;
+  min-width: 220px;
+  max-width: calc(100% - 32px);
+  transform: translateX(-50%);
+  padding: 10px 12px;
+  border: 1px solid rgba(94, 227, 151, 0.24);
+  border-radius: 7px;
+  background: rgba(0, 5, 8, 0.68);
+  color: #c5d4da;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.prediction-card span,
+.prediction-card strong,
+.prediction-card em {
+  display: block;
+}
+
+.prediction-card span {
+  font-size: 0.66rem;
+  text-transform: uppercase;
+}
+
+.prediction-card strong {
+  margin-top: 3px;
+  overflow: hidden;
+  color: #f4fbfc;
+  font-size: 0.92rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.prediction-card em {
+  margin-top: 3px;
+  color: #5ee397;
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 800;
+}
+
 .camera-stats {
   left: 14px;
 }
@@ -1816,6 +1861,23 @@ h2 {
 .training-message svg {
   flex: 0 0 auto;
   margin-top: 1px;
+}
+
+.training-progress {
+  height: 7px;
+  overflow: hidden;
+  border: 1px solid rgba(140, 170, 184, 0.16);
+  border-radius: 999px;
+  background: rgba(4, 12, 18, 0.76);
+}
+
+.training-progress span {
+  display: block;
+  height: 100%;
+  min-width: 6px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #5ee397, #43b5ff);
+  transition: width 220ms ease;
 }
 
 .empty-state {

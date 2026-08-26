@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import type { InferenceResult, TrainingJob } from "@visionguard/shared-kernel/contracts/ai";
 import { AppShell } from "./components/AppShell";
 import { CalibrationModal } from "./components/CalibrationModal";
 import type { CalibrationResult } from "./components/CalibrationModal";
 import { EventTimeline } from "./components/EventTimeline";
+import type { TimelineEvent } from "./components/EventTimeline";
 import { GesturesPanel } from "./components/GesturesPanel";
 import { IdentityPanel } from "./components/IdentityPanel";
 import { LiveVisionPanel } from "./components/LiveVisionPanel";
@@ -58,11 +60,43 @@ type CapturedGestureSample = {
   id: string;
 };
 
+type CapturedInferenceFrame = {
+  capturedAt: string;
+  dataUrl: string;
+  frameId: string;
+};
+
+function mapTrainingJobToGestureStatus(job: TrainingJob): GestureDefinition["status"] {
+  if (job.status === "completed") {
+    return "trained";
+  }
+
+  if (job.status === "failed" || job.status === "cancelled") {
+    return "training-failed";
+  }
+
+  return "training";
+}
+
+function formatEventTime(date = new Date()): string {
+  return date.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
+  });
+}
+
 export function App() {
   const camera = useCameraStream();
+  const inferenceInFlightRef = useRef(false);
+  const lastActionAtRef = useRef<Record<string, number>>({});
   const [isCalibrating, setIsCalibrating] = useState(false);
   const [calibrationResult, setCalibrationResult] = useState<CalibrationResult | null>(null);
   const [activeView, setActiveView] = useState<AppView>("Monitor");
+  const [inferenceResult, setInferenceResult] = useState<InferenceResult | null>(null);
+  const [inferenceStatus, setInferenceStatus] = useState<"idle" | "running" | "error">("idle");
+  const [inferenceError, setInferenceError] = useState<string | null>(null);
+  const [timelineEvents, setTimelineEvents] = useState<TimelineEvent[]>([]);
   const {
     errorMessage: gesturePersistenceError,
     gestures: gestureDefinitions,
@@ -126,6 +160,179 @@ export function App() {
     return window.visionGuard.training.startGesture(gesture);
   };
 
+  const trainedGestures = gestureDefinitions.filter((gesture) => gesture.status === "trained");
+  const isInferenceEnabled = Boolean(
+    camera.isCameraActive &&
+    trainedGestures.length > 0 &&
+    window.visionGuard?.inference
+  );
+
+  const addTimelineEvent = useCallback((event: Omit<TimelineEvent, "id" | "time">) => {
+    setTimelineEvents((current) => [
+      {
+        ...event,
+        id: crypto.randomUUID(),
+        time: formatEventTime()
+      },
+      ...current
+    ].slice(0, 20));
+  }, []);
+
+  const handleInferenceFrame = useCallback(
+    async (frame: CapturedInferenceFrame) => {
+      if (!window.visionGuard?.inference || !isInferenceEnabled || inferenceInFlightRef.current) {
+        return;
+      }
+
+      inferenceInFlightRef.current = true;
+      setInferenceStatus("running");
+
+      try {
+        const result = await window.visionGuard.inference.runGestureFrame({
+          ...frame,
+          minConfidence: 0.75,
+          modelId: "default"
+        });
+        setInferenceResult(result);
+        setInferenceError(null);
+        setInferenceStatus("idle");
+
+        const prediction = result.bestPrediction;
+        const matchedGesture = prediction
+          ? gestureDefinitions.find(
+              (gesture) => gesture.id === prediction.gestureId && gesture.status === "trained"
+            )
+          : null;
+
+        if (!prediction || !matchedGesture || prediction.confidence < 0.75) {
+          return;
+        }
+
+        const now = Date.now();
+        const lastActionAt = lastActionAtRef.current[matchedGesture.id] ?? 0;
+
+        if (now - lastActionAt < 4_000) {
+          return;
+        }
+
+        lastActionAtRef.current[matchedGesture.id] = now;
+
+        if (!window.visionGuard.actions) {
+          addTimelineEvent({
+            category: "gesture",
+            confidence: prediction.confidence,
+            details: "Action execution is available only in the Electron desktop app.",
+            name: matchedGesture.name,
+            source: "Inference",
+            variant: "warning"
+          });
+          return;
+        }
+
+        const actionResult = await window.visionGuard.actions.executeGesture({
+          actionTarget: matchedGesture.actionTarget,
+          actionType: matchedGesture.actionType,
+          gestureId: matchedGesture.id
+        });
+
+        addTimelineEvent({
+          category: "gesture",
+          confidence: prediction.confidence,
+          details: actionResult.message,
+          name: matchedGesture.name,
+          source: matchedGesture.actionType,
+          variant: actionResult.ok ? "success" : "warning"
+        });
+      } catch (error) {
+        setInferenceStatus("error");
+        setInferenceError(error instanceof Error ? error.message : "Gesture inference failed.");
+      } finally {
+        inferenceInFlightRef.current = false;
+      }
+    },
+    [addTimelineEvent, gestureDefinitions, isInferenceEnabled]
+  );
+
+  useEffect(() => {
+    if (!window.visionGuard?.training) {
+      return;
+    }
+
+    const trainingGestures = gestureDefinitions.filter(
+      (gesture) =>
+        gesture.status === "training" &&
+        gesture.training?.jobId &&
+        gesture.training.jobStatus !== "completed" &&
+        gesture.training.jobStatus !== "failed" &&
+        gesture.training.jobStatus !== "cancelled"
+    );
+
+    if (trainingGestures.length === 0) {
+      return;
+    }
+
+    let cancelled = false;
+
+    const pollTrainingJobs = async () => {
+      const results = await Promise.allSettled(
+        trainingGestures.map(async (gesture) => ({
+          gestureId: gesture.id,
+          job: await window.visionGuard!.training.getJob(gesture.training!.jobId!)
+        }))
+      );
+
+      if (cancelled) {
+        return;
+      }
+
+      setGestureDefinitions((current) =>
+        current.map((gesture) => {
+          const result = results.find(
+            (item) => item.status === "fulfilled" && item.value.gestureId === gesture.id
+          );
+
+          if (!result || result.status !== "fulfilled") {
+            return gesture;
+          }
+
+          const { job } = result.value;
+          const nextStatus = mapTrainingJobToGestureStatus(job);
+          const hasJobChanged =
+            gesture.status !== nextStatus ||
+            gesture.training?.errorMessage !== job.errorMessage ||
+            gesture.training?.jobId !== job.id ||
+            gesture.training?.jobProgress !== job.progress ||
+            gesture.training?.jobStatus !== job.status;
+
+          if (!hasJobChanged) {
+            return gesture;
+          }
+
+          return {
+            ...gesture,
+            status: nextStatus,
+            training: {
+              ...gesture.training,
+              errorMessage: job.errorMessage,
+              jobId: job.id,
+              jobProgress: job.progress,
+              jobStatus: job.status,
+              updatedAt: new Date().toISOString()
+            }
+          };
+        })
+      );
+    };
+
+    void pollTrainingJobs();
+    const intervalId = window.setInterval(pollTrainingJobs, 2_000);
+
+    return () => {
+      cancelled = true;
+      window.clearInterval(intervalId);
+    };
+  }, [gestureDefinitions, setGestureDefinitions]);
+
   return (
     <>
       <AppShell
@@ -167,12 +374,22 @@ export function App() {
             <div className="main-column">
               <LiveVisionPanel
                 errorMessage={camera.errorMessage}
+                inferenceEnabled={isInferenceEnabled}
+                inferenceError={inferenceError}
+                inferenceResult={inferenceResult}
+                inferenceStatus={inferenceStatus}
                 isCameraActive={camera.isCameraActive}
+                onInferenceFrame={handleInferenceFrame}
                 status={camera.status}
                 stream={camera.stream}
               />
-              <ModelHealth />
-              <EventTimeline />
+              <ModelHealth
+                errorMessage={inferenceError}
+                inferenceResult={inferenceResult}
+                inferenceStatus={inferenceStatus}
+                trainedGestureCount={trainedGestures.length}
+              />
+              <EventTimeline events={timelineEvents} />
             </div>
             <IdentityPanel />
           </div>

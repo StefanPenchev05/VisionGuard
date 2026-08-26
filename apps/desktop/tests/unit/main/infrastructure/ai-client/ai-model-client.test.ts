@@ -63,4 +63,35 @@ describe("HttpAiModelClient", () => {
       status: 500
     });
   });
+
+  it("fetches training job status for polling", async () => {
+    const fetchMock = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          datasetId: "dataset-1",
+          id: "job-1",
+          modelFamily: "gesture-recognition",
+          progress: 1,
+          status: "completed"
+        }),
+        { status: 200 }
+      )
+    );
+
+    const client = new HttpAiModelClient({
+      baseUrl: "http://127.0.0.1:8765"
+    });
+
+    const job = await client.getTrainingJob("job-1");
+
+    expect(job.status).toBe("completed");
+    expect(fetchMock).toHaveBeenCalledWith(
+      new URL("http://127.0.0.1:8765/training-jobs/job-1"),
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          "content-type": "application/json"
+        })
+      })
+    );
+  });
 });

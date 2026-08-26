@@ -1,10 +1,26 @@
 import { Pause, Play } from "lucide-react";
 import { useState } from "react";
 
-export function EventTimeline() {
+export type TimelineEvent = {
+  category: "gesture" | "identity" | "environment";
+  confidence?: number;
+  details: string;
+  id: string;
+  name: string;
+  source: string;
+  time: string;
+  variant?: "success" | "warning";
+};
+
+type EventTimelineProps = {
+  events: TimelineEvent[];
+};
+
+export function EventTimeline({ events }: EventTimelineProps) {
   const [filter, setFilter] = useState<"all" | "gesture" | "identity" | "environment">("all");
   const [isPaused, setIsPaused] = useState(false);
   const [autoScroll, setAutoScroll] = useState(true);
+  const visibleEvents = events.filter((event) => filter === "all" || event.category === filter);
 
   return (
     <section className="panel event-timeline">
@@ -49,10 +65,27 @@ export function EventTimeline() {
           <span>Confidence</span>
           <span>Source</span>
         </div>
-        <div className="event-empty">
-          No {filter === "all" ? "" : `${filter} `}events yet{isPaused ? " while paused" : ""}.
-          {autoScroll ? "" : " Auto-scroll is off."}
-        </div>
+        {visibleEvents.length > 0 && !isPaused ? (
+          visibleEvents.map((event) => (
+            <div className={`event-row ${event.variant ?? ""}`} key={event.id} role="row">
+              <span>{event.time}</span>
+              <span className="event-name">{event.name}</span>
+              <span>{event.category}</span>
+              <span>{event.details}</span>
+              <span>
+                {typeof event.confidence === "number"
+                  ? `${Math.round(event.confidence * 100)}%`
+                  : "--"}
+              </span>
+              <span>{event.source}</span>
+            </div>
+          ))
+        ) : (
+          <div className="event-empty">
+            No {filter === "all" ? "" : `${filter} `}events yet{isPaused ? " while paused" : ""}.
+            {autoScroll ? "" : " Auto-scroll is off."}
+          </div>
+        )}
       </div>
     </section>
   );

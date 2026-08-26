@@ -6,7 +6,7 @@ from interfaces.api.state import state
 
 
 @pytest.fixture()
-def client() -> TestClient:
-    state.datasets.clear()
-    state.training_jobs.clear()
+def client(tmp_path, monkeypatch) -> TestClient:
+    monkeypatch.setenv("VISIONGUARD_AI_MODEL_DIR", str(tmp_path / "models"))
+    state.reset()
     return TestClient(create_app())

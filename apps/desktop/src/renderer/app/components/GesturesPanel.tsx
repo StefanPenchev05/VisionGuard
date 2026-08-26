@@ -308,6 +308,8 @@ export function GesturesPanel({
   const isSelectedGestureTraining = trainingGestureId === selectedGesture?.id;
   const isTrainingApiAvailable = Boolean(window.visionGuard?.training);
   const selectedGestureCanTrain = Boolean(selectedGesture && selectedGesture.sampleFiles.length >= 12);
+  const selectedTrainingProgress = selectedGesture?.training?.jobProgress ?? 0;
+  const selectedTrainingStatus = selectedGesture?.training?.jobStatus;
   const trainingButtonTitle = !isTrainingApiAvailable
     ? "Training is available in the Electron desktop app."
     : selectedGestureCanTrain
@@ -575,10 +577,19 @@ export function GesturesPanel({
               <p className="training-message">
                 <CheckCircle2 size={15} />
                 <span>
-                  Dataset {selectedGesture.training.datasetId} queued as job{" "}
-                  {selectedGesture.training.jobId}.
+                  {selectedTrainingStatus === "completed"
+                    ? "Training completed"
+                    : selectedTrainingStatus === "running"
+                      ? "Training in progress"
+                      : "Training queued"}{" "}
+                  for dataset {selectedGesture.training.datasetId}.
                 </span>
               </p>
+            ) : null}
+            {selectedGesture.training?.jobId ? (
+              <div className="training-progress" aria-label="Training progress">
+                <span style={{ width: `${Math.round(selectedTrainingProgress * 100)}%` }} />
+              </div>
             ) : null}
             <button
               className="primary-action"

@@ -1,8 +1,18 @@
 import { useEffect, useRef, useState } from "react";
+import type { InferenceResult } from "@visionguard/shared-kernel/contracts/ai";
 
 type LiveVisionPanelProps = {
   errorMessage: string | null;
+  inferenceEnabled: boolean;
+  inferenceError: string | null;
+  inferenceResult: InferenceResult | null;
+  inferenceStatus: "idle" | "running" | "error";
   isCameraActive: boolean;
+  onInferenceFrame: (frame: {
+    capturedAt: string;
+    dataUrl: string;
+    frameId: string;
+  }) => void;
   status: "idle" | "requesting" | "active" | "error";
   stream: MediaStream | null;
 };
@@ -16,7 +26,12 @@ type CameraStats = {
 
 export function LiveVisionPanel({
   errorMessage,
+  inferenceEnabled,
+  inferenceError,
+  inferenceResult,
+  inferenceStatus,
   isCameraActive,
+  onInferenceFrame,
   status,
   stream
 }: LiveVisionPanelProps) {
@@ -30,6 +45,40 @@ export function LiveVisionPanel({
     if (!videoRef.current) return;
     videoRef.current.srcObject = stream;
   }, [stream]);
+
+  useEffect(() => {
+    if (!isCameraActive || !inferenceEnabled) {
+      return;
+    }
+
+    const intervalId = window.setInterval(() => {
+      const video = videoRef.current;
+
+      if (!video || video.videoWidth === 0 || video.videoHeight === 0) {
+        return;
+      }
+
+      const canvas = document.createElement("canvas");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const context = canvas.getContext("2d");
+
+      if (!context) {
+        return;
+      }
+
+      context.translate(canvas.width, 0);
+      context.scale(-1, 1);
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      onInferenceFrame({
+        capturedAt: new Date().toISOString(),
+        dataUrl: canvas.toDataURL("image/jpeg", 0.8),
+        frameId: crypto.randomUUID()
+      });
+    }, 1_200);
+
+    return () => window.clearInterval(intervalId);
+  }, [inferenceEnabled, isCameraActive, onInferenceFrame]);
 
   // Real-time FPS + resolution counter
   useEffect(() => {
@@ -166,6 +215,21 @@ export function LiveVisionPanel({
 
         {isCameraActive && (
           <>
+            <div className="prediction-card">
+              <span>Gesture</span>
+              <strong>{inferenceResult?.bestPrediction?.label ?? "No match"}</strong>
+              <em>
+                {inferenceStatus === "running"
+                  ? "Scanning"
+                  : inferenceError
+                    ? "Offline"
+                    : inferenceResult?.bestPrediction
+                      ? `${Math.round(inferenceResult.bestPrediction.confidence * 100)}%`
+                      : inferenceEnabled
+                        ? "Ready"
+                        : "No trained model"}
+              </em>
+            </div>
             <div className="camera-stats">
               <p>
                 <span>Brightness</span>
@@ -187,20 +251,22 @@ export function LiveVisionPanel({
 
             <div className="tracking-stats">
               <p>
-                <span>Tracking</span>
-                <strong>Active</strong>
+                <span>Inference</span>
+                <strong>{inferenceEnabled ? "Active" : "Standby"}</strong>
               </p>
               <p>
-                <span>Pose</span>
-                <strong>Tracked</strong>
+                <span>Model</span>
+                <strong>{inferenceEnabled ? "Ready" : "Pending"}</strong>
               </p>
               <p>
-                <span>Face</span>
-                <strong>Detected</strong>
+                <span>Match</span>
+                <strong>{inferenceResult?.bestPrediction?.label ?? "None"}</strong>
               </p>
               <p>
-                <span>Liveness</span>
-                <strong>Live</strong>
+                <span>Latency</span>
+                <strong>
+                  {inferenceResult ? `${Math.round(inferenceResult.inferenceTimeMs)}ms` : "--"}
+                </strong>
               </p>
             </div>
           </>
