@@ -8,3 +8,9 @@ build/
 npm-debug.log*
 
 .vscode
+
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
