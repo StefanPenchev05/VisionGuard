@@ -6,7 +6,8 @@ import {
   Play,
   ShieldCheck,
   SlidersHorizontal,
-  SunMedium
+  SunMedium,
+  X
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { navItems } from "../data";
@@ -15,34 +16,50 @@ import type { AppView } from "../data";
 type AppShellProps = Readonly<{
   activeView: AppView;
   children: React.ReactNode;
+  cameraDevices: MediaDeviceInfo[];
   isCameraActive: boolean;
   isCameraRequesting: boolean;
   onCalibrate: () => void;
   onExport: () => void;
+  onRefreshCameras: () => void;
+  onSelectCamera: (deviceId: string) => void;
   onToggleCamera: () => void;
   onViewChange: (view: AppView) => void;
+  selectedCameraId: string | null;
 }>;
 
 export function AppShell({
   activeView,
+  cameraDevices,
   children,
   isCameraActive,
   isCameraRequesting,
   onCalibrate,
   onExport,
+  onRefreshCameras,
+  onSelectCamera,
   onToggleCamera,
-  onViewChange
+  onViewChange,
+  selectedCameraId
 }: AppShellProps) {
   const sessionLabel = isCameraActive ? "Stop Session" : "Start Session";
 
   const [now, setNow] = useState(new Date());
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [themeMode, setThemeMode] = useState<"default" | "bright">("default");
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(id);
   }, []);
 
+  const selectedCameraLabel =
+    cameraDevices.find((device) => device.deviceId === selectedCameraId)?.label ||
+    cameraDevices[0]?.label ||
+    "Desk Camera";
+
   return (
-    <div className="app-shell">
+    <div className={`app-shell${isSidebarCollapsed ? " sidebar-collapsed" : ""}${themeMode === "bright" ? " bright-mode" : ""}`}>
       <aside className="sidebar">
         <div className="brand">
           <ShieldCheck size={28} />
@@ -81,8 +98,13 @@ export function AppShell({
 
       <div className="workspace">
         <header className="topbar">
-          <button className="icon-button" type="button" aria-label="Open menu">
-            <Menu size={22} />
+          <button
+            className="icon-button"
+            onClick={() => setIsSidebarCollapsed((current) => !current)}
+            type="button"
+            aria-label={isSidebarCollapsed ? "Expand navigation" : "Collapse navigation"}
+          >
+            {isSidebarCollapsed ? <X size={22} /> : <Menu size={22} />}
           </button>
 
           <div className="system-status">
@@ -93,13 +115,33 @@ export function AppShell({
             </div>
           </div>
 
-          <button className="camera-select" type="button">
+          <label className="camera-select">
             <Camera size={18} />
-            <span>Desk Camera</span>
-            <SlidersHorizontal size={16} />
-          </button>
+            <select
+              aria-label="Camera device"
+              onChange={(event) => onSelectCamera(event.target.value)}
+              onFocus={onRefreshCameras}
+              value={selectedCameraId ?? cameraDevices[0]?.deviceId ?? ""}
+            >
+              {cameraDevices.length === 0 ? (
+                <option value="">No camera found</option>
+              ) : (
+                cameraDevices.map((device, index) => (
+                  <option key={device.deviceId} value={device.deviceId}>
+                    {device.label || `Camera ${index + 1}`}
+                  </option>
+                ))
+              )}
+            </select>
+            <span title={selectedCameraLabel}>{selectedCameraLabel}</span>
+          </label>
 
-          <button className="icon-button" type="button" aria-label="Display">
+          <button
+            className={`icon-button${themeMode === "bright" ? " is-selected" : ""}`}
+            onClick={() => setThemeMode((current) => (current === "default" ? "bright" : "default"))}
+            type="button"
+            aria-label="Toggle display brightness"
+          >
             <SunMedium size={21} />
           </button>
 
@@ -108,9 +150,28 @@ export function AppShell({
             <span>{now.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" })}</span>
           </div>
 
-          <button className="icon-button" type="button" aria-label="More">
+          <button
+            className="icon-button"
+            onClick={() => setIsMoreOpen((current) => !current)}
+            type="button"
+            aria-expanded={isMoreOpen}
+            aria-label="More actions"
+          >
             <MoreVertical size={22} />
           </button>
+          {isMoreOpen ? (
+            <div className="topbar-menu" role="menu">
+              <button onClick={onRefreshCameras} role="menuitem" type="button">
+                Refresh cameras
+              </button>
+              <button disabled={!isCameraActive} onClick={onCalibrate} role="menuitem" type="button">
+                Calibrate camera
+              </button>
+              <button onClick={onExport} role="menuitem" type="button">
+                Export session
+              </button>
+            </div>
+          ) : null}
         </header>
 
         <main className="dashboard">
@@ -126,7 +187,13 @@ export function AppShell({
                 <Play size={20} fill="currentColor" />
                 <span>{isCameraRequesting ? "Connecting..." : sessionLabel}</span>
               </button>
-              <button className="secondary-action" onClick={onCalibrate} type="button">
+              <button
+                className="secondary-action"
+                disabled={!isCameraActive}
+                onClick={onCalibrate}
+                title={isCameraActive ? "Run camera calibration" : "Start a session before calibration"}
+                type="button"
+              >
                 <SlidersHorizontal size={19} />
                 <span>Calibrate</span>
               </button>

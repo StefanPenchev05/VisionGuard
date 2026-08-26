@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { CheckCircle2, Loader2, ShieldCheck, TriangleAlert, X } from "lucide-react";
 
-type StepStatus = "pending" | "running" | "done" | "fail";
+export type StepStatus = "pending" | "running" | "done" | "fail";
 
-type Step = {
+export type Step = {
   label: string;
   detail: string;
   status: StepStatus;
@@ -12,8 +12,15 @@ type Step = {
 type CalibrationModalProps = Readonly<{
   isCameraActive: boolean;
   onClose: () => void;
+  onComplete: (result: CalibrationResult) => void;
   stream: MediaStream | null;
 }>;
+
+export type CalibrationResult = {
+  completedAt: string;
+  hasFailures: boolean;
+  steps: Step[];
+};
 
 const STEP_TEMPLATES: ReadonlyArray<Omit<Step, "status">> = [
   { label: "Camera feed", detail: "Verifying video stream is active and readable" },
@@ -72,7 +79,12 @@ function StepIcon({ status }: Readonly<{ status: StepStatus }>) {
   return <span className="step-dot" />;
 }
 
-export function CalibrationModal({ isCameraActive, onClose, stream }: CalibrationModalProps) {
+export function CalibrationModal({
+  isCameraActive,
+  onClose,
+  onComplete,
+  stream
+}: CalibrationModalProps) {
   const [steps, setSteps] = useState<Step[]>(
     STEP_TEMPLATES.map((s) => ({ ...s, status: "pending" }))
   );
@@ -89,7 +101,17 @@ export function CalibrationModal({ isCameraActive, onClose, stream }: Calibratio
 
     const run = async (index: number): Promise<void> => {
       if (cancelled || index >= STEP_TEMPLATES.length) {
-        if (!cancelled) setDone(true);
+        if (!cancelled) {
+          setDone(true);
+          setSteps((currentSteps) => {
+            onComplete({
+              completedAt: new Date().toISOString(),
+              hasFailures: currentSteps.some((step) => step.status === "fail"),
+              steps: currentSteps
+            });
+            return currentSteps;
+          });
+        }
         return;
       }
       setSteps((prev) => setStepStatus(prev, index, "running"));
@@ -166,4 +188,3 @@ export function CalibrationModal({ isCameraActive, onClose, stream }: Calibratio
     </dialog>
   );
 }
-

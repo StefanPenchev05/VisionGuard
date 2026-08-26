@@ -8,6 +8,7 @@ import {
   MousePointerClick,
   Plus,
   Power,
+  Trash2,
   RotateCcw,
   Save,
   Search,
@@ -135,6 +136,20 @@ export function GesturesPanel({
   );
 
   const selectedGesture = gestures.find((gesture) => gesture.id === selectedGestureId) ?? gestures[0];
+  const normalizedGestureName = gestureName.trim().toLowerCase();
+  const isDuplicateGestureName = gestures.some(
+    (gesture) => gesture.name.trim().toLowerCase() === normalizedGestureName
+  );
+  const validationMessage =
+    !gestureName.trim()
+      ? "Enter a gesture name."
+      : isDuplicateGestureName
+        ? "A gesture with this name already exists."
+        : !actionTarget.trim()
+          ? "Enter an action target."
+          : capturedSamples.length < 12
+            ? "Capture 12 samples before saving."
+            : null;
 
   useEffect(() => {
     if (!videoRef.current) {
@@ -192,6 +207,11 @@ export function GesturesPanel({
   };
 
   const handleSaveGesture = async () => {
+    if (validationMessage) {
+      setCaptureError(validationMessage);
+      return;
+    }
+
     setIsRecording(false);
     setIsSavingGesture(true);
     const gestureId = crypto.randomUUID();
@@ -282,8 +302,31 @@ export function GesturesPanel({
                   <i className={index < capturedSamples.length ? "filled" : ""} key={index} />
                 ))}
               </div>
-              {captureError ? <p className="capture-error">{captureError}</p> : null}
+              {captureError || validationMessage ? (
+                <p className="capture-error">{captureError ?? validationMessage}</p>
+              ) : null}
             </div>
+
+            {capturedSamples.length > 0 ? (
+              <div className="sample-preview-grid" aria-label="Captured samples">
+                {capturedSamples.map((sample, index) => (
+                  <figure key={sample.id}>
+                    <img alt={`Captured sample ${index + 1}`} src={sample.dataUrl} />
+                    <button
+                      aria-label={`Delete captured sample ${index + 1}`}
+                      onClick={() =>
+                        setCapturedSamples((current) =>
+                          current.filter((item) => item.id !== sample.id)
+                        )
+                      }
+                      type="button"
+                    >
+                      <Trash2 size={12} />
+                    </button>
+                  </figure>
+                ))}
+              </div>
+            ) : null}
 
             <div className="recorder-buttons">
               <button className="primary-action" type="button" onClick={handleRecord}>
@@ -310,7 +353,7 @@ export function GesturesPanel({
               </button>
               <button
                 className="secondary-action"
-                disabled={capturedSamples.length === 0 || isSavingGesture}
+                disabled={Boolean(validationMessage) || isSavingGesture}
                 type="button"
                 onClick={handleSaveGesture}
               >
@@ -444,12 +487,13 @@ export function GesturesPanel({
             </dl>
             <button
               className="primary-action"
-              disabled={selectedGesture.samples < 6}
+              disabled
               onClick={handleSendToTraining}
+              title="The AI service API exists, but this desktop action is not connected yet."
               type="button"
             >
               <Plus size={18} />
-              <span>Send To Training</span>
+              <span>Training API not connected</span>
             </button>
           </div>
         ) : (

@@ -2,14 +2,17 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 type CameraStatus = "idle" | "requesting" | "active" | "error";
 
-const cameraConstraints: MediaStreamConstraints = {
-  video: {
+function buildCameraConstraints(deviceId: string | null): MediaStreamConstraints {
+  return {
+    video: {
+      ...(deviceId ? { deviceId: { exact: deviceId } } : {}),
     width: { ideal: 1920 },
     height: { ideal: 1080 },
     frameRate: { ideal: 30 }
   },
   audio: false
-};
+  };
+}
 
 function getCameraErrorMessage(error: unknown): string {
   if (!(error instanceof DOMException)) {
@@ -32,10 +35,35 @@ function getCameraErrorMessage(error: unknown): string {
 }
 
 export function useCameraStream() {
+  const [devices, setDevices] = useState<MediaDeviceInfo[]>([]);
+  const [selectedDeviceId, setSelectedDeviceId] = useState<string | null>(() =>
+    window.localStorage.getItem("visionguard.camera.deviceId")
+  );
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [status, setStatus] = useState<CameraStatus>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const activeStreamRef = useRef<MediaStream | null>(null);
+  const selectedDeviceIdRef = useRef(selectedDeviceId);
+
+  const refreshDevices = useCallback(async () => {
+    if (!navigator.mediaDevices?.enumerateDevices) {
+      setDevices([]);
+      return;
+    }
+
+    const mediaDevices = await navigator.mediaDevices.enumerateDevices();
+    const videoDevices = mediaDevices.filter((device) => device.kind === "videoinput");
+    setDevices(videoDevices);
+
+    if (
+      selectedDeviceIdRef.current &&
+      !videoDevices.some((device) => device.deviceId === selectedDeviceIdRef.current)
+    ) {
+      selectedDeviceIdRef.current = null;
+      setSelectedDeviceId(null);
+      window.localStorage.removeItem("visionguard.camera.deviceId");
+    }
+  }, []);
 
   const stopCamera = useCallback(() => {
     activeStreamRef.current?.getTracks().forEach((track) => track.stop());
@@ -44,7 +72,7 @@ export function useCameraStream() {
     setStatus("idle");
   }, []);
 
-  const startCamera = useCallback(async () => {
+  const startCamera = useCallback(async (deviceId = selectedDeviceIdRef.current) => {
     if (!navigator.mediaDevices?.getUserMedia) {
       setStatus("error");
       setErrorMessage("Camera access is not supported in this runtime.");
@@ -55,17 +83,19 @@ export function useCameraStream() {
     setErrorMessage(null);
 
     try {
-      const mediaStream = await navigator.mediaDevices.getUserMedia(cameraConstraints);
+      activeStreamRef.current?.getTracks().forEach((track) => track.stop());
+      const mediaStream = await navigator.mediaDevices.getUserMedia(buildCameraConstraints(deviceId));
       activeStreamRef.current = mediaStream;
       setStream(mediaStream);
       setStatus("active");
+      await refreshDevices();
     } catch (error) {
       activeStreamRef.current = null;
       setStream(null);
       setStatus("error");
       setErrorMessage(getCameraErrorMessage(error));
     }
-  }, []);
+  }, [refreshDevices]);
 
   const toggleCamera = useCallback(() => {
     if (activeStreamRef.current) {
@@ -76,11 +106,40 @@ export function useCameraStream() {
     void startCamera();
   }, [startCamera, stopCamera]);
 
+  const selectCamera = useCallback(
+    (deviceId: string) => {
+      selectedDeviceIdRef.current = deviceId || null;
+      setSelectedDeviceId(deviceId || null);
+
+      if (deviceId) {
+        window.localStorage.setItem("visionguard.camera.deviceId", deviceId);
+      } else {
+        window.localStorage.removeItem("visionguard.camera.deviceId");
+      }
+
+      if (activeStreamRef.current) {
+        void startCamera(deviceId || null);
+      }
+    },
+    [startCamera]
+  );
+
+  useEffect(() => {
+    void refreshDevices();
+
+    navigator.mediaDevices?.addEventListener?.("devicechange", refreshDevices);
+    return () => navigator.mediaDevices?.removeEventListener?.("devicechange", refreshDevices);
+  }, [refreshDevices]);
+
   useEffect(() => stopCamera, [stopCamera]);
 
   return {
+    devices,
     errorMessage,
     isCameraActive: status === "active",
+    refreshDevices,
+    selectCamera,
+    selectedDeviceId,
     startCamera,
     status,
     stopCamera,

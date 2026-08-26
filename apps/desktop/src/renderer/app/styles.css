@@ -72,6 +72,28 @@ button:disabled {
     linear-gradient(135deg, #071016 0%, #0d171d 42%, #091116 100%);
 }
 
+.app-shell.sidebar-collapsed {
+  grid-template-columns: 76px minmax(0, 1fr);
+}
+
+.app-shell.bright-mode {
+  filter: brightness(1.08) saturate(1.03);
+}
+
+.app-shell.sidebar-collapsed .brand span,
+.app-shell.sidebar-collapsed .nav-item span,
+.app-shell.sidebar-collapsed .operator-card div {
+  display: none;
+}
+
+.app-shell.sidebar-collapsed .brand,
+.app-shell.sidebar-collapsed .nav-item,
+.app-shell.sidebar-collapsed .operator-card {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
 .sidebar {
   display: flex;
   flex-direction: column;
@@ -223,6 +245,11 @@ button:disabled {
   padding: 0;
 }
 
+.icon-button.is-selected {
+  border-color: rgba(34, 218, 205, 0.5);
+  color: #4ee7e0;
+}
+
 .system-status {
   margin-left: auto;
   display: flex;
@@ -245,15 +272,64 @@ button:disabled {
 }
 
 .camera-select {
-  min-width: 180px;
+  position: relative;
+  min-width: 220px;
   height: 38px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 10px;
   padding: 0 12px;
   color: #f0f6f7;
   font-size: 0.86rem;
+}
+
+.camera-select select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.camera-select span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.topbar {
+  position: relative;
+}
+
+.topbar-menu {
+  position: absolute;
+  right: 22px;
+  top: 48px;
+  z-index: 30;
+  min-width: 180px;
+  display: grid;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid rgba(140, 170, 184, 0.22);
+  border-radius: 8px;
+  background: #0c171d;
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.36);
+}
+
+.topbar-menu button {
+  height: 34px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #dce9ed;
+  padding: 0 10px;
+  text-align: left;
+}
+
+.topbar-menu button:hover:not(:disabled) {
+  background: rgba(34, 218, 205, 0.1);
+  color: #f7ffff;
 }
 
 .clock {
@@ -836,11 +912,18 @@ h2 {
   gap: 10px;
 }
 
-.timeline-controls button {
+.timeline-controls button,
+.timeline-controls select {
   height: 26px;
   padding: 0 10px;
   color: #c6d3d8;
   font-size: 0.72rem;
+}
+
+.timeline-controls select {
+  border: 1px solid rgba(139, 167, 179, 0.22);
+  border-radius: 6px;
+  background: rgba(24, 34, 42, 0.9);
 }
 
 .timeline-controls .pause-button {
@@ -1421,6 +1504,49 @@ h2 {
   line-height: 1.35;
 }
 
+.sample-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  max-height: 150px;
+  overflow: auto;
+  padding: 8px;
+  border: 1px solid rgba(140, 170, 184, 0.14);
+  border-radius: 8px;
+  background: rgba(5, 13, 17, 0.45);
+}
+
+.sample-preview-grid figure {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  margin: 0;
+  border: 1px solid rgba(140, 170, 184, 0.14);
+  border-radius: 6px;
+  background: #03090c;
+}
+
+.sample-preview-grid img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sample-preview-grid button {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 92, 82, 0.35);
+  border-radius: 5px;
+  background: rgba(41, 9, 9, 0.78);
+  color: #ff9b94;
+  padding: 0;
+}
+
 .recorder-buttons {
   display: flex;
   flex-wrap: wrap;
@@ -1664,6 +1790,69 @@ h2 {
   border-radius: 8px;
   color: #8fa2ab;
   text-align: center;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.settings-panel {
+  padding: 18px;
+}
+
+.settings-title {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(140, 170, 184, 0.12);
+}
+
+.settings-title svg {
+  color: #4ee7e0;
+}
+
+.settings-title span {
+  display: block;
+  margin-top: 5px;
+  color: #8fa2ab;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.settings-list {
+  display: grid;
+  gap: 0;
+  margin: 14px 0 0;
+}
+
+.settings-list div {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 13px 0;
+  border-bottom: 1px solid rgba(140, 170, 184, 0.1);
+}
+
+.settings-list dt,
+.settings-list dd {
+  margin: 0;
+  font-size: 0.84rem;
+}
+
+.settings-list dt {
+  color: #91a4ad;
+}
+
+.settings-list dd {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #eef7f8;
+  font-weight: 700;
+  text-align: right;
 }
 
 /* ─── Modal ──────────────────────────────────────────────── */

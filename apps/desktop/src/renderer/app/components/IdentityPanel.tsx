@@ -1,6 +1,9 @@
 import { ShieldCheck, UserRound } from "lucide-react";
+import { useState } from "react";
 
 export function IdentityPanel() {
+  const [showAllRiskEvents, setShowAllRiskEvents] = useState(false);
+
   return (
     <aside className="identity-column">
       <section className="panel active-user">
@@ -41,10 +44,14 @@ export function IdentityPanel() {
       <section className="panel risk-panel">
         <div className="section-heading">
           <h2>Recent Risk Events</h2>
-          <button type="button">View All</button>
+          <button onClick={() => setShowAllRiskEvents((current) => !current)} type="button">
+            {showAllRiskEvents ? "Show Recent" : "View All"}
+          </button>
         </div>
         <div className="risk-list">
-          <p className="risk-empty">No risk events.</p>
+          <p className="risk-empty">
+            {showAllRiskEvents ? "No historical risk events." : "No recent risk events."}
+          </p>
         </div>
       </section>
 

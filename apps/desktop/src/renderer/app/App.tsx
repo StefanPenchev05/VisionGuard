@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { AppShell } from "./components/AppShell";
 import { CalibrationModal } from "./components/CalibrationModal";
+import type { CalibrationResult } from "./components/CalibrationModal";
 import { EventTimeline } from "./components/EventTimeline";
 import { GesturesPanel } from "./components/GesturesPanel";
 import { IdentityPanel } from "./components/IdentityPanel";
 import { LiveVisionPanel } from "./components/LiveVisionPanel";
 import { ModelHealth } from "./components/ModelHealth";
+import { SecondaryViews } from "./components/SecondaryViews";
 import { useCameraStream } from "../shared/hooks/useCameraStream";
 import { usePersistentGestures } from "../shared/hooks/usePersistentGestures";
 import type { AppView } from "./data";
@@ -59,6 +61,7 @@ type CapturedGestureSample = {
 export function App() {
   const camera = useCameraStream();
   const [isCalibrating, setIsCalibrating] = useState(false);
+  const [calibrationResult, setCalibrationResult] = useState<CalibrationResult | null>(null);
   const [activeView, setActiveView] = useState<AppView>("Monitor");
   const {
     errorMessage: gesturePersistenceError,
@@ -75,12 +78,19 @@ export function App() {
       exportedAt: new Date().toISOString(),
       camera: {
         active: camera.isCameraActive,
+        selectedDeviceId: camera.selectedDeviceId,
+        availableDevices: camera.devices.map((device) => ({
+          deviceId: device.deviceId,
+          groupId: device.groupId,
+          label: device.label
+        })),
         resolution: settings?.width && settings?.height
           ? `${settings.width}x${settings.height}`
           : null,
         frameRate: settings?.frameRate ?? null,
         deviceId: settings?.deviceId ?? null,
       },
+      calibration: calibrationResult,
       gestures: gestureDefinitions,
     };
 
@@ -112,12 +122,16 @@ export function App() {
     <>
       <AppShell
         activeView={activeView}
+        cameraDevices={camera.devices}
         isCameraActive={camera.isCameraActive}
         isCameraRequesting={camera.status === "requesting"}
         onCalibrate={() => setIsCalibrating(true)}
         onExport={handleExport}
+        onRefreshCameras={camera.refreshDevices}
+        onSelectCamera={camera.selectCamera}
         onToggleCamera={camera.toggleCamera}
         onViewChange={setActiveView}
+        selectedCameraId={camera.selectedDeviceId}
       >
         {activeView === "Gestures" ? (
           <GesturesPanel
@@ -139,7 +153,7 @@ export function App() {
             persistenceStatus={gesturePersistenceStatus}
             stream={camera.stream}
           />
-        ) : (
+        ) : activeView === "Monitor" ? (
           <div className="dashboard-grid">
             <div className="main-column">
               <LiveVisionPanel
@@ -153,6 +167,15 @@ export function App() {
             </div>
             <IdentityPanel />
           </div>
+        ) : (
+          <SecondaryViews
+            activeView={activeView}
+            cameraDevices={camera.devices}
+            gestures={gestureDefinitions}
+            isCameraActive={camera.isCameraActive}
+            persistenceStatus={gesturePersistenceStatus}
+            selectedCameraId={camera.selectedDeviceId}
+          />
         )}
       </AppShell>
 
@@ -160,6 +183,7 @@ export function App() {
         <CalibrationModal
           isCameraActive={camera.isCameraActive}
           onClose={() => setIsCalibrating(false)}
+          onComplete={setCalibrationResult}
           stream={camera.stream}
         />
       )}
