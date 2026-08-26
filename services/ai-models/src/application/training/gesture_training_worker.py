@@ -15,6 +15,7 @@ from interfaces.api.schemas.model_contract import (
 
 
 FeatureVector = list[float]
+JpegDimensions = tuple[int | None, int | None]
 
 
 @dataclass(frozen=True)
@@ -25,26 +26,111 @@ class TrainedGestureModel:
     version: str
 
 
+def read_jpeg_dimensions(data: bytes) -> JpegDimensions:
+    if len(data) < 4 or data[:2] != b"\xff\xd8":
+        return None, None
+
+    index = 2
+    while index + 9 < len(data):
+        if data[index] != 0xFF:
+            index += 1
+            continue
+
+        marker = data[index + 1]
+        index += 2
+
+        while marker == 0xFF and index < len(data):
+            marker = data[index]
+            index += 1
+
+        if marker in {0xD8, 0xD9}:
+            continue
+
+        if index + 2 > len(data):
+            break
+
+        segment_length = int.from_bytes(data[index:index + 2], "big")
+        if segment_length < 2:
+            break
+
+        if marker in {
+            0xC0,
+            0xC1,
+            0xC2,
+            0xC3,
+            0xC5,
+            0xC6,
+            0xC7,
+            0xC9,
+            0xCA,
+            0xCB,
+            0xCD,
+            0xCE,
+            0xCF,
+        }:
+            start = index + 2
+            if start + 5 <= len(data):
+                height = int.from_bytes(data[start + 1:start + 3], "big")
+                width = int.from_bytes(data[start + 3:start + 5], "big")
+                return width, height
+
+        index += segment_length
+
+    return None, None
+
+
+def normalized_histogram(data: bytes, buckets: int = 16) -> FeatureVector:
+    histogram = [0] * buckets
+
+    for byte in data:
+        histogram[min(byte * buckets // 256, buckets - 1)] += 1
+
+    total = len(data) or 1
+    return [bucket / total for bucket in histogram]
+
+
+def byte_entropy(data: bytes) -> float:
+    histogram = normalized_histogram(data, 256)
+    return -sum(value * math.log2(value) for value in histogram if value > 0) / 8
+
+
+def segment_features(data: bytes, segments: int = 4) -> FeatureVector:
+    if len(data) < segments:
+        return normalized_histogram(data) * segments
+
+    features: FeatureVector = []
+    segment_size = max(1, len(data) // segments)
+
+    for index in range(segments):
+        start = index * segment_size
+        end = len(data) if index == segments - 1 else start + segment_size
+        features.extend(normalized_histogram(data[start:end], buckets=8))
+
+    return features
+
+
 def extract_image_features(file_path: str) -> FeatureVector:
     data = Path(file_path).read_bytes()
 
     if not data:
         raise ValueError(f"Sample file is empty: {file_path}")
 
-    histogram = [0] * 16
-    for byte in data:
-        histogram[byte // 16] += 1
-
+    width, height = read_jpeg_dimensions(data)
     total = len(data)
     mean = sum(data) / total
     variance = sum((byte - mean) ** 2 for byte in data) / total
-    normalized_histogram = [bucket / total for bucket in histogram]
+    aspect_ratio = (width / height) if width and height else 0
 
     return [
         total / 1_000_000,
+        (width or 0) / 4096,
+        (height or 0) / 4096,
+        aspect_ratio / 4,
         mean / 255,
         math.sqrt(variance) / 255,
-        *normalized_histogram,
+        byte_entropy(data),
+        *normalized_histogram(data),
+        *segment_features(data),
     ]
 
 

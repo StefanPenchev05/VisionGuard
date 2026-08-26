@@ -15,6 +15,14 @@ declare global {
   interface Window {
     visionGuard?: {
       appName: string;
+      settings: {
+        load: () => Promise<{
+          aiServiceUrl: string;
+        }>;
+        save: (settings: { aiServiceUrl: string }) => Promise<{
+          aiServiceUrl: string;
+        }>;
+      };
       gestures: {
         load: () => Promise<GestureDefinition[] | null>;
         save: (gestures: GestureDefinition[]) => Promise<{ count: number }>;
@@ -44,6 +52,24 @@ declare global {
           gestureId: string;
           message: string;
           ok: boolean;
+        }>;
+      };
+      aiService: {
+        getStatus: () => Promise<{
+          checkedAt: string;
+          errorMessage?: string;
+          modelStatus?: {
+            modelId: string;
+            modelFamily: "gesture-recognition" | "continuous-authentication";
+            status: "not-trained" | "loading" | "ready" | "degraded" | "error";
+            version?: string;
+            accuracy?: number;
+            latencyMs?: number;
+            loadedAt?: string;
+            errorMessage?: string;
+          };
+          ok: boolean;
+          serviceUrl: string;
         }>;
       };
       training: {

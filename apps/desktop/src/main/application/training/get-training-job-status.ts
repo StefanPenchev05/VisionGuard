@@ -1,8 +1,5 @@
 import { HttpAiModelClient } from "../../infrastructure/ai-client";
-
-function getAiServiceBaseUrl(): string {
-  return process.env.VISIONGUARD_AI_SERVICE_URL ?? "http://127.0.0.1:8765";
-}
+import { getAiServiceBaseUrl } from "../../infrastructure/settings/app-settings-store";
 
 export async function getTrainingJobStatus(jobId: unknown) {
   if (typeof jobId !== "string" || jobId.trim().length === 0) {
@@ -10,7 +7,7 @@ export async function getTrainingJobStatus(jobId: unknown) {
   }
 
   const client = new HttpAiModelClient({
-    baseUrl: getAiServiceBaseUrl(),
+    baseUrl: await getAiServiceBaseUrl(),
     requestTimeoutMs: 5_000
   });
 

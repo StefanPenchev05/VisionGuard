@@ -5,6 +5,7 @@ import type {
   TrainingJob
 } from "@visionguard/shared-kernel/contracts/ai";
 import { HttpAiModelClient } from "../../infrastructure/ai-client";
+import { getAiServiceBaseUrl } from "../../infrastructure/settings/app-settings-store";
 
 type DesktopGestureSample = {
   capturedAt: string;
@@ -29,10 +30,6 @@ type GestureTrainingClient = {
 };
 
 const minimumTrainingSamples = 12;
-
-function getAiServiceBaseUrl(): string {
-  return process.env.VISIONGUARD_AI_SERVICE_URL ?? "http://127.0.0.1:8765";
-}
 
 function isNonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
@@ -102,12 +99,13 @@ function buildSampleReferences(gesture: DesktopGestureForTraining): GestureSampl
 
 export async function startGestureTraining(
   gesturePayload: unknown,
-  client: GestureTrainingClient = new HttpAiModelClient({
-    baseUrl: getAiServiceBaseUrl(),
-    requestTimeoutMs: 10_000
-  })
+  client?: GestureTrainingClient
 ): Promise<StartGestureTrainingResult> {
   const gesture = parseDesktopGesture(gesturePayload);
+  const aiClient = client ?? new HttpAiModelClient({
+    baseUrl: await getAiServiceBaseUrl(),
+    requestTimeoutMs: 10_000
+  });
   const label: GestureLabel = {
     actionTarget: gesture.actionTarget,
     actionType: gesture.actionType,
@@ -115,12 +113,12 @@ export async function startGestureTraining(
     name: gesture.name
   };
 
-  const dataset = await client.createTrainingDataset({
+  const dataset = await aiClient.createTrainingDataset({
     labels: [label],
     name: `${gesture.name} Gesture Dataset`,
     samples: buildSampleReferences(gesture)
   });
-  const job = await client.trainGestureModel({
+  const job = await aiClient.trainGestureModel({
     datasetId: dataset.id,
     modelConfig: {
       batchSize: 8,

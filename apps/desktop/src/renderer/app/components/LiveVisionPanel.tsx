@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import type { InferenceResult } from "@visionguard/shared-kernel/contracts/ai";
+import type { InferenceResult, ModelStatus } from "@visionguard/shared-kernel/contracts/ai";
 
 type LiveVisionPanelProps = {
+  aiServiceStatus: {
+    errorMessage?: string;
+    modelStatus?: ModelStatus;
+    ok: boolean;
+  };
   errorMessage: string | null;
   inferenceEnabled: boolean;
   inferenceError: string | null;
@@ -25,6 +30,7 @@ type CameraStats = {
 };
 
 export function LiveVisionPanel({
+  aiServiceStatus,
   errorMessage,
   inferenceEnabled,
   inferenceError,
@@ -125,6 +131,15 @@ export function LiveVisionPanel({
   const resolutionLabel = stats.width && stats.height
     ? `${stats.width} × ${stats.height}`
     : "—";
+  const readinessLabel = !aiServiceStatus.ok
+    ? "AI service offline"
+    : aiServiceStatus.modelStatus?.status !== "ready"
+      ? "No trained model"
+      : inferenceError
+        ? "Inference error"
+        : inferenceEnabled
+          ? "Ready for inference"
+          : "Waiting";
 
   return (
     <section className="video-panel" aria-label="Desk Camera live monitor">
@@ -221,8 +236,12 @@ export function LiveVisionPanel({
               <em>
                 {inferenceStatus === "running"
                   ? "Scanning"
-                  : inferenceError
-                    ? "Offline"
+                  : !aiServiceStatus.ok
+                    ? "Service offline"
+                    : aiServiceStatus.modelStatus?.status !== "ready"
+                      ? "Train a model"
+                      : inferenceError
+                        ? "Error"
                     : inferenceResult?.bestPrediction
                       ? `${Math.round(inferenceResult.bestPrediction.confidence * 100)}%`
                       : inferenceEnabled
@@ -256,17 +275,15 @@ export function LiveVisionPanel({
               </p>
               <p>
                 <span>Model</span>
-                <strong>{inferenceEnabled ? "Ready" : "Pending"}</strong>
+                <strong>{aiServiceStatus.modelStatus?.status ?? "Unknown"}</strong>
               </p>
               <p>
-                <span>Match</span>
-                <strong>{inferenceResult?.bestPrediction?.label ?? "None"}</strong>
+                <span>Service</span>
+                <strong>{aiServiceStatus.ok ? "Online" : "Offline"}</strong>
               </p>
               <p>
-                <span>Latency</span>
-                <strong>
-                  {inferenceResult ? `${Math.round(inferenceResult.inferenceTimeMs)}ms` : "--"}
-                </strong>
+                <span>State</span>
+                <strong>{readinessLabel}</strong>
               </p>
             </div>
           </>

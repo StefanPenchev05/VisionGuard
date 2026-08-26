@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { InferenceResult, TrainingJob } from "@visionguard/shared-kernel/contracts/ai";
+import type { InferenceResult, ModelStatus, TrainingJob } from "@visionguard/shared-kernel/contracts/ai";
 import { AppShell } from "./components/AppShell";
 import { CalibrationModal } from "./components/CalibrationModal";
 import type { CalibrationResult } from "./components/CalibrationModal";
@@ -66,6 +66,18 @@ type CapturedInferenceFrame = {
   frameId: string;
 };
 
+type AppSettings = {
+  aiServiceUrl: string;
+};
+
+type AiServiceStatus = {
+  checkedAt: string;
+  errorMessage?: string;
+  modelStatus?: ModelStatus;
+  ok: boolean;
+  serviceUrl: string;
+};
+
 function mapTrainingJobToGestureStatus(job: TrainingJob): GestureDefinition["status"] {
   if (job.status === "completed") {
     return "trained";
@@ -97,6 +109,16 @@ export function App() {
   const [inferenceStatus, setInferenceStatus] = useState<"idle" | "running" | "error">("idle");
   const [inferenceError, setInferenceError] = useState<string | null>(null);
   const [timelineEvents, setTimelineEvents] = useState<TimelineEvent[]>([]);
+  const [appSettings, setAppSettings] = useState<AppSettings>({
+    aiServiceUrl: "http://127.0.0.1:8765"
+  });
+  const [settingsStatus, setSettingsStatus] = useState<"loading" | "ready" | "saving" | "error">("loading");
+  const [settingsError, setSettingsError] = useState<string | null>(null);
+  const [aiServiceStatus, setAiServiceStatus] = useState<AiServiceStatus>({
+    checkedAt: new Date().toISOString(),
+    ok: false,
+    serviceUrl: appSettings.aiServiceUrl
+  });
   const {
     errorMessage: gesturePersistenceError,
     gestures: gestureDefinitions,
@@ -160,10 +182,33 @@ export function App() {
     return window.visionGuard.training.startGesture(gesture);
   };
 
+  const handleSaveSettings = async (settings: AppSettings) => {
+    if (!window.visionGuard?.settings) {
+      setAppSettings(settings);
+      setSettingsStatus("ready");
+      setSettingsError(null);
+      return;
+    }
+
+    setSettingsStatus("saving");
+
+    try {
+      const savedSettings = await window.visionGuard.settings.save(settings);
+      setAppSettings(savedSettings);
+      setSettingsStatus("ready");
+      setSettingsError(null);
+    } catch (error) {
+      setSettingsError(error instanceof Error ? error.message : "Could not save settings.");
+      setSettingsStatus("error");
+    }
+  };
+
   const trainedGestures = gestureDefinitions.filter((gesture) => gesture.status === "trained");
   const isInferenceEnabled = Boolean(
     camera.isCameraActive &&
     trainedGestures.length > 0 &&
+    aiServiceStatus.ok &&
+    aiServiceStatus.modelStatus?.status === "ready" &&
     window.visionGuard?.inference
   );
 
@@ -252,6 +297,68 @@ export function App() {
     },
     [addTimelineEvent, gestureDefinitions, isInferenceEnabled]
   );
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadSettings() {
+      if (!window.visionGuard?.settings) {
+        setSettingsStatus("ready");
+        return;
+      }
+
+      try {
+        const savedSettings = await window.visionGuard.settings.load();
+
+        if (!cancelled) {
+          setAppSettings(savedSettings);
+          setSettingsStatus("ready");
+          setSettingsError(null);
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setSettingsError(error instanceof Error ? error.message : "Could not load settings.");
+          setSettingsStatus("error");
+        }
+      }
+    }
+
+    void loadSettings();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!window.visionGuard?.aiService) {
+      setAiServiceStatus({
+        checkedAt: new Date().toISOString(),
+        errorMessage: "AI service checks are available only in the Electron desktop app.",
+        ok: false,
+        serviceUrl: appSettings.aiServiceUrl
+      });
+      return;
+    }
+
+    let cancelled = false;
+
+    const refreshAiServiceStatus = async () => {
+      const status = await window.visionGuard!.aiService.getStatus();
+
+      if (!cancelled) {
+        setAiServiceStatus(status);
+      }
+    };
+
+    void refreshAiServiceStatus();
+    const intervalId = window.setInterval(refreshAiServiceStatus, 5_000);
+
+    return () => {
+      cancelled = true;
+      window.clearInterval(intervalId);
+    };
+  }, [appSettings.aiServiceUrl]);
 
   useEffect(() => {
     if (!window.visionGuard?.training) {
@@ -373,6 +480,7 @@ export function App() {
           <div className="dashboard-grid">
             <div className="main-column">
               <LiveVisionPanel
+                aiServiceStatus={aiServiceStatus}
                 errorMessage={camera.errorMessage}
                 inferenceEnabled={isInferenceEnabled}
                 inferenceError={inferenceError}
@@ -384,6 +492,7 @@ export function App() {
                 stream={camera.stream}
               />
               <ModelHealth
+                aiServiceStatus={aiServiceStatus}
                 errorMessage={inferenceError}
                 inferenceResult={inferenceResult}
                 inferenceStatus={inferenceStatus}
@@ -396,11 +505,16 @@ export function App() {
         ) : (
           <SecondaryViews
             activeView={activeView}
+            aiServiceUrl={appSettings.aiServiceUrl}
+            aiServiceStatus={aiServiceStatus}
             cameraDevices={camera.devices}
             gestures={gestureDefinitions}
             isCameraActive={camera.isCameraActive}
+            onSaveSettings={handleSaveSettings}
             persistenceStatus={gesturePersistenceStatus}
             selectedCameraId={camera.selectedDeviceId}
+            settingsError={settingsError}
+            settingsStatus={settingsStatus}
           />
         )}
       </AppShell>

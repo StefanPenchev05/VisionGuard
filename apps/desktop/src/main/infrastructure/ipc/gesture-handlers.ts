@@ -1,6 +1,7 @@
 import { ipcMain } from "electron";
 import { executeGestureAction } from "../../application/actions/execute-gesture-action";
 import { runGestureInferenceFrame } from "../../application/inference/run-gesture-inference-frame";
+import { getAiServiceStatus } from "../../application/status/get-ai-service-status";
 import { getTrainingJobStatus } from "../../application/training/get-training-job-status";
 import { startGestureTraining } from "../../application/training/start-gesture-training";
 import { saveGestureSamples } from "../persistence/gesture-sample-store";
@@ -28,4 +29,5 @@ export function registerGestureHandlers(): void {
   ipcMain.handle("actions:execute-gesture", async (_event, action: unknown) =>
     executeGestureAction(action)
   );
+  ipcMain.handle("ai-service:get-status", async () => getAiServiceStatus());
 }

@@ -2,6 +2,10 @@ import { contextBridge, ipcRenderer } from "electron";
 
 contextBridge.exposeInMainWorld("visionGuard", {
   appName: "VisionGuard",
+  settings: {
+    load: () => ipcRenderer.invoke("settings:load"),
+    save: (settings: unknown) => ipcRenderer.invoke("settings:save", settings)
+  },
   gestures: {
     load: () => ipcRenderer.invoke("gestures:load"),
     save: (gestures: unknown[]) => ipcRenderer.invoke("gestures:save", gestures)
@@ -17,6 +21,9 @@ contextBridge.exposeInMainWorld("visionGuard", {
   actions: {
     executeGesture: (action: unknown) =>
       ipcRenderer.invoke("actions:execute-gesture", action)
+  },
+  aiService: {
+    getStatus: () => ipcRenderer.invoke("ai-service:get-status")
   },
   training: {
     getJob: (jobId: string) =>

@@ -8,9 +8,14 @@
     "services/*"
   ],
   "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "ai:dev": "cd services/ai-models && PYTHONPATH=src python3 -m uvicorn interfaces.api.app:create_app --factory --host 127.0.0.1 --port 8765",
+    "ai:test": "python3 -m pytest services/ai-models",
     "desktop:dev": "npm run dev -w @visionguard/desktop",
     "desktop:build": "npm run build -w @visionguard/desktop",
-    "desktop:preview": "npm run preview -w @visionguard/desktop"
+    "desktop:preview": "npm run preview -w @visionguard/desktop",
+    "desktop:test": "npm run test -w @visionguard/desktop",
+    "desktop:typecheck": "npm run typecheck -w @visionguard/desktop"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.1"

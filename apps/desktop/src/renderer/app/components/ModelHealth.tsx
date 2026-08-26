@@ -1,6 +1,12 @@
-import type { InferenceResult } from "@visionguard/shared-kernel/contracts/ai";
+import type { InferenceResult, ModelStatus } from "@visionguard/shared-kernel/contracts/ai";
 
 type ModelHealthProps = {
+  aiServiceStatus: {
+    errorMessage?: string;
+    modelStatus?: ModelStatus;
+    ok: boolean;
+    serviceUrl: string;
+  };
   trainedGestureCount: number;
   inferenceResult: InferenceResult | null;
   inferenceStatus: "idle" | "running" | "error";
@@ -8,11 +14,22 @@ type ModelHealthProps = {
 };
 
 export function ModelHealth({
+  aiServiceStatus,
   errorMessage,
   inferenceResult,
   inferenceStatus,
   trainedGestureCount
 }: ModelHealthProps) {
+  const modelState = aiServiceStatus.ok
+    ? aiServiceStatus.modelStatus?.status ?? "unknown"
+    : "offline";
+  const statusText = !aiServiceStatus.ok
+    ? "Offline"
+    : aiServiceStatus.modelStatus?.status === "ready"
+      ? "Ready"
+      : "Not trained";
+  const visibleError = aiServiceStatus.errorMessage ?? errorMessage;
+
   return (
     <section className="panel model-health">
       <h2>Model Health</h2>
@@ -22,7 +39,7 @@ export function ModelHealth({
           <div className="model-content">
             <div className="model-title">
               <strong>Gesture Recognition</strong>
-              <span>{trainedGestureCount > 0 ? "Ready" : "Waiting"}</span>
+              <span className={aiServiceStatus.ok ? "" : "warning"}>{statusText}</span>
             </div>
             <div className="model-metrics">
               <div>
@@ -37,10 +54,11 @@ export function ModelHealth({
               </div>
               <div>
                 <small>Status</small>
-                <strong>{errorMessage ? "Error" : inferenceStatus}</strong>
+                <strong>{visibleError ? "Error" : modelState}</strong>
               </div>
             </div>
-            {errorMessage ? <small>{errorMessage}</small> : null}
+            <small>{aiServiceStatus.serviceUrl}</small>
+            {visibleError ? <small>{visibleError}</small> : null}
           </div>
         </div>
       </div>
