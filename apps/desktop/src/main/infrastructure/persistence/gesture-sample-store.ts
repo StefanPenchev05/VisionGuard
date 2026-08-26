@@ -1,0 +1,61 @@
+import { mkdir, writeFile } from "node:fs/promises";
+import { join } from "node:path";
+import { app } from "electron";
+
+type CapturedGestureSample = {
+  capturedAt: string;
+  dataUrl: string;
+  id: string;
+};
+
+type SavedGestureSample = {
+  capturedAt: string;
+  filePath: string;
+  id: string;
+};
+
+const dataUrlPattern = /^data:image\/jpeg;base64,/;
+
+export function getSampleDirectory(
+  gestureId: string,
+  userDataPath = app.getPath("userData")
+): string {
+  return join(userDataPath, "visionguard", "gesture-samples", gestureId);
+}
+
+export function sanitizePathSegment(value: string): string {
+  return value.replace(/[^a-zA-Z0-9_-]/g, "_");
+}
+
+export async function saveGestureSamples(
+  gestureId: string,
+  samples: CapturedGestureSample[],
+  userDataPath?: string
+): Promise<SavedGestureSample[]> {
+  if (!gestureId || !Array.isArray(samples)) {
+    throw new TypeError("Gesture sample payload is invalid.");
+  }
+
+  const safeGestureId = sanitizePathSegment(gestureId);
+  const sampleDirectory = getSampleDirectory(safeGestureId, userDataPath);
+  await mkdir(sampleDirectory, { recursive: true });
+
+  return Promise.all(
+    samples.map(async (sample, index) => {
+      if (!dataUrlPattern.test(sample.dataUrl)) {
+        throw new TypeError("Gesture samples must be JPEG data URLs.");
+      }
+
+      const sampleId = sanitizePathSegment(sample.id || `sample-${index + 1}`);
+      const filePath = join(sampleDirectory, `${String(index + 1).padStart(3, "0")}-${sampleId}.jpg`);
+      const base64 = sample.dataUrl.replace(dataUrlPattern, "");
+      await writeFile(filePath, Buffer.from(base64, "base64"));
+
+      return {
+        capturedAt: sample.capturedAt,
+        filePath,
+        id: sampleId
+      };
+    })
+  );
+}

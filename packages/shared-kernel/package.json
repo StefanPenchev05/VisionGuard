@@ -1,0 +1,17 @@
+{
+  "name": "@visionguard/shared-kernel",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "types": "src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./contracts/ai": {
+      "types": "./src/contracts/ai/index.ts",
+      "default": "./src/contracts/ai/index.ts"
+    }
+  }
+}

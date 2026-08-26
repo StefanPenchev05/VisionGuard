@@ -1411,6 +1411,16 @@ h2 {
   box-shadow: 0 0 16px rgba(78, 231, 224, 0.18);
 }
 
+.capture-error {
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 92, 82, 0.28);
+  border-radius: 6px;
+  background: rgba(40, 14, 12, 0.48);
+  color: #ff9b94;
+  font-size: 0.72rem;
+  line-height: 1.35;
+}
+
 .recorder-buttons {
   display: flex;
   flex-wrap: wrap;

@@ -8,10 +8,12 @@
     "dev": "electron-vite dev",
     "build": "electron-vite build",
     "preview": "electron-vite preview",
+    "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^5.2.0",
+    "@visionguard/shared-kernel": "0.1.0",
     "electron-vite": "^5.0.0",
     "lucide-react": "^0.468.0",
     "react": "^19.2.7",
@@ -24,6 +26,7 @@
     "@types/react-dom": "^19.2.3",
     "electron": "^43.1.0",
     "typescript": "^5.7.2",
-    "vite": "^7.2.7"
+    "vite": "^7.2.7",
+    "vitest": "^4.1.11"
   }
 }

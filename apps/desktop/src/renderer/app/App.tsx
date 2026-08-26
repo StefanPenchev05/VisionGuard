@@ -9,7 +9,7 @@ import { ModelHealth } from "./components/ModelHealth";
 import { useCameraStream } from "../shared/hooks/useCameraStream";
 import { usePersistentGestures } from "../shared/hooks/usePersistentGestures";
 import type { AppView } from "./data";
-import type { GestureDefinition } from "./types/gestures";
+import type { GestureDefinition, GestureSample } from "./types/gestures";
 
 const initialGestures: GestureDefinition[] = [
   {
@@ -20,6 +20,7 @@ const initialGestures: GestureDefinition[] = [
     createdAt: new Date().toISOString(),
     description: "Baseline hand-open gesture for app launch",
     name: "Open Palm",
+    sampleFiles: [],
     samples: 18,
     status: "ready"
   },
@@ -31,6 +32,7 @@ const initialGestures: GestureDefinition[] = [
     createdAt: new Date().toISOString(),
     description: "Downward hand movement mapped to volume control",
     name: "Swipe Down",
+    sampleFiles: [],
     samples: 14,
     status: "ready"
   },
@@ -42,10 +44,17 @@ const initialGestures: GestureDefinition[] = [
     createdAt: new Date().toISOString(),
     description: "Closed-fist hold for audio mute",
     name: "Closed Fist",
+    sampleFiles: [],
     samples: 7,
     status: "draft"
   }
 ];
+
+type CapturedGestureSample = {
+  capturedAt: string;
+  dataUrl: string;
+  id: string;
+};
 
 export function App() {
   const camera = useCameraStream();
@@ -84,6 +93,21 @@ export function App() {
     URL.revokeObjectURL(url);
   };
 
+  const handleSaveGestureSamples = async (
+    gestureId: string,
+    samples: CapturedGestureSample[]
+  ): Promise<GestureSample[]> => {
+    if (window.visionGuard?.samples) {
+      return window.visionGuard.samples.saveBatch(gestureId, samples);
+    }
+
+    return samples.map((sample) => ({
+      capturedAt: sample.capturedAt,
+      filePath: sample.dataUrl,
+      id: sample.id
+    }));
+  };
+
   return (
     <>
       <AppShell
@@ -102,6 +126,7 @@ export function App() {
             onAddGesture={(gesture) =>
               setGestureDefinitions((current) => [gesture, ...current])
             }
+            onSaveSamples={handleSaveGestureSamples}
             onStartCamera={camera.startCamera}
             onUpdateGesture={(updatedGesture) =>
               setGestureDefinitions((current) =>

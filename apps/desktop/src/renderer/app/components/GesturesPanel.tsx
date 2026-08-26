@@ -14,12 +14,22 @@ import {
   Volume2
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { GestureActionType, GestureDefinition } from "../types/gestures";
+import type { GestureActionType, GestureDefinition, GestureSample } from "../types/gestures";
+
+type CapturedGestureSample = {
+  capturedAt: string;
+  dataUrl: string;
+  id: string;
+};
 
 type GesturesPanelProps = Readonly<{
   gestures: GestureDefinition[];
   isCameraActive: boolean;
   onAddGesture: (gesture: GestureDefinition) => void;
+  onSaveSamples: (
+    gestureId: string,
+    samples: CapturedGestureSample[]
+  ) => Promise<GestureSample[]>;
   onStartCamera: () => void;
   onUpdateGesture: (gesture: GestureDefinition) => void;
   persistenceError: string | null;
@@ -51,21 +61,49 @@ function buildGestureName(actionType: GestureActionType) {
 }
 
 function createGesture(
+  id: string,
   name: string,
   actionType: GestureActionType,
   actionTarget: string,
-  samples: number
+  sampleFiles: GestureSample[]
 ): GestureDefinition {
   return {
-    id: crypto.randomUUID(),
+    id,
     actionTarget,
     actionType,
     confidenceTarget: 92,
     createdAt: new Date().toISOString(),
     description: "Recorded from Desk Camera",
     name,
-    samples,
-    status: samples >= 12 ? "ready" : "draft"
+    sampleFiles,
+    samples: sampleFiles.length,
+    status: sampleFiles.length >= 12 ? "ready" : "draft"
+  };
+}
+
+function captureVideoSample(video: HTMLVideoElement): CapturedGestureSample | null {
+  if (video.videoWidth === 0 || video.videoHeight === 0) {
+    return null;
+  }
+
+  const canvas = document.createElement("canvas");
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+
+  const context = canvas.getContext("2d");
+
+  if (!context) {
+    return null;
+  }
+
+  context.translate(canvas.width, 0);
+  context.scale(-1, 1);
+  context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+  return {
+    capturedAt: new Date().toISOString(),
+    dataUrl: canvas.toDataURL("image/jpeg", 0.82),
+    id: crypto.randomUUID()
   };
 }
 
@@ -73,6 +111,7 @@ export function GesturesPanel({
   gestures,
   isCameraActive,
   onAddGesture,
+  onSaveSamples,
   onStartCamera,
   onUpdateGesture,
   persistenceError,
@@ -87,7 +126,9 @@ export function GesturesPanel({
   );
   const [gestureName, setGestureName] = useState(buildGestureName(actionType));
   const [actionTarget, setActionTarget] = useState(selectedAction.target);
-  const [sampleCount, setSampleCount] = useState(0);
+  const [capturedSamples, setCapturedSamples] = useState<CapturedGestureSample[]>([]);
+  const [captureError, setCaptureError] = useState<string | null>(null);
+  const [isSavingGesture, setIsSavingGesture] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [selectedGestureId, setSelectedGestureId] = useState<string | null>(
     gestures[0]?.id ?? null
@@ -114,16 +155,29 @@ export function GesturesPanel({
     }
 
     const intervalId = window.setInterval(() => {
-      setSampleCount((current) => {
-        if (current >= 12) {
+      setCapturedSamples((current) => {
+        if (current.length >= 12) {
           window.clearInterval(intervalId);
           setIsRecording(false);
           return current;
         }
 
-        return current + 1;
+        if (!videoRef.current) {
+          setCaptureError("Camera preview is not ready yet.");
+          return current;
+        }
+
+        const sample = captureVideoSample(videoRef.current);
+
+        if (!sample) {
+          setCaptureError("Could not capture a readable video frame.");
+          return current;
+        }
+
+        setCaptureError(null);
+        return [...current, sample];
       });
-    }, 260);
+    }, 420);
 
     return () => window.clearInterval(intervalId);
   }, [isRecording]);
@@ -137,17 +191,30 @@ export function GesturesPanel({
     setIsRecording((current) => !current);
   };
 
-  const handleSaveGesture = () => {
+  const handleSaveGesture = async () => {
     setIsRecording(false);
-    const gesture = createGesture(
-      gestureName.trim() || buildGestureName(actionType),
-      actionType,
-      actionTarget.trim() || selectedAction.target,
-      sampleCount
-    );
-    onAddGesture(gesture);
-    setSelectedGestureId(gesture.id);
-    setSampleCount(0);
+    setIsSavingGesture(true);
+    const gestureId = crypto.randomUUID();
+
+    try {
+      const sampleFiles = await onSaveSamples(gestureId, capturedSamples);
+      const gesture = createGesture(
+        gestureId,
+        gestureName.trim() || buildGestureName(actionType),
+        actionType,
+        actionTarget.trim() || selectedAction.target,
+        sampleFiles
+      );
+
+      onAddGesture(gesture);
+      setSelectedGestureId(gesture.id);
+      setCapturedSamples([]);
+      setCaptureError(null);
+    } catch (error) {
+      setCaptureError(error instanceof Error ? error.message : "Could not save gesture samples.");
+    } finally {
+      setIsSavingGesture(false);
+    }
   };
 
   const handleSendToTraining = () => {
@@ -208,13 +275,14 @@ export function GesturesPanel({
             <div className="sample-meter">
               <div>
                 <span>Samples captured</span>
-                <strong>{sampleCount}/12</strong>
+                <strong>{capturedSamples.length}/12</strong>
               </div>
               <div className="sample-bars">
                 {Array.from({ length: 12 }).map((_, index) => (
-                  <i className={index < sampleCount ? "filled" : ""} key={index} />
+                  <i className={index < capturedSamples.length ? "filled" : ""} key={index} />
                 ))}
               </div>
+              {captureError ? <p className="capture-error">{captureError}</p> : null}
             </div>
 
             <div className="recorder-buttons">
@@ -233,7 +301,8 @@ export function GesturesPanel({
                 type="button"
                 onClick={() => {
                   setIsRecording(false);
-                  setSampleCount(0);
+                  setCapturedSamples([]);
+                  setCaptureError(null);
                 }}
               >
                 <RotateCcw size={18} />
@@ -241,12 +310,12 @@ export function GesturesPanel({
               </button>
               <button
                 className="secondary-action"
-                disabled={sampleCount === 0}
+                disabled={capturedSamples.length === 0 || isSavingGesture}
                 type="button"
                 onClick={handleSaveGesture}
               >
                 <Save size={18} />
-                <span>Save Gesture</span>
+                <span>{isSavingGesture ? "Saving..." : "Save Gesture"}</span>
               </button>
             </div>
           </div>
@@ -329,7 +398,7 @@ export function GesturesPanel({
               <div>
                 <strong>{gesture.name}</strong>
                 <span>
-                  {gesture.samples} samples · {gesture.actionTarget}
+                  {gesture.samples} samples · {gesture.sampleFiles.length} files · {gesture.actionTarget}
                 </span>
               </div>
               <em className={gesture.status}>{gesture.status}</em>
@@ -359,6 +428,10 @@ export function GesturesPanel({
               <div>
                 <dt>Samples</dt>
                 <dd>{selectedGesture.samples}</dd>
+              </div>
+              <div>
+                <dt>Saved files</dt>
+                <dd>{selectedGesture.sampleFiles.length}</dd>
               </div>
               <div>
                 <dt>Confidence target</dt>

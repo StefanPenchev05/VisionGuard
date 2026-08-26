@@ -6,6 +6,12 @@ export type GestureActionType =
   | "keyboard-shortcut"
   | "mouse-click";
 
+export type GestureSample = {
+  capturedAt: string;
+  filePath: string;
+  id: string;
+};
+
 export type GestureDefinition = {
   id: string;
   actionTarget: string;
@@ -14,6 +20,7 @@ export type GestureDefinition = {
   createdAt: string;
   description: string;
   name: string;
+  sampleFiles: GestureSample[];
   samples: number;
   status: "draft" | "ready" | "training";
 };

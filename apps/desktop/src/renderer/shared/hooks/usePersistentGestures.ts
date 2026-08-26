@@ -5,14 +5,14 @@ type PersistenceStatus = "loading" | "ready" | "saving" | "error";
 
 const localStorageKey = "visionguard.gestures";
 
-function isGestureDefinition(value: unknown): value is GestureDefinition {
+function normalizeGestureDefinition(value: unknown): GestureDefinition | null {
   if (!value || typeof value !== "object") {
-    return false;
+    return null;
   }
 
   const gesture = value as Partial<GestureDefinition>;
 
-  return (
+  const isValid =
     typeof gesture.id === "string" &&
     typeof gesture.name === "string" &&
     typeof gesture.actionTarget === "string" &&
@@ -21,8 +21,24 @@ function isGestureDefinition(value: unknown): value is GestureDefinition {
     typeof gesture.createdAt === "string" &&
     typeof gesture.description === "string" &&
     typeof gesture.samples === "number" &&
-    typeof gesture.status === "string"
-  );
+    typeof gesture.status === "string";
+
+  if (!isValid) {
+    return null;
+  }
+
+  return {
+    actionTarget: gesture.actionTarget,
+    actionType: gesture.actionType,
+    confidenceTarget: gesture.confidenceTarget,
+    createdAt: gesture.createdAt,
+    description: gesture.description,
+    id: gesture.id,
+    name: gesture.name,
+    sampleFiles: Array.isArray(gesture.sampleFiles) ? gesture.sampleFiles : [],
+    samples: gesture.samples,
+    status: gesture.status
+  } as GestureDefinition;
 }
 
 function sanitizeGestures(value: unknown): GestureDefinition[] | null {
@@ -30,9 +46,9 @@ function sanitizeGestures(value: unknown): GestureDefinition[] | null {
     return null;
   }
 
-  const gestures = value.filter(isGestureDefinition);
+  const gestures = value.map(normalizeGestureDefinition);
 
-  return gestures.length === value.length ? gestures : null;
+  return gestures.every(Boolean) ? (gestures as GestureDefinition[]) : null;
 }
 
 async function loadStoredGestures(): Promise<GestureDefinition[] | null> {

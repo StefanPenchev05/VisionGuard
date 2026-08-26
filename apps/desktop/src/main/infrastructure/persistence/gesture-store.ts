@@ -8,13 +8,13 @@ type PersistedGestureStore = {
   updatedAt: string;
 };
 
-function getGestureStorePath(): string {
-  return join(app.getPath("userData"), "visionguard", "gestures.json");
+export function getGestureStorePath(userDataPath = app.getPath("userData")): string {
+  return join(userDataPath, "visionguard", "gestures.json");
 }
 
-export async function loadGestures(): Promise<unknown[] | null> {
+export async function loadGestures(userDataPath?: string): Promise<unknown[] | null> {
   try {
-    const contents = await readFile(getGestureStorePath(), "utf8");
+    const contents = await readFile(getGestureStorePath(userDataPath), "utf8");
     const parsed = JSON.parse(contents) as Partial<PersistedGestureStore>;
 
     return Array.isArray(parsed.gestures) ? parsed.gestures : null;
@@ -27,12 +27,15 @@ export async function loadGestures(): Promise<unknown[] | null> {
   }
 }
 
-export async function saveGestures(gestures: unknown[]): Promise<{ count: number }> {
+export async function saveGestures(
+  gestures: unknown[],
+  userDataPath?: string
+): Promise<{ count: number }> {
   if (!Array.isArray(gestures)) {
     throw new TypeError("Gestures payload must be an array.");
   }
 
-  const storePath = getGestureStorePath();
+  const storePath = getGestureStorePath(userDataPath);
   const payload: PersistedGestureStore = {
     gestures,
     schemaVersion: 1,
