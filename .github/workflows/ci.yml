@@ -28,6 +28,22 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install Linux runtime dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libasound2t64 \
+            libglib2.0-0 \
+            libgl1 \
+            libgomp1 \
+            libnss3 \
+            libx11-xcb1 \
+            libxcomposite1 \
+            libxdamage1 \
+            libxrandr2 \
+            libgbm1 \
+            libgtk-3-0
+
       - name: Install Node dependencies
         run: npm ci
 

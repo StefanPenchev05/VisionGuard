@@ -31,6 +31,11 @@ type GestureActionResult = {
   ok: boolean;
 };
 
+type ProcessExecutionError = Error & {
+  stderr?: string;
+  stdout?: string;
+};
+
 function parseRequest(value: unknown): GestureActionRequest {
   const request = value as Partial<GestureActionRequest>;
 
@@ -59,7 +64,14 @@ function normalizeKeyToken(value: string): string {
   return value.trim().toLowerCase().replace(/^cmd$/, "command");
 }
 
-function buildShortcutScript(shortcut: string): string {
+function escapeAppleScriptString(value: string): string {
+  return value.replace(/\\/g, "\\\\").replace(/"/g, "\\\"");
+}
+
+function parseShortcut(shortcut: string): {
+  key: string;
+  using: string[];
+} {
   const tokens = shortcut.split("+").map(normalizeKeyToken).filter(Boolean);
   const key = tokens[tokens.length - 1];
   const modifiers = tokens.slice(0, -1);
@@ -70,17 +82,30 @@ function buildShortcutScript(shortcut: string): string {
     option: "option down",
     shift: "shift down"
   };
+  const unsupportedModifiers = modifiers.filter((modifier) => !modifierMap[modifier]);
+
+  if (unsupportedModifiers.length > 0) {
+    throw new TypeError(`Unsupported keyboard modifier: ${unsupportedModifiers[0]}`);
+  }
+
+  if (!key || !/^[a-z0-9,./;'\[\]\\`=-]$|^(space|tab|return|escape|delete|backspace|left|right|up|down)$/.test(key)) {
+    throw new TypeError("Keyboard shortcut target is invalid.");
+  }
+
   const using = modifiers
     .map((modifier) => modifierMap[modifier])
     .filter(Boolean);
 
-  if (!key) {
-    throw new TypeError("Keyboard shortcut target is invalid.");
-  }
+  return { key, using };
+}
+
+export function buildShortcutScript(shortcut: string): string {
+  const { key, using } = parseShortcut(shortcut);
+  const escapedKey = escapeAppleScriptString(key);
 
   return using.length > 0
-    ? `tell application "System Events" to keystroke "${key}" using {${using.join(", ")}}`
-    : `tell application "System Events" to keystroke "${key}"`;
+    ? `tell application "System Events" to keystroke "${escapedKey}" using {${using.join(", ")}}`
+    : `tell application "System Events" to keystroke "${escapedKey}"`;
 }
 
 export function buildVolumeAdjustmentScript(delta: number): string[] {
@@ -117,6 +142,25 @@ async function runAppleScript(lines: string[]): Promise<string> {
   );
 
   return stdout.trim();
+}
+
+export function formatGestureActionError(error: unknown, request: GestureActionRequest): string {
+  if (!(error instanceof Error)) {
+    return "Could not execute gesture action.";
+  }
+
+  const processError = error as ProcessExecutionError;
+  const output = `${processError.message}\n${processError.stderr ?? ""}\n${processError.stdout ?? ""}`;
+
+  if (request.actionType === "open-app" && /unable to find application|application isn't running|does not exist/i.test(output)) {
+    return `Application "${request.actionTarget}" was not found.`;
+  }
+
+  if (/not authorized|not allowed|assistive access|accessibility|System Events/i.test(output)) {
+    return "macOS Accessibility permission is required for this action.";
+  }
+
+  return error.message || "Could not execute gesture action.";
 }
 
 async function executeOnMac(request: GestureActionRequest): Promise<string> {
@@ -169,7 +213,7 @@ export async function executeGestureAction(value: unknown): Promise<GestureActio
     return {
       executedAt: new Date().toISOString(),
       gestureId: request.gestureId,
-      message: error instanceof Error ? error.message : "Could not execute gesture action.",
+      message: formatGestureActionError(error, request),
       ok: false
     };
   }
