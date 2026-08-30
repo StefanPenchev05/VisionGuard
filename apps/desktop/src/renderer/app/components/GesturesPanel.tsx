@@ -25,7 +25,8 @@ type CapturedGestureSample = {
   id: string;
 };
 
-type HandCaptureStatus = "idle" | "checking" | "detected" | "missing" | "error";
+export type HandCaptureStatus = "idle" | "checking" | "detected" | "missing" | "error";
+export type RecordingLifecycle = "idle" | "counting-down" | "recording" | "complete";
 
 const REQUIRED_SAMPLE_COUNT = 12;
 const RECORDING_COUNTDOWN_SECONDS = 3;
@@ -121,6 +122,47 @@ function captureVideoSample(video: HTMLVideoElement): CapturedGestureSample | nu
   };
 }
 
+export function getGestureCaptureInstruction(params: {
+  handCaptureStatus: HandCaptureStatus;
+  isCameraActive: boolean;
+  isPreviewReady: boolean;
+  lifecycle: RecordingLifecycle;
+}): { detail: string; title: string } {
+  if (!params.isCameraActive) {
+    return { detail: "Start camera before recording", title: "Camera required" };
+  }
+
+  if (!params.isPreviewReady) {
+    return { detail: "Waiting for the camera image", title: "Starting preview" };
+  }
+
+  if (params.lifecycle === "counting-down") {
+    return { detail: "Place your hand in the circle", title: "Get ready" };
+  }
+
+  if (params.lifecycle === "complete") {
+    return { detail: "Review samples, then save the gesture", title: "Capture complete" };
+  }
+
+  if (params.handCaptureStatus === "checking") {
+    return { detail: "Checking hand", title: "Recording gesture" };
+  }
+
+  if (params.handCaptureStatus === "missing") {
+    return { detail: "Show hand", title: "Recording paused" };
+  }
+
+  if (params.handCaptureStatus === "detected") {
+    return { detail: "Hand detected", title: "Recording gesture" };
+  }
+
+  if (params.handCaptureStatus === "error") {
+    return { detail: "Check camera and AI service", title: "Capture error" };
+  }
+
+  return { detail: "Keep hand centered in frame", title: "Ready to record" };
+}
+
 export function GesturesPanel({
   gestures,
   isCameraActive,
@@ -137,6 +179,7 @@ export function GesturesPanel({
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const recordingActiveRef = useRef(false);
   const handValidationInFlightRef = useRef(false);
+  const [isPreviewReady, setIsPreviewReady] = useState(false);
   const [actionType, setActionType] = useState<GestureActionType>("open-app");
   const selectedAction = useMemo(
     () => actionOptions.find((option) => option.value === actionType) ?? actionOptions[0],
@@ -158,6 +201,20 @@ export function GesturesPanel({
   );
 
   const selectedGesture = gestures.find((gesture) => gesture.id === selectedGestureId) ?? gestures[0];
+  const recordingLifecycle: RecordingLifecycle =
+    countdownRemaining !== null
+      ? "counting-down"
+      : isRecording
+        ? "recording"
+        : capturedSamples.length >= REQUIRED_SAMPLE_COUNT
+          ? "complete"
+          : "idle";
+  const captureInstruction = getGestureCaptureInstruction({
+    handCaptureStatus,
+    isCameraActive,
+    isPreviewReady,
+    lifecycle: recordingLifecycle
+  });
   const normalizedGestureName = gestureName.trim().toLowerCase();
   const isDuplicateGestureName = gestures.some(
     (gesture) => gesture.name.trim().toLowerCase() === normalizedGestureName
@@ -190,6 +247,7 @@ export function GesturesPanel({
     }
 
     videoRef.current.srcObject = stream;
+    setIsPreviewReady(false);
   }, [stream]);
 
   useEffect(() => {
@@ -205,6 +263,7 @@ export function GesturesPanel({
     setIsRecording(false);
     setCountdownRemaining(null);
     setHandCaptureStatus("idle");
+    setIsPreviewReady(false);
   }, [isCameraActive]);
 
   useEffect(() => {
@@ -248,7 +307,7 @@ export function GesturesPanel({
         return;
       }
 
-      if (!videoRef.current) {
+      if (!videoRef.current || !isPreviewReady) {
         setCaptureError("Camera preview is not ready yet.");
         setHandCaptureStatus("error");
         return;
@@ -305,11 +364,17 @@ export function GesturesPanel({
     }, SAMPLE_CAPTURE_INTERVAL_MS);
 
     return () => window.clearInterval(intervalId);
-  }, [capturedSamples.length, isRecording]);
+  }, [capturedSamples.length, isPreviewReady, isRecording]);
 
   const handleRecord = () => {
     if (!isCameraActive) {
       onStartCamera();
+      return;
+    }
+
+    if (!isPreviewReady) {
+      setCaptureError("Wait until the camera preview is visible before recording.");
+      setHandCaptureStatus("error");
       return;
     }
 
@@ -485,6 +550,12 @@ export function GesturesPanel({
                 autoPlay
                 className="gesture-camera-video"
                 muted
+                onLoadedMetadata={(event) => {
+                  setIsPreviewReady(true);
+                  void event.currentTarget.play();
+                }}
+                onPlaying={() => setIsPreviewReady(true)}
+                onWaiting={() => setIsPreviewReady(false)}
                 playsInline
               />
             ) : (
@@ -492,26 +563,8 @@ export function GesturesPanel({
             )}
             <div className="capture-reticle" />
             <div className="capture-overlay-text">
-              <strong>
-                {countdownRemaining !== null
-                  ? `Starting in ${countdownRemaining}`
-                  : isRecording
-                    ? "Recording gesture"
-                    : "Ready to record"}
-              </strong>
-              <span>
-                {!isCameraActive
-                  ? "Start camera before recording"
-                  : countdownRemaining !== null
-                    ? "Place your hand in the circle"
-                  : handCaptureStatus === "checking"
-                    ? "Checking hand"
-                    : handCaptureStatus === "missing"
-                      ? "Show hand"
-                      : handCaptureStatus === "detected"
-                        ? "Hand detected"
-                        : "Keep hand centered in frame"}
-              </span>
+              <strong>{countdownRemaining !== null ? `Starting in ${countdownRemaining}` : captureInstruction.title}</strong>
+              <span>{captureInstruction.detail}</span>
             </div>
           </div>
 
@@ -547,6 +600,7 @@ export function GesturesPanel({
                     <img alt={`Captured sample ${index + 1}`} src={sample.dataUrl} />
                     <button
                       aria-label={`Delete captured sample ${index + 1}`}
+                      disabled={isRecording || countdownRemaining !== null || isSavingGesture}
                       onClick={() =>
                         setCapturedSamples((current) =>
                           current.filter((item) => item.id !== sample.id)
