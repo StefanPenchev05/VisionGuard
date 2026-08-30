@@ -50,6 +50,32 @@ npm run ai:dev
 npm run desktop:dev
 ```
 
+### Run The AI Service With Docker
+
+If you prefer Docker for the Python AI service, start it with:
+
+```bash
+docker compose up --build ai-models
+```
+
+The container exposes the same local API URL:
+
+```text
+http://127.0.0.1:8765
+```
+
+The Electron app still runs on the host:
+
+```bash
+npm run desktop:dev
+```
+
+Trained model artifacts are persisted in:
+
+```text
+.visionguard/models
+```
+
 ## Demo Flow
 
 ### 1. Start The App
@@ -176,6 +202,10 @@ The AI commands use `services/ai-models/.venv`. If the venv is missing, run:
 ```bash
 npm run ai:setup
 ```
+
+## CI
+
+GitHub Actions runs on pushes, pull requests, and manual dispatch. The pipeline installs Node.js and Python, sets up the AI virtual environment, runs desktop tests/typecheck/build, runs AI tests, and builds the AI Docker image.
 
 ## Troubleshooting
 

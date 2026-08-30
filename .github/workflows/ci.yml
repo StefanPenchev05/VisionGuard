@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    name: Verify app and AI service
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Setup AI virtual environment
+        run: npm run ai:setup
+
+      - name: Test desktop app
+        run: npm run desktop:test
+
+      - name: Typecheck desktop app
+        run: npm run desktop:typecheck
+
+      - name: Build desktop app
+        run: npm run desktop:build
+
+      - name: Test AI service
+        run: npm run ai:test
+
+      - name: Build AI Docker image
+        run: docker compose build ai-models
