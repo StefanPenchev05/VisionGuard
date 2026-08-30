@@ -1,20 +1,20 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-type CameraStatus = "idle" | "requesting" | "active" | "error";
+export type CameraStatus = "idle" | "requesting" | "active" | "error";
 
-function buildCameraConstraints(deviceId: string | null): MediaStreamConstraints {
+export function buildCameraConstraints(deviceId: string | null): MediaStreamConstraints {
   return {
     video: {
       ...(deviceId ? { deviceId: { exact: deviceId } } : {}),
-    width: { ideal: 1920 },
-    height: { ideal: 1080 },
-    frameRate: { ideal: 30 }
-  },
-  audio: false
+      width: { ideal: 1920 },
+      height: { ideal: 1080 },
+      frameRate: { ideal: 30 }
+    },
+    audio: false
   };
 }
 
-function getCameraErrorMessage(error: unknown): string {
+export function getCameraErrorMessage(error: unknown): string {
   if (!(error instanceof DOMException)) {
     return "Camera could not be started.";
   }
@@ -34,6 +34,14 @@ function getCameraErrorMessage(error: unknown): string {
   return error.message || "Camera could not be started.";
 }
 
+function shouldRetryWithDefaultCamera(error: unknown, deviceId: string | null): boolean {
+  return Boolean(
+    deviceId &&
+    error instanceof DOMException &&
+    (error.name === "OverconstrainedError" || error.name === "NotFoundError")
+  );
+}
+
 export function useCameraStream() {
   const [devices, setDevices] = useState<MediaDeviceInfo[]>([]);
   const [selectedDeviceId, setSelectedDeviceId] = useState<string | null>(() =>
@@ -44,6 +52,21 @@ export function useCameraStream() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const activeStreamRef = useRef<MediaStream | null>(null);
   const selectedDeviceIdRef = useRef(selectedDeviceId);
+
+  const setActiveStream = useCallback((mediaStream: MediaStream | null) => {
+    activeStreamRef.current = mediaStream;
+    setStream(mediaStream);
+
+    mediaStream?.getVideoTracks().forEach((track) => {
+      track.onended = () => {
+        if (activeStreamRef.current === mediaStream) {
+          activeStreamRef.current = null;
+          setStream(null);
+          setStatus("idle");
+        }
+      };
+    });
+  }, []);
 
   const refreshDevices = useCallback(async () => {
     if (!navigator.mediaDevices?.enumerateDevices) {
@@ -66,11 +89,13 @@ export function useCameraStream() {
   }, []);
 
   const stopCamera = useCallback(() => {
-    activeStreamRef.current?.getTracks().forEach((track) => track.stop());
-    activeStreamRef.current = null;
-    setStream(null);
+    activeStreamRef.current?.getTracks().forEach((track) => {
+      track.onended = null;
+      track.stop();
+    });
+    setActiveStream(null);
     setStatus("idle");
-  }, []);
+  }, [setActiveStream]);
 
   const startCamera = useCallback(async (deviceId = selectedDeviceIdRef.current) => {
     if (!navigator.mediaDevices?.getUserMedia) {
@@ -83,19 +108,34 @@ export function useCameraStream() {
     setErrorMessage(null);
 
     try {
-      activeStreamRef.current?.getTracks().forEach((track) => track.stop());
-      const mediaStream = await navigator.mediaDevices.getUserMedia(buildCameraConstraints(deviceId));
-      activeStreamRef.current = mediaStream;
-      setStream(mediaStream);
+      activeStreamRef.current?.getTracks().forEach((track) => {
+        track.onended = null;
+        track.stop();
+      });
+      let mediaStream: MediaStream;
+
+      try {
+        mediaStream = await navigator.mediaDevices.getUserMedia(buildCameraConstraints(deviceId));
+      } catch (error) {
+        if (!shouldRetryWithDefaultCamera(error, deviceId)) {
+          throw error;
+        }
+
+        selectedDeviceIdRef.current = null;
+        setSelectedDeviceId(null);
+        window.localStorage.removeItem("visionguard.camera.deviceId");
+        mediaStream = await navigator.mediaDevices.getUserMedia(buildCameraConstraints(null));
+      }
+
+      setActiveStream(mediaStream);
       setStatus("active");
       await refreshDevices();
     } catch (error) {
-      activeStreamRef.current = null;
-      setStream(null);
+      setActiveStream(null);
       setStatus("error");
       setErrorMessage(getCameraErrorMessage(error));
     }
-  }, [refreshDevices]);
+  }, [refreshDevices, setActiveStream]);
 
   const toggleCamera = useCallback(() => {
     if (activeStreamRef.current) {

@@ -27,6 +27,10 @@ type CapturedGestureSample = {
 
 type HandCaptureStatus = "idle" | "checking" | "detected" | "missing" | "error";
 
+const REQUIRED_SAMPLE_COUNT = 12;
+const RECORDING_COUNTDOWN_SECONDS = 3;
+const SAMPLE_CAPTURE_INTERVAL_MS = 700;
+
 type GesturesPanelProps = Readonly<{
   gestures: GestureDefinition[];
   isCameraActive: boolean;
@@ -148,6 +152,7 @@ export function GesturesPanel({
   const [trainingGestureId, setTrainingGestureId] = useState<string | null>(null);
   const [trainingError, setTrainingError] = useState<string | null>(null);
   const [isRecording, setIsRecording] = useState(false);
+  const [countdownRemaining, setCountdownRemaining] = useState<number | null>(null);
   const [selectedGestureId, setSelectedGestureId] = useState<string | null>(
     gestures[0]?.id ?? null
   );
@@ -164,8 +169,8 @@ export function GesturesPanel({
         ? "A gesture with this name already exists."
         : !actionTarget.trim()
           ? "Enter an action target."
-          : capturedSamples.length < 12
-            ? "Capture 12 samples before saving."
+          : capturedSamples.length < REQUIRED_SAMPLE_COUNT
+            ? `Capture ${REQUIRED_SAMPLE_COUNT} samples before saving.`
             : null;
 
   useEffect(() => {
@@ -193,6 +198,37 @@ export function GesturesPanel({
   }, [actionType, selectedAction.target]);
 
   useEffect(() => {
+    if (isCameraActive) {
+      return;
+    }
+
+    setIsRecording(false);
+    setCountdownRemaining(null);
+    setHandCaptureStatus("idle");
+  }, [isCameraActive]);
+
+  useEffect(() => {
+    if (countdownRemaining === null) {
+      return;
+    }
+
+    if (countdownRemaining <= 0) {
+      setCountdownRemaining(null);
+      setIsRecording(true);
+      setHandCaptureStatus("checking");
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setCountdownRemaining((current) => (
+        current === null ? null : Math.max(0, current - 1)
+      ));
+    }, 1_000);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [countdownRemaining]);
+
+  useEffect(() => {
     recordingActiveRef.current = isRecording;
 
     if (!isRecording) {
@@ -205,7 +241,7 @@ export function GesturesPanel({
         return;
       }
 
-      if (capturedSamples.length >= 12) {
+      if (capturedSamples.length >= REQUIRED_SAMPLE_COUNT) {
         window.clearInterval(intervalId);
         setIsRecording(false);
         setHandCaptureStatus("detected");
@@ -254,7 +290,7 @@ export function GesturesPanel({
         setCaptureError(null);
         setHandCaptureStatus("detected");
         setCapturedSamples((current) => (
-          current.length >= 12 ? current : [...current, sample]
+          current.length >= REQUIRED_SAMPLE_COUNT ? current : [...current, sample]
         ));
       }).catch((error: unknown) => {
         if (!recordingActiveRef.current) {
@@ -266,7 +302,7 @@ export function GesturesPanel({
       }).finally(() => {
         handValidationInFlightRef.current = false;
       });
-    }, 420);
+    }, SAMPLE_CAPTURE_INTERVAL_MS);
 
     return () => window.clearInterval(intervalId);
   }, [capturedSamples.length, isRecording]);
@@ -277,7 +313,20 @@ export function GesturesPanel({
       return;
     }
 
-    setIsRecording((current) => !current);
+    if (isRecording || countdownRemaining !== null) {
+      setIsRecording(false);
+      setCountdownRemaining(null);
+      setHandCaptureStatus("idle");
+      return;
+    }
+
+    if (capturedSamples.length >= REQUIRED_SAMPLE_COUNT) {
+      setCaptureError("Reset or save this gesture before recording again.");
+      return;
+    }
+
+    setCountdownRemaining(RECORDING_COUNTDOWN_SECONDS);
+    setCaptureError(null);
     setHandCaptureStatus("idle");
   };
 
@@ -398,14 +447,16 @@ export function GesturesPanel({
 
   const isSelectedGestureTraining = trainingGestureId === selectedGesture?.id;
   const isTrainingApiAvailable = Boolean(window.visionGuard?.training);
-  const selectedGestureCanTrain = Boolean(selectedGesture && selectedGesture.sampleFiles.length >= 12);
+  const selectedGestureCanTrain = Boolean(
+    selectedGesture && selectedGesture.sampleFiles.length >= REQUIRED_SAMPLE_COUNT
+  );
   const selectedTrainingProgress = selectedGesture?.training?.jobProgress ?? 0;
   const selectedTrainingStatus = selectedGesture?.training?.jobStatus;
   const trainingButtonTitle = !isTrainingApiAvailable
     ? "Training is available in the Electron desktop app."
     : selectedGestureCanTrain
     ? "Send saved gesture samples to the local AI service."
-    : "Save at least 12 sample files before training.";
+    : `Save at least ${REQUIRED_SAMPLE_COUNT} sample files before training.`;
 
   return (
     <div className="gestures-workspace">
@@ -423,6 +474,8 @@ export function GesturesPanel({
         <div className="recording-stage">
           <div
             className={`gesture-capture-frame${isRecording ? " is-recording" : ""}${
+              countdownRemaining !== null ? " is-counting-down" : ""
+            }${
               isCameraActive ? " has-video" : ""
             } hand-status-${handCaptureStatus}`}
           >
@@ -439,10 +492,18 @@ export function GesturesPanel({
             )}
             <div className="capture-reticle" />
             <div className="capture-overlay-text">
-              <strong>{isRecording ? "Recording gesture" : "Ready to record"}</strong>
+              <strong>
+                {countdownRemaining !== null
+                  ? `Starting in ${countdownRemaining}`
+                  : isRecording
+                    ? "Recording gesture"
+                    : "Ready to record"}
+              </strong>
               <span>
                 {!isCameraActive
                   ? "Start camera before recording"
+                  : countdownRemaining !== null
+                    ? "Place your hand in the circle"
                   : handCaptureStatus === "checking"
                     ? "Checking hand"
                     : handCaptureStatus === "missing"
@@ -467,14 +528,14 @@ export function GesturesPanel({
             <div className="sample-meter">
               <div>
                 <span>Samples captured</span>
-                <strong>{capturedSamples.length}/12</strong>
+                <strong>{capturedSamples.length}/{REQUIRED_SAMPLE_COUNT}</strong>
               </div>
               <div className="sample-bars">
-                {Array.from({ length: 12 }).map((_, index) => (
+                {Array.from({ length: REQUIRED_SAMPLE_COUNT }).map((_, index) => (
                   <i className={index < capturedSamples.length ? "filled" : ""} key={index} />
                 ))}
               </div>
-              {captureError || validationMessage ? (
+              {captureError || (capturedSamples.length > 0 && validationMessage) ? (
                 <p className="capture-error">{captureError ?? validationMessage}</p>
               ) : null}
             </div>
@@ -506,7 +567,7 @@ export function GesturesPanel({
                 <span>
                   {!isCameraActive
                     ? "Start Camera"
-                    : isRecording
+                    : isRecording || countdownRemaining !== null
                       ? "Pause Recording"
                       : "Record Samples"}
                 </span>
@@ -516,6 +577,7 @@ export function GesturesPanel({
                 type="button"
                 onClick={() => {
                   setIsRecording(false);
+                  setCountdownRemaining(null);
                   setCapturedSamples([]);
                   setCaptureError(null);
                   setHandCaptureStatus("idle");
@@ -526,7 +588,12 @@ export function GesturesPanel({
               </button>
               <button
                 className="secondary-action"
-                disabled={Boolean(validationMessage) || isSavingGesture}
+                disabled={
+                  Boolean(validationMessage) ||
+                  isSavingGesture ||
+                  isRecording ||
+                  countdownRemaining !== null
+                }
                 type="button"
                 onClick={handleSaveGesture}
               >
