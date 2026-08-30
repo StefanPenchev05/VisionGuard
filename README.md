@@ -29,11 +29,13 @@ npm run ai:setup
 
 ## Run
 
-Start the AI service and Electron app together:
+Start the AI service and Electron app in separate Terminal windows:
 
 ```bash
 npm run dev
 ```
+
+This opens one terminal for **VisionGuard AI Models** and one terminal for **VisionGuard Desktop**. Stop only the AI service with `Ctrl+C` in the AI terminal. Stop only the desktop app with `Ctrl+C` in the desktop terminal.
 
 The AI service runs at:
 
@@ -43,11 +45,17 @@ http://127.0.0.1:8765
 
 In the desktop app, open **Settings** to check or change the AI Service URL. The same URL is used for training, training-status polling, and live inference.
 
-You can also run each part separately:
+You can also start each part manually:
 
 ```bash
 npm run ai:dev
 npm run desktop:dev
+```
+
+If you intentionally want the old combined single-terminal runner, use:
+
+```bash
+npm run dev:together
 ```
 
 ### Run The AI Service With Docker
@@ -86,7 +94,7 @@ Run:
 npm run dev
 ```
 
-Wait until the Electron window opens. The dashboard should show whether the AI service is online and whether a model is trained.
+Wait until both terminals start and the Electron window opens. The dashboard should show whether the AI service is online and whether a model is trained.
 
 ### 2. Connect The Camera
 
@@ -172,6 +180,8 @@ On macOS, keyboard and mouse actions may require Accessibility permission.
 
 ```bash
 npm run dev
+npm run dev:split
+npm run dev:together
 npm run ai:dev
 npm run ai:setup
 npm run ai:test

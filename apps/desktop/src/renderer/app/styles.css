@@ -2042,6 +2042,12 @@ h2 {
   color: #ffc3c3;
 }
 
+.training-message.warning {
+  border-color: rgba(255, 189, 68, 0.24);
+  background: rgba(91, 59, 13, 0.24);
+  color: #ffd997;
+}
+
 .training-message svg {
   flex: 0 0 auto;
   margin-top: 1px;

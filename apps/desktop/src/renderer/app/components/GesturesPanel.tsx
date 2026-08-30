@@ -256,6 +256,31 @@ function getTrainingQualityLabel(metrics?: TrainingEvaluationMetrics): string {
   return "Weak separation. Record cleaner samples before demo.";
 }
 
+export function getTrainingReadinessMessage(
+  gestures: Pick<GestureDefinition, "name" | "sampleFiles">[]
+): string | null {
+  const trainableGestures = gestures.filter(
+    (gesture) => gesture.sampleFiles.length >= REQUIRED_SAMPLE_COUNT
+  );
+
+  if (trainableGestures.length >= 2) {
+    return null;
+  }
+
+  const missingGestureCount = 2 - trainableGestures.length;
+  const draftGesture = gestures.find(
+    (gesture) => gesture.sampleFiles.length < REQUIRED_SAMPLE_COUNT
+  );
+
+  if (draftGesture) {
+    const missingSamples = REQUIRED_SAMPLE_COUNT - draftGesture.sampleFiles.length;
+
+    return `${draftGesture.name} needs ${missingSamples} more saved sample${missingSamples === 1 ? "" : "s"}. The model needs 2 gestures with ${REQUIRED_SAMPLE_COUNT} samples each.`;
+  }
+
+  return `Record and save ${missingGestureCount} more gesture${missingGestureCount === 1 ? "" : "s"} with ${REQUIRED_SAMPLE_COUNT} samples each before training.`;
+}
+
 export function GesturesPanel({
   gestures,
   isCameraActive,
@@ -540,7 +565,7 @@ export function GesturesPanel({
     );
 
     if (trainableGestures.length < 2) {
-      setTrainingError("Save at least 2 gestures with 12 samples each before training.");
+      setTrainingError(getTrainingReadinessMessage(gestures));
       return;
     }
 
@@ -653,6 +678,7 @@ export function GesturesPanel({
   const selectedGestureCanTrain = Boolean(
     selectedGesture && trainableGestureCount >= 2
   );
+  const trainingReadinessMessage = getTrainingReadinessMessage(gestures);
   const selectedTrainingProgress = selectedGesture?.training?.jobProgress ?? 0;
   const selectedTrainingStatus = selectedGesture?.training?.jobStatus;
   const selectedTrainingMetrics = selectedGesture?.training?.metrics;
@@ -678,7 +704,7 @@ export function GesturesPanel({
     ? "Training is available in the Electron desktop app."
     : selectedGestureCanTrain
     ? "Train the model with all saved eligible gestures."
-    : `Save at least 2 gestures with ${REQUIRED_SAMPLE_COUNT} samples each before training.`;
+    : trainingReadinessMessage ?? `Save at least 2 gestures with ${REQUIRED_SAMPLE_COUNT} samples each before training.`;
 
   return (
     <div className="gestures-workspace">
@@ -966,7 +992,7 @@ export function GesturesPanel({
               </div>
               <div>
                 <dt>Trainable gestures</dt>
-                <dd>{trainableGestureCount}</dd>
+                <dd>{trainableGestureCount}/2</dd>
               </div>
               <div>
                 <dt>Training job</dt>
@@ -1005,6 +1031,12 @@ export function GesturesPanel({
                       : "Training queued"}{" "}
                   for dataset {selectedGesture.training.datasetId}.
                 </span>
+              </p>
+            ) : null}
+            {trainingReadinessMessage ? (
+              <p className="training-message warning">
+                <AlertCircle size={15} />
+                <span>{trainingReadinessMessage}</span>
               </p>
             ) : null}
             {selectedGesture.training?.jobId ? (
@@ -1088,7 +1120,7 @@ export function GesturesPanel({
             </button>
             <button
               className="primary-action"
-              disabled={!isTrainingApiAvailable || !selectedGestureCanTrain || isSelectedGestureTraining}
+              disabled={!isTrainingApiAvailable || isSelectedGestureTraining}
               onClick={handleSendToTraining}
               title={trainingButtonTitle}
               type="button"

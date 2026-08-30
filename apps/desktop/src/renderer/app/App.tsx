@@ -217,11 +217,8 @@ export function App() {
     const trainableGestures = gestureDefinitions.filter(
       (candidate) => candidate.sampleFiles.length >= 12
     );
-    const trainingPayload = trainableGestures.some((candidate) => candidate.id === gesture.id)
-      ? trainableGestures
-      : [gesture, ...trainableGestures];
 
-    return window.visionGuard.training.startGesture(trainingPayload);
+    return window.visionGuard.training.startGesture(trainableGestures);
   };
 
   const handleTestGestureAction = async (gesture: GestureDefinition) => {

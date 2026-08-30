@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   formatMetricPercent,
   getGestureCaptureInstruction,
+  getTrainingReadinessMessage,
   validateHandSampleQuality
 } from "../../../../../src/renderer/app/components/GesturesPanel";
 
@@ -142,5 +143,60 @@ describe("formatMetricPercent", () => {
     expect(formatMetricPercent(0.916)).toBe("92%");
     expect(formatMetricPercent(null)).toBe("Not available");
     expect(formatMetricPercent(undefined)).toBe("Not available");
+  });
+});
+
+describe("getTrainingReadinessMessage", () => {
+  it("asks for another saved gesture when only one gesture is trainable", () => {
+    expect(
+      getTrainingReadinessMessage([
+        {
+          name: "Open Palm",
+          sampleFiles: Array.from({ length: 12 }).map(() => ({
+            capturedAt: "2026-08-30T00:00:00.000Z",
+            filePath: "/tmp/sample.jpg",
+            id: "sample"
+          }))
+        }
+      ])
+    ).toBe("Record and save 1 more gesture with 12 samples each before training.");
+  });
+
+  it("shows how many samples an incomplete gesture still needs", () => {
+    expect(
+      getTrainingReadinessMessage([
+        {
+          name: "Open Palm",
+          sampleFiles: Array.from({ length: 12 }).map(() => ({
+            capturedAt: "2026-08-30T00:00:00.000Z",
+            filePath: "/tmp/open-palm.jpg",
+            id: "open-palm-sample"
+          }))
+        },
+        {
+          name: "Closed Fist",
+          sampleFiles: Array.from({ length: 9 }).map(() => ({
+            capturedAt: "2026-08-30T00:00:00.000Z",
+            filePath: "/tmp/closed-fist.jpg",
+            id: "closed-fist-sample"
+          }))
+        }
+      ])
+    ).toBe("Closed Fist needs 3 more saved samples. The model needs 2 gestures with 12 samples each.");
+  });
+
+  it("returns no message when two gestures are trainable", () => {
+    const sampleFiles = Array.from({ length: 12 }).map(() => ({
+      capturedAt: "2026-08-30T00:00:00.000Z",
+      filePath: "/tmp/sample.jpg",
+      id: "sample"
+    }));
+
+    expect(
+      getTrainingReadinessMessage([
+        { name: "Open Palm", sampleFiles },
+        { name: "Closed Fist", sampleFiles }
+      ])
+    ).toBeNull();
   });
 });

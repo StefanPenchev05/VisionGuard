@@ -36,6 +36,18 @@ type CameraStats = {
   brightness: "OK" | "Low" | "High";
 };
 
+export function getLiveActionStatusLabel(params: {
+  actionMessage: string;
+  actionsArmed: boolean;
+  hasPrediction: boolean;
+}): string {
+  if (params.actionsArmed) {
+    return params.actionMessage;
+  }
+
+  return params.hasPrediction ? params.actionMessage : "Disarmed";
+}
+
 export function LiveVisionPanel({
   actionExecution,
   actionsArmed,
@@ -158,6 +170,11 @@ export function LiveVisionPanel({
         : inferenceEnabled
           ? "Ready for inference"
           : "Waiting";
+  const actionStatusLabel = getLiveActionStatusLabel({
+    actionMessage: actionExecution.message,
+    actionsArmed,
+    hasPrediction: Boolean(inferenceResult?.bestPrediction)
+  });
 
   return (
     <section className="video-panel" aria-label="Desk Camera live monitor">
@@ -169,11 +186,11 @@ export function LiveVisionPanel({
             aria-pressed={actionsArmed}
             className={`action-arm-button${actionsArmed ? " is-armed" : ""}`}
             onClick={onToggleActionsArmed}
-            title={actionsArmed ? "Desktop actions can execute" : "Predictions run without desktop actions"}
+            title={actionsArmed ? "Desktop actions can execute" : "Click to allow recognized gestures to run desktop actions"}
             type="button"
           >
             {actionsArmed ? <ShieldCheck size={14} /> : <ShieldOff size={14} />}
-            <span>{actionsArmed ? "Actions Armed" : "Actions Off"}</span>
+            <span>{actionsArmed ? "Actions Armed" : "Arm Actions"}</span>
           </button>
           {isCameraActive ? (
             <>
@@ -335,7 +352,7 @@ export function LiveVisionPanel({
               <p>
                 <span>Action</span>
                 <strong className={`action-state ${actionExecution.status}`}>
-                  {actionsArmed ? actionExecution.message : "Disarmed"}
+                  {actionStatusLabel}
                 </strong>
               </p>
             </div>
