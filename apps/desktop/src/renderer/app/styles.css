@@ -1545,6 +1545,7 @@ h2 {
 }
 
 .gesture-capture-frame.hand-status-missing,
+.gesture-capture-frame.hand-status-weak,
 .gesture-capture-frame.hand-status-error {
   border-color: rgba(255, 135, 106, 0.72);
   box-shadow: inset 0 0 46px rgba(255, 135, 106, 0.12);
@@ -1555,6 +1556,7 @@ h2 {
 }
 
 .gesture-capture-frame.hand-status-missing .capture-overlay-text span,
+.gesture-capture-frame.hand-status-weak .capture-overlay-text span,
 .gesture-capture-frame.hand-status-error .capture-overlay-text span {
   color: #ffab96;
 }

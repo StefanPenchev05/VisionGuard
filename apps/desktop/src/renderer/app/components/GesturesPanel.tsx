@@ -30,12 +30,14 @@ type CapturedGestureSample = {
   width?: number;
 };
 
-export type HandCaptureStatus = "idle" | "checking" | "detected" | "missing" | "error";
+export type HandCaptureStatus = "idle" | "checking" | "detected" | "missing" | "weak" | "error";
 export type RecordingLifecycle = "idle" | "counting-down" | "recording" | "complete";
 
 const REQUIRED_SAMPLE_COUNT = 12;
 const RECORDING_COUNTDOWN_SECONDS = 3;
 const SAMPLE_CAPTURE_INTERVAL_MS = 700;
+const MIN_HAND_DETECTION_CONFIDENCE = 0.55;
+const MIN_HAND_LANDMARK_COUNT = 18;
 
 type GesturesPanelProps = Readonly<{
   gestures: GestureDefinition[];
@@ -164,6 +166,10 @@ export function getGestureCaptureInstruction(params: {
     return { detail: "Show hand", title: "Recording paused" };
   }
 
+  if (params.handCaptureStatus === "weak") {
+    return { detail: "Move hand closer and keep it fully visible", title: "Weak hand sample" };
+  }
+
   if (params.handCaptureStatus === "detected") {
     return { detail: "Hand detected", title: "Recording gesture" };
   }
@@ -173,6 +179,40 @@ export function getGestureCaptureInstruction(params: {
   }
 
   return { detail: "Keep hand centered in frame", title: "Ready to record" };
+}
+
+export function validateHandSampleQuality(result: HandPresenceResult): {
+  message: string | null;
+  ok: boolean;
+} {
+  if (!result.handDetected) {
+    return {
+      message: result.reason ?? "Show hand to capture samples.",
+      ok: false
+    };
+  }
+
+  if (
+    typeof result.confidence === "number" &&
+    result.confidence < MIN_HAND_DETECTION_CONFIDENCE
+  ) {
+    return {
+      message: `Hand confidence is ${Math.round(result.confidence * 100)}%. Move hand closer.`,
+      ok: false
+    };
+  }
+
+  if (
+    typeof result.landmarkCount === "number" &&
+    result.landmarkCount < MIN_HAND_LANDMARK_COUNT
+  ) {
+    return {
+      message: `Only ${result.landmarkCount} hand landmarks detected. Show the full hand.`,
+      ok: false
+    };
+  }
+
+  return { message: null, ok: true };
 }
 
 function attachHandMetadata(
@@ -281,6 +321,8 @@ export function GesturesPanel({
   useEffect(() => {
     setGestureName(buildGestureName(actionType));
     setActionTarget(selectedAction.target);
+    setTestActionMessage(null);
+    setTestActionStatus("idle");
   }, [actionType, selectedAction.target]);
 
   useEffect(() => {
@@ -368,9 +410,11 @@ export function GesturesPanel({
           return;
         }
 
-        if (!result.handDetected) {
-          setCaptureError("Show hand to capture samples.");
-          setHandCaptureStatus("missing");
+        const quality = validateHandSampleQuality(result);
+
+        if (!quality.ok) {
+          setCaptureError(quality.message);
+          setHandCaptureStatus(result.handDetected ? "weak" : "missing");
           return;
         }
 
@@ -448,6 +492,8 @@ export function GesturesPanel({
       setCapturedSamples([]);
       setCaptureError(null);
       setHandCaptureStatus("idle");
+      setTestActionMessage(null);
+      setTestActionStatus("idle");
     } catch (error) {
       setCaptureError(error instanceof Error ? error.message : "Could not save gesture samples.");
     } finally {

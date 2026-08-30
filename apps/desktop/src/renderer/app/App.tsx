@@ -190,7 +190,12 @@ export function App() {
     return samples.map((sample) => ({
       capturedAt: sample.capturedAt,
       filePath: sample.dataUrl,
-      id: sample.id
+      handDetected: sample.handDetected,
+      handDetectionConfidence: sample.handDetectionConfidence,
+      handLandmarkCount: sample.handLandmarkCount,
+      height: sample.height,
+      id: sample.id,
+      width: sample.width
     }));
   };
 
