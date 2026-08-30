@@ -8,7 +8,13 @@ export type ActionDecision =
     }
   | {
       prediction: GesturePrediction;
-      reason: "missing-trained-gesture" | "low-confidence" | "cooldown";
+      reason: "actions-disarmed" | "missing-trained-gesture" | "low-confidence";
+      shouldExecute: false;
+    }
+  | {
+      prediction: GesturePrediction;
+      reason: "cooldown";
+      remainingMs: number;
       shouldExecute: false;
     }
   | {
@@ -20,6 +26,7 @@ export type ActionDecision =
 
 type DecideActionExecutionParams = {
   actionCooldownMs: number;
+  actionsArmed: boolean;
   minConfidence: number;
   now: number;
   prediction: GesturePrediction | undefined;
@@ -29,6 +36,7 @@ type DecideActionExecutionParams = {
 
 export function decideActionExecution({
   actionCooldownMs,
+  actionsArmed,
   lastActionAtByGestureId,
   minConfidence,
   now,
@@ -49,10 +57,15 @@ export function decideActionExecution({
     return { prediction, reason: "low-confidence", shouldExecute: false };
   }
 
-  const lastActionAt = lastActionAtByGestureId[gesture.id] ?? 0;
+  if (!actionsArmed) {
+    return { prediction, reason: "actions-disarmed", shouldExecute: false };
+  }
 
-  if (now - lastActionAt < actionCooldownMs) {
-    return { prediction, reason: "cooldown", shouldExecute: false };
+  const lastActionAt = lastActionAtByGestureId[gesture.id] ?? 0;
+  const remainingMs = actionCooldownMs - (now - lastActionAt);
+
+  if (remainingMs > 0) {
+    return { prediction, reason: "cooldown", remainingMs, shouldExecute: false };
   }
 
   return {

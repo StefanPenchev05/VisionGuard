@@ -20,6 +20,7 @@ describe("decideActionExecution", () => {
     expect(
       decideActionExecution({
         actionCooldownMs: 4_000,
+        actionsArmed: true,
         lastActionAtByGestureId: {},
         minConfidence: 0.92,
         now: 10_000,
@@ -33,6 +34,7 @@ describe("decideActionExecution", () => {
     expect(
       decideActionExecution({
         actionCooldownMs: 4_000,
+        actionsArmed: true,
         lastActionAtByGestureId: {},
         minConfidence: 0.92,
         now: 10_000,
@@ -46,10 +48,29 @@ describe("decideActionExecution", () => {
     ).toMatchObject({ reason: "low-confidence", shouldExecute: false });
   });
 
+  it("does not execute when actions are disarmed", () => {
+    expect(
+      decideActionExecution({
+        actionCooldownMs: 4_000,
+        actionsArmed: false,
+        lastActionAtByGestureId: {},
+        minConfidence: 0.92,
+        now: 10_000,
+        prediction: {
+          confidence: 0.96,
+          gestureId: gesture.id,
+          label: gesture.name
+        },
+        trainedGestures: [gesture]
+      })
+    ).toMatchObject({ reason: "actions-disarmed", shouldExecute: false });
+  });
+
   it("does not execute while the gesture is cooling down", () => {
     expect(
       decideActionExecution({
         actionCooldownMs: 4_000,
+        actionsArmed: true,
         lastActionAtByGestureId: {
           [gesture.id]: 8_000
         },
@@ -62,13 +83,14 @@ describe("decideActionExecution", () => {
         },
         trainedGestures: [gesture]
       })
-    ).toMatchObject({ reason: "cooldown", shouldExecute: false });
+    ).toMatchObject({ reason: "cooldown", remainingMs: 2_000, shouldExecute: false });
   });
 
   it("executes confident predictions for trained gestures", () => {
     expect(
       decideActionExecution({
         actionCooldownMs: 4_000,
+        actionsArmed: true,
         lastActionAtByGestureId: {},
         minConfidence: 0.92,
         now: 10_000,

@@ -47,8 +47,13 @@ type GesturesPanelProps = Readonly<{
     samples: CapturedGestureSample[]
   ) => Promise<GestureSample[]>;
   onStartCamera: () => void;
+  onTestAction: (gesture: GestureDefinition) => Promise<{
+    message: string;
+    ok: boolean;
+  }>;
   onStartTraining: (gesture: GestureDefinition) => Promise<{
     dataset: TrainingDataset;
+    gestureIds?: string[];
     job: TrainingJob;
   }>;
   onUpdateGesture: (gesture: GestureDefinition) => void;
@@ -189,6 +194,7 @@ export function GesturesPanel({
   onDeleteGesture,
   onSaveSamples,
   onStartCamera,
+  onTestAction,
   onStartTraining,
   onUpdateGesture,
   persistenceError,
@@ -211,6 +217,9 @@ export function GesturesPanel({
   const [handCaptureStatus, setHandCaptureStatus] = useState<HandCaptureStatus>("idle");
   const [isDeletingGesture, setIsDeletingGesture] = useState(false);
   const [isSavingGesture, setIsSavingGesture] = useState(false);
+  const [testingActionGestureId, setTestingActionGestureId] = useState<string | null>(null);
+  const [testActionMessage, setTestActionMessage] = useState<string | null>(null);
+  const [testActionStatus, setTestActionStatus] = useState<"idle" | "success" | "error">("idle");
   const [trainingGestureId, setTrainingGestureId] = useState<string | null>(null);
   const [trainingError, setTrainingError] = useState<string | null>(null);
   const [isRecording, setIsRecording] = useState(false);
@@ -451,8 +460,12 @@ export function GesturesPanel({
       return;
     }
 
-    if (selectedGesture.sampleFiles.length < REQUIRED_SAMPLE_COUNT) {
-      setTrainingError(`Save at least ${REQUIRED_SAMPLE_COUNT} sample files before training.`);
+    const trainableGestures = gestures.filter(
+      (gesture) => gesture.sampleFiles.length >= REQUIRED_SAMPLE_COUNT
+    );
+
+    if (trainableGestures.length < 2) {
+      setTrainingError("Save at least 2 gestures with 12 samples each before training.");
       return;
     }
 
@@ -471,19 +484,26 @@ export function GesturesPanel({
     try {
       const result = await onStartTraining(selectedGesture);
       const status = result.job.status === "completed" ? "trained" : "training";
+      const trainingGestureIds = result.gestureIds ?? [selectedGesture.id];
 
-      onUpdateGesture({
-        ...selectedGesture,
-        status,
-        training: {
-          datasetId: result.dataset.id,
-          jobId: result.job.id,
-          jobProgress: result.job.progress,
-          jobStatus: result.job.status,
-          queuedAt: result.job.startedAt ?? new Date().toISOString(),
-          updatedAt: new Date().toISOString()
+      for (const gesture of gestures) {
+        if (!trainingGestureIds.includes(gesture.id)) {
+          continue;
         }
-      });
+
+        onUpdateGesture({
+          ...gesture,
+          status,
+          training: {
+            datasetId: result.dataset.id,
+            jobId: result.job.id,
+            jobProgress: result.job.progress,
+            jobStatus: result.job.status,
+            queuedAt: result.job.startedAt ?? new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          }
+        });
+      }
     } catch (error) {
       const message =
         error instanceof Error
@@ -529,10 +549,33 @@ export function GesturesPanel({
     }
   };
 
+  const handleTestAction = async (gesture: GestureDefinition = selectedGesture) => {
+    if (!gesture) return;
+
+    setTestingActionGestureId(gesture.id);
+    setTestActionMessage(null);
+    setTestActionStatus("idle");
+
+    try {
+      const result = await onTestAction(gesture);
+      setTestActionMessage(result.message);
+      setTestActionStatus(result.ok ? "success" : "error");
+    } catch (error) {
+      setTestActionMessage(error instanceof Error ? error.message : "Could not test gesture action.");
+      setTestActionStatus("error");
+    } finally {
+      setTestingActionGestureId(null);
+    }
+  };
+
   const isSelectedGestureTraining = trainingGestureId === selectedGesture?.id;
+  const isSelectedGestureTesting = testingActionGestureId === selectedGesture?.id;
   const isTrainingApiAvailable = Boolean(window.visionGuard?.training);
+  const trainableGestureCount = gestures.filter(
+    (gesture) => gesture.sampleFiles.length >= REQUIRED_SAMPLE_COUNT
+  ).length;
   const selectedGestureCanTrain = Boolean(
-    selectedGesture && selectedGesture.sampleFiles.length >= REQUIRED_SAMPLE_COUNT
+    selectedGesture && trainableGestureCount >= 2
   );
   const selectedTrainingProgress = selectedGesture?.training?.jobProgress ?? 0;
   const selectedTrainingStatus = selectedGesture?.training?.jobStatus;
@@ -550,8 +593,8 @@ export function GesturesPanel({
   const trainingButtonTitle = !isTrainingApiAvailable
     ? "Training is available in the Electron desktop app."
     : selectedGestureCanTrain
-    ? "Send saved gesture samples to the local AI service."
-    : `Save at least ${REQUIRED_SAMPLE_COUNT} sample files before training.`;
+    ? "Train the model with all saved eligible gestures."
+    : `Save at least 2 gestures with ${REQUIRED_SAMPLE_COUNT} samples each before training.`;
 
   return (
     <div className="gestures-workspace">
@@ -838,6 +881,10 @@ export function GesturesPanel({
                 <dd>{selectedGesture.actionTarget}</dd>
               </div>
               <div>
+                <dt>Trainable gestures</dt>
+                <dd>{trainableGestureCount}</dd>
+              </div>
+              <div>
                 <dt>Training job</dt>
                 <dd>{selectedGesture.training?.jobId ?? "Not started"}</dd>
               </div>
@@ -873,6 +920,22 @@ export function GesturesPanel({
                 <span style={{ width: `${Math.round(selectedTrainingProgress * 100)}%` }} />
               </div>
             ) : null}
+            {testActionMessage ? (
+              <p className={`training-message ${testActionStatus === "error" ? "error" : ""}`}>
+                {testActionStatus === "error" ? <AlertCircle size={15} /> : <CheckCircle2 size={15} />}
+                <span>{testActionMessage}</span>
+              </p>
+            ) : null}
+            <button
+              className="secondary-action"
+              disabled={isSelectedGestureTesting || isSelectedGestureTraining || isDeletingGesture}
+              onClick={() => handleTestAction()}
+              title="Run this gesture's desktop action without waiting for live recognition."
+              type="button"
+            >
+              <Power size={18} />
+              <span>{isSelectedGestureTesting ? "Testing..." : "Test Action"}</span>
+            </button>
             <button
               className="primary-action"
               disabled={!isTrainingApiAvailable || !selectedGestureCanTrain || isSelectedGestureTraining}
@@ -881,7 +944,7 @@ export function GesturesPanel({
               type="button"
             >
               <Plus size={18} />
-              <span>{isSelectedGestureTraining ? "Sending..." : "Send To Training"}</span>
+              <span>{isSelectedGestureTraining ? "Training..." : "Train Model"}</span>
             </button>
             <button
               className="secondary-action danger-action"

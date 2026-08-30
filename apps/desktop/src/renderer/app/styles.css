@@ -517,6 +517,34 @@ h2 {
   gap: 7px;
 }
 
+.action-arm-button {
+  height: 24px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 8px;
+  border: 1px solid rgba(255, 178, 42, 0.3);
+  border-radius: 5px;
+  background: rgba(91, 59, 13, 0.36);
+  color: #ffbd44;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.action-arm-button.is-armed {
+  border-color: rgba(80, 220, 142, 0.34);
+  background: rgba(26, 79, 47, 0.72);
+  color: #a8f5c6;
+}
+
+.video-meta .action-arm-button span {
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font-size: inherit;
+}
+
 .video-meta span {
   padding: 4px 8px;
   border-radius: 4px;

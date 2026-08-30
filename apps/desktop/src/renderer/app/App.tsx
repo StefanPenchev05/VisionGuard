@@ -123,8 +123,9 @@ export function App() {
   const [inferenceResult, setInferenceResult] = useState<InferenceResult | null>(null);
   const [inferenceStatus, setInferenceStatus] = useState<"idle" | "running" | "error">("idle");
   const [inferenceError, setInferenceError] = useState<string | null>(null);
+  const [areActionsArmed, setAreActionsArmed] = useState(false);
   const [actionExecutionState, setActionExecutionState] = useState<ActionExecutionState>({
-    message: "Waiting for a trained gesture",
+    message: "Actions disarmed",
     status: "idle"
   });
   const [timelineEvents, setTimelineEvents] = useState<TimelineEvent[]>([]);
@@ -208,7 +209,26 @@ export function App() {
       throw new Error("Training is available only in the Electron desktop app.");
     }
 
-    return window.visionGuard.training.startGesture(gesture);
+    const trainableGestures = gestureDefinitions.filter(
+      (candidate) => candidate.sampleFiles.length >= 12
+    );
+    const trainingPayload = trainableGestures.some((candidate) => candidate.id === gesture.id)
+      ? trainableGestures
+      : [gesture, ...trainableGestures];
+
+    return window.visionGuard.training.startGesture(trainingPayload);
+  };
+
+  const handleTestGestureAction = async (gesture: GestureDefinition) => {
+    if (!window.visionGuard?.actions) {
+      throw new Error("Action testing is available only in the Electron desktop app.");
+    }
+
+    return window.visionGuard.actions.executeGesture({
+      actionTarget: gesture.actionTarget,
+      actionType: gesture.actionType,
+      gestureId: gesture.id
+    });
   };
 
   const handleSaveSettings = async (settings: AppSettings) => {
@@ -252,6 +272,18 @@ export function App() {
     ].slice(0, 20));
   }, []);
 
+  const handleToggleActionsArmed = useCallback(() => {
+    setAreActionsArmed((current) => {
+      const next = !current;
+      lastActionAtRef.current = {};
+      setActionExecutionState({
+        message: next ? "Actions armed" : "Actions disarmed",
+        status: next ? "success" : "idle"
+      });
+      return next;
+    });
+  }, []);
+
   const handleInferenceFrame = useCallback(
     async (frame: CapturedInferenceFrame) => {
       if (!window.visionGuard?.inference || !isInferenceEnabled || inferenceInFlightRef.current) {
@@ -273,6 +305,7 @@ export function App() {
 
         const decision = decideActionExecution({
           actionCooldownMs: ACTION_COOLDOWN_MS,
+          actionsArmed: areActionsArmed,
           lastActionAtByGestureId: lastActionAtRef.current,
           minConfidence: ACTION_EXECUTION_MIN_CONFIDENCE,
           now: Date.now(),
@@ -293,7 +326,12 @@ export function App() {
             });
           } else if (decision.reason === "cooldown") {
             setActionExecutionState({
-              message: "Action cooldown active",
+              message: `Cooldown ${Math.ceil(decision.remainingMs / 1000)}s`,
+              status: "idle"
+            });
+          } else if (decision.reason === "actions-disarmed") {
+            setActionExecutionState({
+              message: "Actions disarmed - predictions only",
               status: "idle"
             });
           } else {
@@ -361,7 +399,7 @@ export function App() {
         inferenceInFlightRef.current = false;
       }
     },
-    [addTimelineEvent, isInferenceEnabled, trainedGestures]
+    [addTimelineEvent, areActionsArmed, isInferenceEnabled, trainedGestures]
   );
 
   useEffect(() => {
@@ -533,6 +571,7 @@ export function App() {
             onSaveSamples={handleSaveGestureSamples}
             onStartCamera={camera.startCamera}
             onStartTraining={handleStartGestureTraining}
+            onTestAction={handleTestGestureAction}
             onUpdateGesture={(updatedGesture) =>
               setGestureDefinitions((current) =>
                 current.map((gesture) =>
@@ -549,6 +588,7 @@ export function App() {
             <div className="main-column">
               <LiveVisionPanel
                 actionExecution={actionExecutionState}
+                actionsArmed={areActionsArmed}
                 aiServiceStatus={aiServiceStatus}
                 errorMessage={camera.errorMessage}
                 inferenceEnabled={isInferenceEnabled}
@@ -557,6 +597,7 @@ export function App() {
                 inferenceStatus={inferenceStatus}
                 isCameraActive={camera.isCameraActive}
                 onInferenceFrame={handleInferenceFrame}
+                onToggleActionsArmed={handleToggleActionsArmed}
                 status={camera.status}
                 stream={camera.stream}
               />

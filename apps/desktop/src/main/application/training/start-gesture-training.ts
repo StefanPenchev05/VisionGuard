@@ -24,6 +24,7 @@ type DesktopGestureForTraining = GestureLabel & {
 
 export type StartGestureTrainingResult = {
   dataset: TrainingDataset;
+  gestureIds: string[];
   job: TrainingJob;
 };
 
@@ -91,8 +92,26 @@ function parseDesktopGesture(value: unknown): DesktopGestureForTraining {
   } as DesktopGestureForTraining;
 }
 
-function buildSampleReferences(gesture: DesktopGestureForTraining): GestureSampleReference[] {
-  return gesture.sampleFiles.map((sample) => ({
+function parseDesktopGestures(value: unknown): DesktopGestureForTraining[] {
+  const gestures = Array.isArray(value)
+    ? value.map(parseDesktopGesture)
+    : [parseDesktopGesture(value)];
+
+  const uniqueGestureIds = new Set(gestures.map((gesture) => gesture.id));
+
+  if (uniqueGestureIds.size !== gestures.length) {
+    throw new TypeError("Gesture training payload contains duplicate gesture ids.");
+  }
+
+  if (gestures.length < 2) {
+    throw new TypeError("Train at least 2 saved gestures so the model can distinguish classes.");
+  }
+
+  return gestures;
+}
+
+function buildSampleReferences(gestures: DesktopGestureForTraining[]): GestureSampleReference[] {
+  return gestures.flatMap((gesture) => gesture.sampleFiles.map((sample) => ({
     capturedAt: sample.capturedAt,
     filePath: sample.filePath,
     gestureId: gesture.id,
@@ -103,29 +122,30 @@ function buildSampleReferences(gesture: DesktopGestureForTraining): GestureSampl
     id: sample.id,
     source: "desktop-camera",
     width: sample.width
-  }));
+  })));
 }
 
 export async function startGestureTraining(
   gesturePayload: unknown,
   client?: GestureTrainingClient
 ): Promise<StartGestureTrainingResult> {
-  const gesture = parseDesktopGesture(gesturePayload);
+  const gestures = parseDesktopGestures(gesturePayload);
   const aiClient = client ?? new HttpAiModelClient({
     baseUrl: await getAiServiceBaseUrl(),
     requestTimeoutMs: 10_000
   });
-  const label: GestureLabel = {
+
+  const labels: GestureLabel[] = gestures.map((gesture) => ({
     actionTarget: gesture.actionTarget,
     actionType: gesture.actionType,
     id: gesture.id,
     name: gesture.name
-  };
+  }));
 
   const dataset = await aiClient.createTrainingDataset({
-    labels: [label],
-    name: `${gesture.name} Gesture Dataset`,
-    samples: buildSampleReferences(gesture)
+    labels,
+    name: `${labels.length} Gesture Recognition Dataset`,
+    samples: buildSampleReferences(gestures)
   });
   const job = await aiClient.trainGestureModel({
     datasetId: dataset.id,
@@ -136,5 +156,5 @@ export async function startGestureTraining(
     }
   });
 
-  return { dataset, job };
+  return { dataset, gestureIds: labels.map((label) => label.id), job };
 }

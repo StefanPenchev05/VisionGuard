@@ -1,3 +1,4 @@
+import { ShieldCheck, ShieldOff } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { InferenceResult, ModelStatus } from "@visionguard/shared-kernel/contracts/ai";
 
@@ -6,6 +7,7 @@ type LiveVisionPanelProps = {
     message: string;
     status: "idle" | "executing" | "success" | "warning";
   };
+  actionsArmed: boolean;
   aiServiceStatus: {
     errorMessage?: string;
     modelStatus?: ModelStatus;
@@ -22,6 +24,7 @@ type LiveVisionPanelProps = {
     dataUrl: string;
     frameId: string;
   }) => void;
+  onToggleActionsArmed: () => void;
   status: "idle" | "requesting" | "active" | "error";
   stream: MediaStream | null;
 };
@@ -35,6 +38,7 @@ type CameraStats = {
 
 export function LiveVisionPanel({
   actionExecution,
+  actionsArmed,
   aiServiceStatus,
   errorMessage,
   inferenceEnabled,
@@ -43,6 +47,7 @@ export function LiveVisionPanel({
   inferenceStatus,
   isCameraActive,
   onInferenceFrame,
+  onToggleActionsArmed,
   status,
   stream
 }: LiveVisionPanelProps) {
@@ -159,6 +164,17 @@ export function LiveVisionPanel({
       <div className="video-toolbar">
         <strong>Desk Camera</strong>
         <div className="video-meta">
+          <button
+            aria-label={actionsArmed ? "Disarm desktop actions" : "Arm desktop actions"}
+            aria-pressed={actionsArmed}
+            className={`action-arm-button${actionsArmed ? " is-armed" : ""}`}
+            onClick={onToggleActionsArmed}
+            title={actionsArmed ? "Desktop actions can execute" : "Predictions run without desktop actions"}
+            type="button"
+          >
+            {actionsArmed ? <ShieldCheck size={14} /> : <ShieldOff size={14} />}
+            <span>{actionsArmed ? "Actions Armed" : "Actions Off"}</span>
+          </button>
           {isCameraActive ? (
             <>
               <span>{resolutionLabel}</span>
@@ -319,7 +335,7 @@ export function LiveVisionPanel({
               <p>
                 <span>Action</span>
                 <strong className={`action-state ${actionExecution.status}`}>
-                  {actionExecution.message}
+                  {actionsArmed ? actionExecution.message : "Disarmed"}
                 </strong>
               </p>
             </div>

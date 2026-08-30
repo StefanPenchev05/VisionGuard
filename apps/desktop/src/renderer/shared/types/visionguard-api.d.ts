@@ -86,8 +86,9 @@ declare global {
       };
       training: {
         getJob: (jobId: string) => Promise<TrainingJob>;
-        startGesture: (gesture: GestureDefinition) => Promise<{
+        startGesture: (gesture: GestureDefinition | GestureDefinition[]) => Promise<{
           dataset: TrainingDataset;
+          gestureIds?: string[];
           job: TrainingJob;
         }>;
       };

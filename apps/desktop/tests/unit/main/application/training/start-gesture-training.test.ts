@@ -7,15 +7,15 @@ import type {
   TrainingJob
 } from "@visionguard/shared-kernel/contracts/ai";
 
-function buildGesture(sampleCount = 12) {
+function buildGesture(id = "gesture-open-palm", name = "Open Palm", sampleCount = 12) {
   return {
     actionTarget: "Safari",
     actionType: "open-app",
-    id: "gesture-open-palm",
-    name: "Open Palm",
+    id,
+    name,
     sampleFiles: Array.from({ length: sampleCount }).map((_, index) => ({
       capturedAt: "2026-08-21T00:00:00.000Z",
-      filePath: `/tmp/sample-${index + 1}.jpg`,
+      filePath: `/tmp/${id}-sample-${index + 1}.jpg`,
       handDetected: true,
       handDetectionConfidence: 0.9,
       handLandmarkCount: 21,
@@ -27,14 +27,14 @@ function buildGesture(sampleCount = 12) {
 }
 
 describe("startGestureTraining", () => {
-  it("creates a dataset from saved gesture sample files and starts a training job", async () => {
+  it("creates a multi-gesture dataset from saved sample files and starts a training job", async () => {
     const createTrainingDataset = vi
       .fn(async (_request: CreateTrainingDatasetRequest): Promise<TrainingDataset> => ({
         createdAt: "2026-08-21T00:00:00.000Z",
         id: "dataset-1",
         labels: [],
-        name: "Open Palm Gesture Dataset",
-        sampleCount: 12,
+        name: "2 Gesture Recognition Dataset",
+        sampleCount: 24,
         updatedAt: "2026-08-21T00:00:00.000Z"
       }));
     const trainGestureModel = vi
@@ -47,7 +47,10 @@ describe("startGestureTraining", () => {
       }));
 
     await expect(
-      startGestureTraining(buildGesture(), {
+      startGestureTraining([
+        buildGesture(),
+        buildGesture("gesture-closed-fist", "Closed Fist")
+      ], {
         createTrainingDataset,
         trainGestureModel
       })
@@ -63,18 +66,29 @@ describe("startGestureTraining", () => {
           actionType: "open-app",
           id: "gesture-open-palm",
           name: "Open Palm"
+        },
+        {
+          actionTarget: "Safari",
+          actionType: "open-app",
+          id: "gesture-closed-fist",
+          name: "Closed Fist"
         }
       ],
-      name: "Open Palm Gesture Dataset",
+      name: "2 Gesture Recognition Dataset",
       samples: expect.arrayContaining([
         expect.objectContaining({
-          filePath: "/tmp/sample-1.jpg",
+          filePath: "/tmp/gesture-open-palm-sample-1.jpg",
           gestureId: "gesture-open-palm",
           handDetected: true,
           handDetectionConfidence: 0.9,
           handLandmarkCount: 21,
           height: 720,
           width: 1280,
+          source: "desktop-camera"
+        }),
+        expect.objectContaining({
+          filePath: "/tmp/gesture-closed-fist-sample-1.jpg",
+          gestureId: "gesture-closed-fist",
           source: "desktop-camera"
         })
       ])
@@ -90,9 +104,19 @@ describe("startGestureTraining", () => {
   });
 
   it("rejects gestures without enough saved sample files", async () => {
-    await expect(startGestureTraining(buildGesture(11), {
+    await expect(startGestureTraining([
+      buildGesture("gesture-open-palm", "Open Palm", 11),
+      buildGesture("gesture-closed-fist", "Closed Fist")
+    ], {
       createTrainingDataset: vi.fn(),
       trainGestureModel: vi.fn()
     })).rejects.toThrow("Gesture needs at least 12 saved samples before training.");
+  });
+
+  it("rejects one-class training payloads", async () => {
+    await expect(startGestureTraining(buildGesture(), {
+      createTrainingDataset: vi.fn(),
+      trainGestureModel: vi.fn()
+    })).rejects.toThrow("Train at least 2 saved gestures so the model can distinguish classes.");
   });
 });
