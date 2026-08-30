@@ -15,6 +15,15 @@ type GestureActionRequest = {
   gestureId: string;
 };
 
+const supportedActionTypes: ReadonlySet<GestureActionRequest["actionType"]> = new Set([
+  "keyboard-shortcut",
+  "mouse-click",
+  "mute",
+  "open-app",
+  "volume-down",
+  "volume-up"
+]);
+
 type GestureActionResult = {
   executedAt: string;
   gestureId: string;
@@ -33,6 +42,10 @@ function parseRequest(value: unknown): GestureActionRequest {
     request.actionTarget.trim().length === 0
   ) {
     throw new TypeError("Gesture action payload is invalid.");
+  }
+
+  if (!supportedActionTypes.has(request.actionType as GestureActionRequest["actionType"])) {
+    throw new TypeError(`Unsupported gesture action type: ${request.actionType}`);
   }
 
   return {

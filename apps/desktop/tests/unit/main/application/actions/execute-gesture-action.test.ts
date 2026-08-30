@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { buildVolumeAdjustmentScript } from "../../../../../src/main/application/actions/execute-gesture-action";
+import {
+  buildVolumeAdjustmentScript,
+  executeGestureAction
+} from "../../../../../src/main/application/actions/execute-gesture-action";
 
 describe("execute-gesture-action", () => {
   it("builds clamped volume adjustment AppleScript", () => {
@@ -13,5 +16,15 @@ describe("execute-gesture-action", () => {
     ]);
 
     expect(buildVolumeAdjustmentScript(10)[1]).toBe("set nextVolume to currentVolume + 10");
+  });
+
+  it("rejects unsupported action types before execution", async () => {
+    await expect(
+      executeGestureAction({
+        actionTarget: "Safari",
+        actionType: "bad-action",
+        gestureId: "gesture-1"
+      })
+    ).rejects.toThrow("Unsupported gesture action type: bad-action");
   });
 });

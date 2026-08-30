@@ -10,6 +10,7 @@ import { IdentityPanel } from "./components/IdentityPanel";
 import { LiveVisionPanel } from "./components/LiveVisionPanel";
 import { ModelHealth } from "./components/ModelHealth";
 import { SecondaryViews } from "./components/SecondaryViews";
+import { decideActionExecution } from "./services/live-inference-decision";
 import { useCameraStream } from "../shared/hooks/useCameraStream";
 import { usePersistentGestures } from "../shared/hooks/usePersistentGestures";
 import type { AppView } from "./data";
@@ -61,7 +62,12 @@ const ACTION_COOLDOWN_MS = 4_000;
 type CapturedGestureSample = {
   capturedAt: string;
   dataUrl: string;
+  handDetected?: boolean;
+  handDetectionConfidence?: number | null;
+  handLandmarkCount?: number | null;
+  height?: number;
   id: string;
+  width?: number;
 };
 
 type CapturedInferenceFrame = {
@@ -80,6 +86,11 @@ type AiServiceStatus = {
   modelStatus?: ModelStatus;
   ok: boolean;
   serviceUrl: string;
+};
+
+type ActionExecutionState = {
+  message: string;
+  status: "idle" | "executing" | "success" | "warning";
 };
 
 function mapTrainingJobToGestureStatus(job: TrainingJob): GestureDefinition["status"] {
@@ -112,6 +123,10 @@ export function App() {
   const [inferenceResult, setInferenceResult] = useState<InferenceResult | null>(null);
   const [inferenceStatus, setInferenceStatus] = useState<"idle" | "running" | "error">("idle");
   const [inferenceError, setInferenceError] = useState<string | null>(null);
+  const [actionExecutionState, setActionExecutionState] = useState<ActionExecutionState>({
+    message: "Waiting for a trained gesture",
+    status: "idle"
+  });
   const [timelineEvents, setTimelineEvents] = useState<TimelineEvent[]>([]);
   const [appSettings, setAppSettings] = useState<AppSettings>({
     aiServiceUrl: "http://127.0.0.1:8765"
@@ -256,31 +271,54 @@ export function App() {
         setInferenceError(null);
         setInferenceStatus("idle");
 
-        const prediction = result.bestPrediction;
-        const matchedGesture = prediction
-          ? gestureDefinitions.find(
-              (gesture) => gesture.id === prediction.gestureId && gesture.status === "trained"
-            )
-          : null;
+        const decision = decideActionExecution({
+          actionCooldownMs: ACTION_COOLDOWN_MS,
+          lastActionAtByGestureId: lastActionAtRef.current,
+          minConfidence: ACTION_EXECUTION_MIN_CONFIDENCE,
+          now: Date.now(),
+          prediction: result.bestPrediction,
+          trainedGestures
+        });
 
-        if (
-          !prediction ||
-          !matchedGesture ||
-          prediction.confidence < ACTION_EXECUTION_MIN_CONFIDENCE
-        ) {
+        if (!decision.shouldExecute) {
+          if (decision.reason === "missing-prediction") {
+            setActionExecutionState({
+              message: "No gesture ready for action",
+              status: "idle"
+            });
+          } else if (decision.reason === "low-confidence") {
+            setActionExecutionState({
+              message: `Gesture seen at ${Math.round(decision.prediction.confidence * 100)}%, waiting for ${Math.round(ACTION_EXECUTION_MIN_CONFIDENCE * 100)}%`,
+              status: "idle"
+            });
+          } else if (decision.reason === "cooldown") {
+            setActionExecutionState({
+              message: "Action cooldown active",
+              status: "idle"
+            });
+          } else {
+            setActionExecutionState({
+              message: "Prediction does not match a trained gesture",
+              status: "warning"
+            });
+          }
           return;
         }
 
         const now = Date.now();
-        const lastActionAt = lastActionAtRef.current[matchedGesture.id] ?? 0;
-
-        if (now - lastActionAt < ACTION_COOLDOWN_MS) {
-          return;
-        }
-
+        const matchedGesture = decision.gesture;
+        const prediction = decision.prediction;
         lastActionAtRef.current[matchedGesture.id] = now;
+        setActionExecutionState({
+          message: `Executing ${matchedGesture.actionTarget}`,
+          status: "executing"
+        });
 
         if (!window.visionGuard.actions) {
+          setActionExecutionState({
+            message: "Action execution is available only in Electron",
+            status: "warning"
+          });
           addTimelineEvent({
             category: "gesture",
             confidence: prediction.confidence,
@@ -298,6 +336,11 @@ export function App() {
           gestureId: matchedGesture.id
         });
 
+        setActionExecutionState({
+          message: actionResult.message,
+          status: actionResult.ok ? "success" : "warning"
+        });
+
         addTimelineEvent({
           category: "gesture",
           confidence: prediction.confidence,
@@ -308,12 +351,17 @@ export function App() {
         });
       } catch (error) {
         setInferenceStatus("error");
-        setInferenceError(error instanceof Error ? error.message : "Gesture inference failed.");
+        const message = error instanceof Error ? error.message : "Gesture inference failed.";
+        setInferenceError(message);
+        setActionExecutionState({
+          message,
+          status: "warning"
+        });
       } finally {
         inferenceInFlightRef.current = false;
       }
     },
-    [addTimelineEvent, gestureDefinitions, isInferenceEnabled]
+    [addTimelineEvent, isInferenceEnabled, trainedGestures]
   );
 
   useEffect(() => {
@@ -500,6 +548,7 @@ export function App() {
           <div className="dashboard-grid">
             <div className="main-column">
               <LiveVisionPanel
+                actionExecution={actionExecutionState}
                 aiServiceStatus={aiServiceStatus}
                 errorMessage={camera.errorMessage}
                 inferenceEnabled={isInferenceEnabled}

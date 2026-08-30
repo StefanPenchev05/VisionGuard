@@ -863,6 +863,7 @@ h2 {
 
 .tracking-stats {
   right: 14px;
+  width: 190px;
 }
 
 .camera-stats p,
@@ -878,6 +879,25 @@ h2 {
 .tracking-stats strong {
   color: #51e49d;
   font-weight: 650;
+}
+
+.tracking-stats .action-state {
+  max-width: 104px;
+  color: #cfe7ef;
+  overflow-wrap: anywhere;
+  text-align: right;
+}
+
+.tracking-stats .action-state.executing {
+  color: #f5c266;
+}
+
+.tracking-stats .action-state.success {
+  color: #7ff370;
+}
+
+.tracking-stats .action-state.warning {
+  color: #ffab96;
 }
 
 .model-health {

@@ -9,7 +9,12 @@ import type { GestureActionType, GestureDefinition, GestureSample } from "../../
 type CapturedGestureSample = {
   capturedAt: string;
   dataUrl: string;
+  handDetected?: boolean;
+  handDetectionConfidence?: number | null;
+  handLandmarkCount?: number | null;
+  height?: number;
   id: string;
+  width?: number;
 };
 
 declare global {

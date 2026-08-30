@@ -2,6 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import type { InferenceResult, ModelStatus } from "@visionguard/shared-kernel/contracts/ai";
 
 type LiveVisionPanelProps = {
+  actionExecution: {
+    message: string;
+    status: "idle" | "executing" | "success" | "warning";
+  };
   aiServiceStatus: {
     errorMessage?: string;
     modelStatus?: ModelStatus;
@@ -30,6 +34,7 @@ type CameraStats = {
 };
 
 export function LiveVisionPanel({
+  actionExecution,
   aiServiceStatus,
   errorMessage,
   inferenceEnabled,
@@ -310,6 +315,12 @@ export function LiveVisionPanel({
               <p>
                 <span>State</span>
                 <strong>{readinessLabel}</strong>
+              </p>
+              <p>
+                <span>Action</span>
+                <strong className={`action-state ${actionExecution.status}`}>
+                  {actionExecution.message}
+                </strong>
               </p>
             </div>
           </>
