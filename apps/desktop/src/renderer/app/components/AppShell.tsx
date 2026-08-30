@@ -17,6 +17,7 @@ type AppShellProps = Readonly<{
   activeView: AppView;
   children: React.ReactNode;
   cameraDevices: MediaDeviceInfo[];
+  cameraStatusLabel: string;
   isCameraActive: boolean;
   isCameraRequesting: boolean;
   onCalibrate: () => void;
@@ -31,6 +32,7 @@ type AppShellProps = Readonly<{
 export function AppShell({
   activeView,
   cameraDevices,
+  cameraStatusLabel,
   children,
   isCameraActive,
   isCameraRequesting,
@@ -57,6 +59,7 @@ export function AppShell({
     cameraDevices.find((device) => device.deviceId === selectedCameraId)?.label ||
     cameraDevices[0]?.label ||
     "Desk Camera";
+  const cameraLabel = cameraDevices.length > 0 ? selectedCameraLabel : cameraStatusLabel;
 
   return (
     <div className={`app-shell${isSidebarCollapsed ? " sidebar-collapsed" : ""}${themeMode === "bright" ? " bright-mode" : ""}`}>
@@ -119,6 +122,7 @@ export function AppShell({
             <Camera size={18} />
             <select
               aria-label="Camera device"
+              disabled={isCameraRequesting || cameraDevices.length === 0}
               onChange={(event) => onSelectCamera(event.target.value)}
               onFocus={onRefreshCameras}
               value={selectedCameraId ?? cameraDevices[0]?.deviceId ?? ""}
@@ -133,7 +137,10 @@ export function AppShell({
                 ))
               )}
             </select>
-            <span title={selectedCameraLabel}>{selectedCameraLabel}</span>
+            <span title={cameraLabel}>{cameraLabel}</span>
+            <strong className={`camera-health ${isCameraActive ? "is-active" : ""}`}>
+              {cameraStatusLabel}
+            </strong>
           </label>
 
           <button

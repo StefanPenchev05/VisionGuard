@@ -91,7 +91,7 @@ function createGesture(
     name,
     sampleFiles,
     samples: sampleFiles.length,
-    status: sampleFiles.length >= 12 ? "ready" : "draft"
+    status: sampleFiles.length >= REQUIRED_SAMPLE_COUNT ? "ready" : "draft"
   };
 }
 
@@ -367,8 +367,8 @@ export function GesturesPanel({
       return;
     }
 
-    if (selectedGesture.sampleFiles.length < 12) {
-      setTrainingError("Save at least 12 sample files before training.");
+    if (selectedGesture.sampleFiles.length < REQUIRED_SAMPLE_COUNT) {
+      setTrainingError(`Save at least ${REQUIRED_SAMPLE_COUNT} sample files before training.`);
       return;
     }
 

@@ -284,11 +284,11 @@ button:disabled {
 
 .camera-select {
   position: relative;
-  min-width: 220px;
+  min-width: 250px;
   height: 38px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
   padding: 0 12px;
   color: #f0f6f7;
   font-size: 0.86rem;
@@ -304,9 +304,30 @@ button:disabled {
 
 .camera-select span {
   min-width: 0;
+  flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.camera-select select:disabled {
+  cursor: not-allowed;
+}
+
+.camera-health {
+  flex: 0 0 auto;
+  max-width: 116px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #a8b7be;
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.camera-health.is-active {
+  color: #8afa74;
 }
 
 .topbar {

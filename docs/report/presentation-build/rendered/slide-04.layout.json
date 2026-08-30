@@ -2,15 +2,15 @@
   "schema": "openai.presentation.layout/v4",
   "unit": "px",
   "slide": {
-    "aid": "sl/sfgdov",
-    "id": "sfgdov",
+    "aid": "sl/tnmc08",
+    "id": "tnmc08",
     "slide": 4,
-    "layoutId": "45acdb32-d4b9-4ca6-9b59-f174dea2ec30",
+    "layoutId": "cb145558-2755-41f3-8894-c55854af6c20",
     "layoutName": "Title Slide",
     "layoutType": "title",
-    "masterLayoutId": "dc448232-15f3-4e48-8bee-9c0a57b22431",
+    "masterLayoutId": "e14c3c45-0f6b-482a-98eb-874386684769",
     "masterLayoutName": "Master",
-    "backgroundColor": "#FFFFFF",
+    "backgroundColor": "#071014",
     "frame": {
       "left": 0,
       "top": 0,
@@ -45,15 +45,15 @@
   "inheritedLayers": [
     {
       "scope": "layout",
-      "id": "45acdb32-d4b9-4ca6-9b59-f174dea2ec30",
+      "id": "cb145558-2755-41f3-8894-c55854af6c20",
       "name": "Title Slide",
       "type": "title",
-      "parentLayoutId": "dc448232-15f3-4e48-8bee-9c0a57b22431",
+      "parentLayoutId": "e14c3c45-0f6b-482a-98eb-874386684769",
       "elements": []
     },
     {
       "scope": "master",
-      "id": "dc448232-15f3-4e48-8bee-9c0a57b22431",
+      "id": "e14c3c45-0f6b-482a-98eb-874386684769",
       "name": "Master",
       "type": "master",
       "elements": []
@@ -64,8 +64,26 @@
       "order": 1,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/v61cv6p4",
+      "aid": "sh/4rat8v2h",
       "id": "1",
+      "name": "dark-background",
+      "bbox": [
+        0,
+        0,
+        1280,
+        720
+      ],
+      "geometry": "rect",
+      "fillColor": "#071014",
+      "lineColor": "#071014",
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/jq1szqlw",
+      "id": "2",
       "name": "kicker",
       "bbox": [
         48,
@@ -81,7 +99,7 @@
         "anchor": 1,
         "fontSize": 17,
         "typeface": "+mn-lt",
-        "color": "#127C95",
+        "color": "#67E8F9",
         "bold": true,
         "alignment": "left",
         "verticalAlignment": "top",
@@ -107,7 +125,7 @@
           "text": "VISIONGUARD",
           "resolvedTextStyle": {
             "fontSize": 17,
-            "color": "#127C95",
+            "color": "#67E8F9",
             "bold": true,
             "alignment": "left"
           },
@@ -116,77 +134,7 @@
               "index": 1,
               "text": "VISIONGUARD",
               "fontSize": 17,
-              "color": "#127C95",
-              "bold": true,
-              "alignment": "left"
-            }
-          ],
-          "marginLeft": 0
-        }
-      ],
-      "lineWidth": 0
-    },
-    {
-      "order": 2,
-      "kind": "shape",
-      "scope": "slide",
-      "aid": "sh/w7adob6p",
-      "id": "2",
-      "name": "slide-title",
-      "bbox": [
-        48,
-        72,
-        1030,
-        96
-      ],
-      "geometry": "rect",
-      "text": "The architecture separates UI, desktop control, and AI work",
-      "textPreview": "The architecture separates UI, desktop control, and AI work",
-      "resolvedFontSize": 42,
-      "resolvedTextStyle": {
-        "anchor": 1,
-        "fontSize": 42,
-        "typeface": "+mn-lt",
-        "color": "#050505",
-        "bold": true,
-        "alignment": "left",
-        "verticalAlignment": "top",
-        "insets": {
-          "top": 4.8,
-          "right": 9.6,
-          "bottom": 4.8,
-          "left": 9.6
-        }
-      },
-      "textLayout": {
-        "lineCount": 2,
-        "lines": [
-          {
-            "index": 1,
-            "text": "The architecture separates UI, desktop control,"
-          },
-          {
-            "index": 2,
-            "text": "and AI work"
-          }
-        ]
-      },
-      "paragraphs": [
-        {
-          "index": 1,
-          "text": "The architecture separates UI, desktop control, and AI work",
-          "resolvedTextStyle": {
-            "fontSize": 42,
-            "color": "#050505",
-            "bold": true,
-            "alignment": "left"
-          },
-          "runs": [
-            {
-              "index": 1,
-              "text": "The architecture separates UI, desktop control, and AI work",
-              "fontSize": 42,
-              "color": "#050505",
+              "color": "#67E8F9",
               "bold": true,
               "alignment": "left"
             }
@@ -200,8 +148,74 @@
       "order": 3,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/h8juxg7u",
+      "aid": "sh/ipsr6lkb",
       "id": "3",
+      "name": "slide-title",
+      "bbox": [
+        48,
+        72,
+        1030,
+        96
+      ],
+      "geometry": "rect",
+      "text": "UI, desktop control, and AI stay separate",
+      "textPreview": "UI, desktop control, and AI stay separate",
+      "resolvedFontSize": 42,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 42,
+        "typeface": "+mn-lt",
+        "color": "#F5FAFC",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "UI, desktop control, and AI stay separate"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "UI, desktop control, and AI stay separate",
+          "resolvedTextStyle": {
+            "fontSize": 42,
+            "color": "#F5FAFC",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "UI, desktop control, and AI stay separate",
+              "fontSize": 42,
+              "color": "#F5FAFC",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/tg3a503y",
+      "id": "4",
       "name": "flow-0",
       "bbox": [
         78,
@@ -210,16 +224,16 @@
         156
       ],
       "geometry": "roundRect",
-      "fillColor": "#FFFFFF",
-      "lineColor": "#B8BCC4",
+      "fillColor": "#071014",
+      "lineColor": "#254854",
       "lineWidth": 1
     },
     {
-      "order": 4,
+      "order": 5,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/i9svq1of",
-      "id": "4",
+      "aid": "sh/sfutcv2t",
+      "id": "5",
       "name": "flow-0-title",
       "bbox": [
         96,
@@ -235,7 +249,7 @@
         "anchor": 1,
         "fontSize": 22,
         "typeface": "+mn-lt",
-        "color": "#050505",
+        "color": "#F5FAFC",
         "bold": true,
         "alignment": "left",
         "verticalAlignment": "top",
@@ -261,7 +275,7 @@
           "text": "React renderer",
           "resolvedTextStyle": {
             "fontSize": 22,
-            "color": "#050505",
+            "color": "#F5FAFC",
             "bold": true,
             "alignment": "left"
           },
@@ -270,7 +284,7 @@
               "index": 1,
               "text": "React renderer",
               "fontSize": 22,
-              "color": "#050505",
+              "color": "#F5FAFC",
               "bold": true,
               "alignment": "left"
             }
@@ -281,11 +295,11 @@
       "lineWidth": 0
     },
     {
-      "order": 5,
+      "order": 6,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/ja1cz650",
-      "id": "5",
+      "aid": "sh/re1s3ql8",
+      "id": "6",
       "name": "flow-0-body",
       "bbox": [
         96,
@@ -301,7 +315,7 @@
         "anchor": 1,
         "fontSize": 16,
         "typeface": "+mn-lt",
-        "color": "#525866",
+        "color": "#A7B3BD",
         "alignment": "left",
         "verticalAlignment": "top",
         "insets": {
@@ -330,7 +344,7 @@
           "text": "Camera UI, gesture library, model health",
           "resolvedTextStyle": {
             "fontSize": 16,
-            "color": "#525866",
+            "color": "#A7B3BD",
             "alignment": "left"
           },
           "runs": [
@@ -338,7 +352,7 @@
               "index": 1,
               "text": "Camera UI, gesture library, model health",
               "fontSize": 16,
-              "color": "#525866",
+              "color": "#A7B3BD",
               "alignment": "left"
             }
           ],
@@ -348,11 +362,11 @@
       "lineWidth": 0
     },
     {
-      "order": 6,
+      "order": 7,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/4badsb6l",
-      "id": "6",
+      "aid": "sh/6dsba5kn",
+      "id": "7",
       "name": "flow-1",
       "bbox": [
         358,
@@ -361,16 +375,16 @@
         156
       ],
       "geometry": "roundRect",
-      "fillColor": "#FFFFFF",
-      "lineColor": "#B8BCC4",
+      "fillColor": "#071014",
+      "lineColor": "#254854",
       "lineWidth": 1
     },
     {
-      "order": 7,
+      "order": 8,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/5c3u1gn6",
-      "id": "7",
+      "aid": "sh/9kzatg3u",
+      "id": "8",
       "name": "flow-1-title",
       "bbox": [
         376,
@@ -386,7 +400,7 @@
         "anchor": 1,
         "fontSize": 22,
         "typeface": "+mn-lt",
-        "color": "#050505",
+        "color": "#F5FAFC",
         "bold": true,
         "alignment": "left",
         "verticalAlignment": "top",
@@ -412,7 +426,7 @@
           "text": "Electron main",
           "resolvedTextStyle": {
             "fontSize": 22,
-            "color": "#050505",
+            "color": "#F5FAFC",
             "bold": true,
             "alignment": "left"
           },
@@ -421,7 +435,7 @@
               "index": 1,
               "text": "Electron main",
               "fontSize": 22,
-              "color": "#050505",
+              "color": "#F5FAFC",
               "bold": true,
               "alignment": "left"
             }
@@ -432,11 +446,11 @@
       "lineWidth": 0
     },
     {
-      "order": 8,
+      "order": 9,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/yd8buhob",
-      "id": "8",
+      "aid": "sh/8jq90b29",
+      "id": "9",
       "name": "flow-1-body",
       "bbox": [
         376,
@@ -452,7 +466,7 @@
         "anchor": 1,
         "fontSize": 16,
         "typeface": "+mn-lt",
-        "color": "#525866",
+        "color": "#A7B3BD",
         "alignment": "left",
         "verticalAlignment": "top",
         "insets": {
@@ -481,7 +495,7 @@
           "text": "IPC, sample files, desktop actions",
           "resolvedTextStyle": {
             "fontSize": 16,
-            "color": "#525866",
+            "color": "#A7B3BD",
             "alignment": "left"
           },
           "runs": [
@@ -489,7 +503,7 @@
               "index": 1,
               "text": "IPC, sample files, desktop actions",
               "fontSize": 16,
-              "color": "#525866",
+              "color": "#A7B3BD",
               "alignment": "left"
             }
           ],
@@ -499,11 +513,11 @@
       "lineWidth": 0
     },
     {
-      "order": 9,
+      "order": 10,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/zehcnmpw",
-      "id": "9",
+      "aid": "sh/idcbqx8j",
+      "id": "10",
       "name": "flow-2",
       "bbox": [
         638,
@@ -512,16 +526,16 @@
         156
       ],
       "geometry": "roundRect",
-      "fillColor": "#FFFFFF",
-      "lineColor": "#B8BCC4",
+      "fillColor": "#071014",
+      "lineColor": "#254854",
       "lineWidth": 1
     },
     {
-      "order": 10,
+      "order": 11,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/v6psjqx4",
-      "id": "10",
+      "aid": "sh/jelcj2p4",
+      "id": "11",
       "name": "flow-2-title",
       "bbox": [
         656,
@@ -537,7 +551,7 @@
         "anchor": 1,
         "fontSize": 22,
         "typeface": "+mn-lt",
-        "color": "#050505",
+        "color": "#F5FAFC",
         "bold": true,
         "alignment": "left",
         "verticalAlignment": "top",
@@ -563,7 +577,7 @@
           "text": "Shared kernel",
           "resolvedTextStyle": {
             "fontSize": 22,
-            "color": "#050505",
+            "color": "#F5FAFC",
             "bold": true,
             "alignment": "left"
           },
@@ -572,7 +586,7 @@
               "index": 1,
               "text": "Shared kernel",
               "fontSize": 22,
-              "color": "#050505",
+              "color": "#F5FAFC",
               "bold": true,
               "alignment": "left"
             }
@@ -583,11 +597,11 @@
       "lineWidth": 0
     },
     {
-      "order": 11,
+      "order": 12,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/u5gbqlgj",
-      "id": "11",
+      "aid": "sh/4futs7qp",
+      "id": "12",
       "name": "flow-2-body",
       "bbox": [
         656,
@@ -603,7 +617,7 @@
         "anchor": 1,
         "fontSize": 16,
         "typeface": "+mn-lt",
-        "color": "#525866",
+        "color": "#A7B3BD",
         "alignment": "left",
         "verticalAlignment": "top",
         "insets": {
@@ -628,7 +642,7 @@
           "text": "Typed AI service contract",
           "resolvedTextStyle": {
             "fontSize": 16,
-            "color": "#525866",
+            "color": "#A7B3BD",
             "alignment": "left"
           },
           "runs": [
@@ -636,7 +650,7 @@
               "index": 1,
               "text": "Typed AI service contract",
               "fontSize": 16,
-              "color": "#525866",
+              "color": "#A7B3BD",
               "alignment": "left"
             }
           ],
@@ -646,11 +660,11 @@
       "lineWidth": 0
     },
     {
-      "order": 12,
+      "order": 13,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/h87al0fa",
-      "id": "12",
+      "aid": "sh/503ulc7a",
+      "id": "13",
       "name": "flow-3",
       "bbox": [
         918,
@@ -659,16 +673,16 @@
         156
       ],
       "geometry": "roundRect",
-      "fillColor": "#EAF7FB",
-      "lineColor": "#B8BCC4",
+      "fillColor": "#0B2F3A",
+      "lineColor": "#254854",
       "lineWidth": 1
     },
     {
-      "order": 13,
+      "order": 14,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/g7ytsvyp",
-      "id": "13",
+      "aid": "sh/61cbuh8f",
+      "id": "14",
       "name": "flow-3-title",
       "bbox": [
         936,
@@ -684,7 +698,7 @@
         "anchor": 1,
         "fontSize": 22,
         "typeface": "+mn-lt",
-        "color": "#050505",
+        "color": "#F5FAFC",
         "bold": true,
         "alignment": "left",
         "verticalAlignment": "top",
@@ -710,7 +724,7 @@
           "text": "FastAPI service",
           "resolvedTextStyle": {
             "fontSize": 22,
-            "color": "#050505",
+            "color": "#F5FAFC",
             "bold": true,
             "alignment": "left"
           },
@@ -719,7 +733,7 @@
               "index": 1,
               "text": "FastAPI service",
               "fontSize": 22,
-              "color": "#050505",
+              "color": "#F5FAFC",
               "bold": true,
               "alignment": "left"
             }
@@ -730,11 +744,11 @@
       "lineWidth": 0
     },
     {
-      "order": 14,
+      "order": 15,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/725sfqxs",
-      "id": "14",
+      "aid": "sh/r25cnmp0",
+      "id": "15",
       "name": "flow-3-body",
       "bbox": [
         936,
@@ -750,7 +764,7 @@
         "anchor": 1,
         "fontSize": 16,
         "typeface": "+mn-lt",
-        "color": "#525866",
+        "color": "#A7B3BD",
         "alignment": "left",
         "verticalAlignment": "top",
         "insets": {
@@ -779,7 +793,7 @@
           "text": "Datasets, jobs, hand checks, inference",
           "resolvedTextStyle": {
             "fontSize": 16,
-            "color": "#525866",
+            "color": "#A7B3BD",
             "alignment": "left"
           },
           "runs": [
@@ -787,7 +801,7 @@
               "index": 1,
               "text": "Datasets, jobs, hand checks, inference",
               "fontSize": 16,
-              "color": "#525866",
+              "color": "#A7B3BD",
               "alignment": "left"
             }
           ],
@@ -797,11 +811,11 @@
       "lineWidth": 0
     },
     {
-      "order": 15,
+      "order": 16,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/61wrmlgn",
-      "id": "15",
+      "aid": "sh/s3etw7ql",
+      "id": "16",
       "name": "flow-arrow-0",
       "bbox": [
         331,
@@ -810,16 +824,16 @@
         16
       ],
       "geometry": "rightArrow",
-      "fillColor": "#127C95",
-      "lineColor": "#127C95",
+      "fillColor": "#67E8F9",
+      "lineColor": "#67E8F9",
       "lineWidth": 0
     },
     {
-      "order": 16,
+      "order": 17,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/t47ahgfy",
-      "id": "16",
+      "aid": "sh/t4nupc76",
+      "id": "17",
       "name": "flow-arrow-1",
       "bbox": [
         611,
@@ -828,16 +842,16 @@
         16
       ],
       "geometry": "rightArrow",
-      "fillColor": "#127C95",
-      "lineColor": "#127C95",
+      "fillColor": "#67E8F9",
+      "lineColor": "#67E8F9",
       "lineWidth": 0
     },
     {
-      "order": 17,
+      "order": 18,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/83y9ovyd",
-      "id": "17",
+      "aid": "sh/e5wbyhor",
+      "id": "18",
       "name": "flow-arrow-2",
       "bbox": [
         891,
@@ -846,16 +860,16 @@
         16
       ],
       "geometry": "rightArrow",
-      "fillColor": "#127C95",
-      "lineColor": "#127C95",
+      "fillColor": "#67E8F9",
+      "lineColor": "#67E8F9",
       "lineWidth": 0
     },
     {
-      "order": 18,
+      "order": 19,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/je5sb6xw",
-      "id": "18",
+      "aid": "sh/f65crmpc",
+      "id": "19",
       "name": "architecture-note",
       "bbox": [
         146,
@@ -864,14 +878,14 @@
         42
       ],
       "geometry": "rect",
-      "text": "Camera frames and model calls stay on the local machine through http://127.0.0.1:8765.",
-      "textPreview": "Camera frames and model calls stay on the local machine through http://127.0.0.1:8765.",
+      "text": "Camera frames, model calls, and biometric data stay on the local machine through http://127.0.0.1:8765.",
+      "textPreview": "Camera frames, model calls, and biometric data stay on the local machine through http://127.0.0.1:8765.",
       "resolvedFontSize": 24,
       "resolvedTextStyle": {
         "anchor": 1,
         "fontSize": 24,
         "typeface": "+mn-lt",
-        "color": "#525866",
+        "color": "#A7B3BD",
         "alignment": "center",
         "verticalAlignment": "top",
         "insets": {
@@ -882,29 +896,33 @@
         }
       },
       "textLayout": {
-        "lineCount": 1,
+        "lineCount": 2,
         "lines": [
           {
             "index": 1,
-            "text": "Camera frames and model calls stay on the local machine through http://127.0.0.1:8765."
+            "text": "Camera frames, model calls, and biometric data stay on the local machine through"
+          },
+          {
+            "index": 2,
+            "text": "http://127.0.0.1:8765."
           }
         ]
       },
       "paragraphs": [
         {
           "index": 1,
-          "text": "Camera frames and model calls stay on the local machine through http://127.0.0.1:8765.",
+          "text": "Camera frames, model calls, and biometric data stay on the local machine through http://127.0.0.1:8765.",
           "resolvedTextStyle": {
             "fontSize": 24,
-            "color": "#525866",
+            "color": "#A7B3BD",
             "alignment": "center"
           },
           "runs": [
             {
               "index": 1,
-              "text": "Camera frames and model calls stay on the local machine through http://127.0.0.1:8765.",
+              "text": "Camera frames, model calls, and biometric data stay on the local machine through http://127.0.0.1:8765.",
               "fontSize": 24,
-              "color": "#525866",
+              "color": "#A7B3BD",
               "alignment": "center"
             }
           ],
@@ -914,11 +932,11 @@
       "lineWidth": 0
     },
     {
-      "order": 19,
+      "order": 20,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/ydwri1gb",
-      "id": "19",
+      "aid": "sh/bapsfm5k",
+      "id": "20",
       "name": "footer-4",
       "bbox": [
         1184,
@@ -934,7 +952,7 @@
         "anchor": 1,
         "fontSize": 14,
         "typeface": "+mn-lt",
-        "color": "#525866",
+        "color": "#A7B3BD",
         "alignment": "right",
         "verticalAlignment": "top",
         "insets": {
@@ -959,7 +977,7 @@
           "text": "04",
           "resolvedTextStyle": {
             "fontSize": 14,
-            "color": "#525866",
+            "color": "#A7B3BD",
             "alignment": "right"
           },
           "runs": [
@@ -967,7 +985,7 @@
               "index": 1,
               "text": "04",
               "fontSize": 14,
-              "color": "#525866",
+              "color": "#A7B3BD",
               "alignment": "right"
             }
           ],

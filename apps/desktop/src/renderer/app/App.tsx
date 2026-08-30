@@ -463,6 +463,7 @@ export function App() {
       <AppShell
         activeView={activeView}
         cameraDevices={camera.devices}
+        cameraStatusLabel={camera.statusLabel}
         isCameraActive={camera.isCameraActive}
         isCameraRequesting={camera.status === "requesting"}
         onCalibrate={() => setIsCalibrating(true)}

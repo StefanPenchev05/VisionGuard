@@ -2,15 +2,15 @@
   "schema": "openai.presentation.layout/v4",
   "unit": "px",
   "slide": {
-    "aid": "sl/wubjej",
-    "id": "wubjej",
+    "aid": "sl/dg7scb",
+    "id": "dg7scb",
     "slide": 6,
-    "layoutId": "45acdb32-d4b9-4ca6-9b59-f174dea2ec30",
+    "layoutId": "cb145558-2755-41f3-8894-c55854af6c20",
     "layoutName": "Title Slide",
     "layoutType": "title",
-    "masterLayoutId": "dc448232-15f3-4e48-8bee-9c0a57b22431",
+    "masterLayoutId": "e14c3c45-0f6b-482a-98eb-874386684769",
     "masterLayoutName": "Master",
-    "backgroundColor": "#FFFFFF",
+    "backgroundColor": "#071014",
     "frame": {
       "left": 0,
       "top": 0,
@@ -45,15 +45,15 @@
   "inheritedLayers": [
     {
       "scope": "layout",
-      "id": "45acdb32-d4b9-4ca6-9b59-f174dea2ec30",
+      "id": "cb145558-2755-41f3-8894-c55854af6c20",
       "name": "Title Slide",
       "type": "title",
-      "parentLayoutId": "dc448232-15f3-4e48-8bee-9c0a57b22431",
+      "parentLayoutId": "e14c3c45-0f6b-482a-98eb-874386684769",
       "elements": []
     },
     {
       "scope": "master",
-      "id": "dc448232-15f3-4e48-8bee-9c0a57b22431",
+      "id": "e14c3c45-0f6b-482a-98eb-874386684769",
       "name": "Master",
       "type": "master",
       "elements": []
@@ -64,8 +64,26 @@
       "order": 1,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/ja18by1w",
+      "aid": "sh/s7ap432d",
       "id": "1",
+      "name": "dark-background",
+      "bbox": [
+        0,
+        0,
+        1280,
+        720
+      ],
+      "geometry": "rect",
+      "fillColor": "#071014",
+      "lineColor": "#071014",
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/r618by1s",
+      "id": "2",
       "name": "kicker",
       "bbox": [
         48,
@@ -81,7 +99,7 @@
         "anchor": 1,
         "fontSize": 17,
         "typeface": "+mn-lt",
-        "color": "#127C95",
+        "color": "#67E8F9",
         "bold": true,
         "alignment": "left",
         "verticalAlignment": "top",
@@ -107,7 +125,7 @@
           "text": "VISIONGUARD",
           "resolvedTextStyle": {
             "fontSize": 17,
-            "color": "#127C95",
+            "color": "#67E8F9",
             "bold": true,
             "alignment": "left"
           },
@@ -116,73 +134,7 @@
               "index": 1,
               "text": "VISIONGUARD",
               "fontSize": 17,
-              "color": "#127C95",
-              "bold": true,
-              "alignment": "left"
-            }
-          ],
-          "marginLeft": 0
-        }
-      ],
-      "lineWidth": 0
-    },
-    {
-      "order": 2,
-      "kind": "shape",
-      "scope": "slide",
-      "aid": "sh/4bap4j2h",
-      "id": "2",
-      "name": "slide-title",
-      "bbox": [
-        48,
-        72,
-        1030,
-        96
-      ],
-      "geometry": "rect",
-      "text": "The live monitor makes system state visible",
-      "textPreview": "The live monitor makes system state visible",
-      "resolvedFontSize": 42,
-      "resolvedTextStyle": {
-        "anchor": 1,
-        "fontSize": 42,
-        "typeface": "+mn-lt",
-        "color": "#050505",
-        "bold": true,
-        "alignment": "left",
-        "verticalAlignment": "top",
-        "insets": {
-          "top": 4.8,
-          "right": 9.6,
-          "bottom": 4.8,
-          "left": 9.6
-        }
-      },
-      "textLayout": {
-        "lineCount": 1,
-        "lines": [
-          {
-            "index": 1,
-            "text": "The live monitor makes system state visible"
-          }
-        ]
-      },
-      "paragraphs": [
-        {
-          "index": 1,
-          "text": "The live monitor makes system state visible",
-          "resolvedTextStyle": {
-            "fontSize": 42,
-            "color": "#050505",
-            "bold": true,
-            "alignment": "left"
-          },
-          "runs": [
-            {
-              "index": 1,
-              "text": "The live monitor makes system state visible",
-              "fontSize": 42,
-              "color": "#050505",
+              "color": "#67E8F9",
               "bold": true,
               "alignment": "left"
             }
@@ -194,63 +146,26 @@
     },
     {
       "order": 3,
-      "kind": "image",
-      "scope": "slide",
-      "aid": "im/gvyx4bu1",
-      "id": "3",
-      "bbox": [
-        70,
-        178,
-        770,
-        440
-      ],
-      "geometry": "roundRect",
-      "alt": "Live monitor screenshot",
-      "contentType": "image/png",
-      "imageCrop": {
-        "left": 0,
-        "top": 0,
-        "right": 0,
-        "bottom": 0
-      },
-      "imageFit": "cover",
-      "imageMask": {
-        "geometry": "roundRect",
-        "adjustmentList": [
-          {
-            "name": "adj",
-            "formula": "val 1818"
-          }
-        ]
-      },
-      "asset": {
-        "assetId": "11dc2f60-78fa-44dd-a44c-dfefd254c6ef",
-        "contentType": "image/png",
-        "byteLength": 540327
-      }
-    },
-    {
-      "order": 4,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/u5s7y9kf",
-      "id": "4",
-      "name": "monitor-notes-head-0",
+      "aid": "sh/q5s72dk7",
+      "id": "3",
+      "name": "slide-title",
       "bbox": [
-        884,
-        206,
-        300,
-        30
+        48,
+        72,
+        1030,
+        96
       ],
       "geometry": "rect",
-      "text": "Readiness",
-      "textPreview": "Readiness",
-      "resolvedFontSize": 24,
+      "text": "Samples become confident actions",
+      "textPreview": "Samples become confident actions",
+      "resolvedFontSize": 42,
       "resolvedTextStyle": {
         "anchor": 1,
-        "fontSize": 24,
+        "fontSize": 42,
         "typeface": "+mn-lt",
-        "color": "#050505",
+        "color": "#F5FAFC",
         "bold": true,
         "alignment": "left",
         "verticalAlignment": "top",
@@ -266,26 +181,26 @@
         "lines": [
           {
             "index": 1,
-            "text": "Readiness"
+            "text": "Samples become confident actions"
           }
         ]
       },
       "paragraphs": [
         {
           "index": 1,
-          "text": "Readiness",
+          "text": "Samples become confident actions",
           "resolvedTextStyle": {
-            "fontSize": 24,
-            "color": "#050505",
+            "fontSize": 42,
+            "color": "#F5FAFC",
             "bold": true,
             "alignment": "left"
           },
           "runs": [
             {
               "index": 1,
-              "text": "Readiness",
-              "fontSize": 24,
-              "color": "#050505",
+              "text": "Samples become confident actions",
+              "fontSize": 42,
+              "color": "#F5FAFC",
               "bold": true,
               "alignment": "left"
             }
@@ -296,27 +211,111 @@
       "lineWidth": 0
     },
     {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/1w3qhsju",
+      "id": "4",
+      "name": "flow-0",
+      "bbox": [
+        78,
+        248,
+        246,
+        172
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#071014",
+      "lineColor": "#254854",
+      "lineWidth": 1
+    },
+    {
       "order": 5,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/v61o7e10",
+      "aid": "sh/0vap8n2p",
       "id": "5",
-      "name": "monitor-notes-body-0",
+      "name": "flow-0-title",
       "bbox": [
-        884,
-        240,
-        300,
-        38
+        96,
+        266,
+        210,
+        32
       ],
       "geometry": "rect",
-      "text": "Camera, AI service, trained model, and inference state are visible.",
-      "textPreview": "Camera, AI service, trained model, and inference state are visible.",
-      "resolvedFontSize": 17,
+      "text": "Capture",
+      "textPreview": "Capture",
+      "resolvedFontSize": 22,
       "resolvedTextStyle": {
         "anchor": 1,
-        "fontSize": 17,
+        "fontSize": 22,
         "typeface": "+mn-lt",
-        "color": "#525866",
+        "color": "#F5FAFC",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Capture"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Capture",
+          "resolvedTextStyle": {
+            "fontSize": 22,
+            "color": "#F5FAFC",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Capture",
+              "fontSize": 22,
+              "color": "#F5FAFC",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/fu18fi14",
+      "id": "6",
+      "name": "flow-0-body",
+      "bbox": [
+        96,
+        306,
+        210,
+        96
+      ],
+      "geometry": "rect",
+      "text": "User shows a hand gesture to the camera.",
+      "textPreview": "User shows a hand gesture to the camera.",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 16,
+        "typeface": "+mn-lt",
+        "color": "#A7B3BD",
         "alignment": "left",
         "verticalAlignment": "top",
         "insets": {
@@ -331,29 +330,29 @@
         "lines": [
           {
             "index": 1,
-            "text": "Camera, AI service, trained model,"
+            "text": "User shows a hand"
           },
           {
             "index": 2,
-            "text": "and inference state are visible."
+            "text": "gesture to the camera."
           }
         ]
       },
       "paragraphs": [
         {
           "index": 1,
-          "text": "Camera, AI service, trained model, and inference state are visible.",
+          "text": "User shows a hand gesture to the camera.",
           "resolvedTextStyle": {
-            "fontSize": 17,
-            "color": "#525866",
+            "fontSize": 16,
+            "color": "#A7B3BD",
             "alignment": "left"
           },
           "runs": [
             {
               "index": 1,
-              "text": "Camera, AI service, trained model, and inference state are visible.",
-              "fontSize": 17,
-              "color": "#525866",
+              "text": "User shows a hand gesture to the camera.",
+              "fontSize": 16,
+              "color": "#A7B3BD",
               "alignment": "left"
             }
           ],
@@ -363,27 +362,45 @@
       "lineWidth": 0
     },
     {
-      "order": 6,
+      "order": 7,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/w7ap0j2l",
-      "id": "6",
-      "name": "monitor-notes-head-1",
+      "aid": "sh/e9s76dkj",
+      "id": "7",
+      "name": "flow-1",
       "bbox": [
-        884,
-        314,
-        300,
-        30
+        358,
+        248,
+        246,
+        172
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#071014",
+      "lineColor": "#254854",
+      "lineWidth": 1
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/p03qlsj6",
+      "id": "8",
+      "name": "flow-1-title",
+      "bbox": [
+        376,
+        266,
+        210,
+        32
       ],
       "geometry": "rect",
-      "text": "Feedback",
-      "textPreview": "Feedback",
-      "resolvedFontSize": 24,
+      "text": "Validate",
+      "textPreview": "Validate",
+      "resolvedFontSize": 22,
       "resolvedTextStyle": {
         "anchor": 1,
-        "fontSize": 24,
+        "fontSize": 22,
         "typeface": "+mn-lt",
-        "color": "#050505",
+        "color": "#F5FAFC",
         "bold": true,
         "alignment": "left",
         "verticalAlignment": "top",
@@ -399,26 +416,26 @@
         "lines": [
           {
             "index": 1,
-            "text": "Feedback"
+            "text": "Validate"
           }
         ]
       },
       "paragraphs": [
         {
           "index": 1,
-          "text": "Feedback",
+          "text": "Validate",
           "resolvedTextStyle": {
-            "fontSize": 24,
-            "color": "#050505",
+            "fontSize": 22,
+            "color": "#F5FAFC",
             "bold": true,
             "alignment": "left"
           },
           "runs": [
             {
               "index": 1,
-              "text": "Feedback",
-              "fontSize": 24,
-              "color": "#050505",
+              "text": "Validate",
+              "fontSize": 22,
+              "color": "#F5FAFC",
               "bold": true,
               "alignment": "left"
             }
@@ -429,27 +446,27 @@
       "lineWidth": 0
     },
     {
-      "order": 7,
+      "order": 9,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/h8jq9oj6",
-      "id": "7",
-      "name": "monitor-notes-body-1",
+      "aid": "sh/ozupcnil",
+      "id": "9",
+      "name": "flow-1-body",
       "bbox": [
-        884,
-        348,
-        300,
-        38
+        376,
+        306,
+        210,
+        96
       ],
       "geometry": "rect",
-      "text": "Prediction, confidence, model health, and event timeline are shown together.",
-      "textPreview": "Prediction, confidence, model health, and event timeline are shown together.",
-      "resolvedFontSize": 17,
+      "text": "Hand presence is checked before saving samples.",
+      "textPreview": "Hand presence is checked before saving samples.",
+      "resolvedFontSize": 16,
       "resolvedTextStyle": {
         "anchor": 1,
-        "fontSize": 17,
+        "fontSize": 16,
         "typeface": "+mn-lt",
-        "color": "#525866",
+        "color": "#A7B3BD",
         "alignment": "left",
         "verticalAlignment": "top",
         "insets": {
@@ -464,33 +481,33 @@
         "lines": [
           {
             "index": 1,
-            "text": "Prediction, confidence, model"
+            "text": "Hand presence is"
           },
           {
             "index": 2,
-            "text": "health, and event timeline are shown"
+            "text": "checked before saving"
           },
           {
             "index": 3,
-            "text": "together."
+            "text": "samples."
           }
         ]
       },
       "paragraphs": [
         {
           "index": 1,
-          "text": "Prediction, confidence, model health, and event timeline are shown together.",
+          "text": "Hand presence is checked before saving samples.",
           "resolvedTextStyle": {
-            "fontSize": 17,
-            "color": "#525866",
+            "fontSize": 16,
+            "color": "#A7B3BD",
             "alignment": "left"
           },
           "runs": [
             {
               "index": 1,
-              "text": "Prediction, confidence, model health, and event timeline are shown together.",
-              "fontSize": 17,
-              "color": "#525866",
+              "text": "Hand presence is checked before saving samples.",
+              "fontSize": 16,
+              "color": "#A7B3BD",
               "alignment": "left"
             }
           ],
@@ -500,27 +517,45 @@
       "lineWidth": 0
     },
     {
-      "order": 8,
+      "order": 10,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/mh87u9k3",
-      "id": "8",
-      "name": "monitor-notes-head-2",
+      "aid": "sh/y9wn2pob",
+      "id": "10",
+      "name": "flow-2",
       "bbox": [
-        884,
-        422,
-        300,
-        30
+        638,
+        248,
+        246,
+        172
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#071014",
+      "lineColor": "#254854",
+      "lineWidth": 1
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/za5ovu5w",
+      "id": "11",
+      "name": "flow-2-title",
+      "bbox": [
+        656,
+        266,
+        210,
+        32
       ],
       "geometry": "rect",
-      "text": "Control",
-      "textPreview": "Control",
-      "resolvedFontSize": 24,
+      "text": "Train",
+      "textPreview": "Train",
+      "resolvedFontSize": 22,
       "resolvedTextStyle": {
         "anchor": 1,
-        "fontSize": 24,
+        "fontSize": 22,
         "typeface": "+mn-lt",
-        "color": "#050505",
+        "color": "#F5FAFC",
         "bold": true,
         "alignment": "left",
         "verticalAlignment": "top",
@@ -536,26 +571,26 @@
         "lines": [
           {
             "index": 1,
-            "text": "Control"
+            "text": "Train"
           }
         ]
       },
       "paragraphs": [
         {
           "index": 1,
-          "text": "Control",
+          "text": "Train",
           "resolvedTextStyle": {
-            "fontSize": 24,
-            "color": "#050505",
+            "fontSize": 22,
+            "color": "#F5FAFC",
             "bold": true,
             "alignment": "left"
           },
           "runs": [
             {
               "index": 1,
-              "text": "Control",
-              "fontSize": 24,
-              "color": "#050505",
+              "text": "Train",
+              "fontSize": 22,
+              "color": "#F5FAFC",
               "bold": true,
               "alignment": "left"
             }
@@ -566,27 +601,27 @@
       "lineWidth": 0
     },
     {
-      "order": 9,
+      "order": 12,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/7iho3ulo",
-      "id": "9",
-      "name": "monitor-notes-body-2",
+      "aid": "sh/0be54f6h",
+      "id": "12",
+      "name": "flow-2-body",
       "bbox": [
-        884,
-        456,
-        300,
-        38
+        656,
+        306,
+        210,
+        96
       ],
       "geometry": "rect",
-      "text": "The user starts sessions, calibrates, exports, and changes views.",
-      "textPreview": "The user starts sessions, calibrates, exports, and changes views.",
-      "resolvedFontSize": 17,
+      "text": "Samples become a local gesture model artifact.",
+      "textPreview": "Samples become a local gesture model artifact.",
+      "resolvedFontSize": 16,
       "resolvedTextStyle": {
         "anchor": 1,
-        "fontSize": 17,
+        "fontSize": 16,
         "typeface": "+mn-lt",
-        "color": "#525866",
+        "color": "#A7B3BD",
         "alignment": "left",
         "verticalAlignment": "top",
         "insets": {
@@ -601,29 +636,29 @@
         "lines": [
           {
             "index": 1,
-            "text": "The user starts sessions, calibrates,"
+            "text": "Samples become a local"
           },
           {
             "index": 2,
-            "text": "exports, and changes views."
+            "text": "gesture model artifact."
           }
         ]
       },
       "paragraphs": [
         {
           "index": 1,
-          "text": "The user starts sessions, calibrates, exports, and changes views.",
+          "text": "Samples become a local gesture model artifact.",
           "resolvedTextStyle": {
-            "fontSize": 17,
-            "color": "#525866",
+            "fontSize": 16,
+            "color": "#A7B3BD",
             "alignment": "left"
           },
           "runs": [
             {
               "index": 1,
-              "text": "The user starts sessions, calibrates, exports, and changes views.",
-              "fontSize": 17,
-              "color": "#525866",
+              "text": "Samples become a local gesture model artifact.",
+              "fontSize": 16,
+              "color": "#A7B3BD",
               "alignment": "left"
             }
           ],
@@ -633,11 +668,286 @@
       "lineWidth": 0
     },
     {
-      "order": 10,
+      "order": 13,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/fah0zi9c",
-      "id": "10",
+      "aid": "sh/lcn6xkn2",
+      "id": "13",
+      "name": "flow-3",
+      "bbox": [
+        918,
+        248,
+        246,
+        172
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#0B2F3A",
+      "lineColor": "#254854",
+      "lineWidth": 1
+    },
+    {
+      "order": 14,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/mdwn6po7",
+      "id": "14",
+      "name": "flow-3-title",
+      "bbox": [
+        936,
+        266,
+        210,
+        32
+      ],
+      "geometry": "rect",
+      "text": "Execute",
+      "textPreview": "Execute",
+      "resolvedFontSize": 22,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 22,
+        "typeface": "+mn-lt",
+        "color": "#F5FAFC",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Execute"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Execute",
+          "resolvedTextStyle": {
+            "fontSize": 22,
+            "color": "#F5FAFC",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Execute",
+              "fontSize": 22,
+              "color": "#F5FAFC",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 15,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ny5ozu5s",
+      "id": "15",
+      "name": "flow-3-body",
+      "bbox": [
+        936,
+        306,
+        210,
+        96
+      ],
+      "geometry": "rect",
+      "text": "High-confidence matches trigger mapped actions.",
+      "textPreview": "High-confidence matches trigger mapped actions.",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 16,
+        "typeface": "+mn-lt",
+        "color": "#A7B3BD",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "High-confidence matches"
+          },
+          {
+            "index": 2,
+            "text": "trigger mapped actions."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "High-confidence matches trigger mapped actions.",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "color": "#A7B3BD",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "High-confidence matches trigger mapped actions.",
+              "fontSize": 16,
+              "color": "#A7B3BD",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 16,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/8ze58z6d",
+      "id": "16",
+      "name": "flow-arrow-0",
+      "bbox": [
+        331,
+        326,
+        20,
+        16
+      ],
+      "geometry": "rightArrow",
+      "fillColor": "#67E8F9",
+      "lineColor": "#67E8F9",
+      "lineWidth": 0
+    },
+    {
+      "order": 17,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/907614ny",
+      "id": "17",
+      "name": "flow-arrow-1",
+      "bbox": [
+        611,
+        326,
+        20,
+        16
+      ],
+      "geometry": "rightArrow",
+      "fillColor": "#67E8F9",
+      "lineColor": "#67E8F9",
+      "lineWidth": 0
+    },
+    {
+      "order": 18,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/2hcnu5o3",
+      "id": "18",
+      "name": "flow-arrow-2",
+      "bbox": [
+        891,
+        326,
+        20,
+        16
+      ],
+      "geometry": "rightArrow",
+      "fillColor": "#67E8F9",
+      "lineColor": "#67E8F9",
+      "lineWidth": 0
+    },
+    {
+      "order": 19,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/32l43apo",
+      "id": "19",
+      "name": "threshold",
+      "bbox": [
+        154,
+        500,
+        970,
+        44
+      ],
+      "geometry": "rect",
+      "text": "Execution threshold: 0.92 confidence with a cooldown to avoid repeated commands.",
+      "textPreview": "Execution threshold: 0.92 confidence with a cooldown to avoid repeated commands.",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "+mn-lt",
+        "color": "#67E8F9",
+        "bold": true,
+        "alignment": "center",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Execution threshold: 0.92 confidence with a cooldown to avoid repeated"
+          },
+          {
+            "index": 2,
+            "text": "commands."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Execution threshold: 0.92 confidence with a cooldown to avoid repeated commands.",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "color": "#67E8F9",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Execution threshold: 0.92 confidence with a cooldown to avoid repeated commands.",
+              "fontSize": 24,
+              "color": "#67E8F9",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 20,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/7axcf214",
+      "id": "20",
       "name": "footer-6",
       "bbox": [
         1184,
@@ -653,7 +963,7 @@
         "anchor": 1,
         "fontSize": 14,
         "typeface": "+mn-lt",
-        "color": "#525866",
+        "color": "#A7B3BD",
         "alignment": "right",
         "verticalAlignment": "top",
         "insets": {
@@ -678,7 +988,7 @@
           "text": "06",
           "resolvedTextStyle": {
             "fontSize": 14,
-            "color": "#525866",
+            "color": "#A7B3BD",
             "alignment": "right"
           },
           "runs": [
@@ -686,7 +996,7 @@
               "index": 1,
               "text": "06",
               "fontSize": 14,
-              "color": "#525866",
+              "color": "#A7B3BD",
               "alignment": "right"
             }
           ],

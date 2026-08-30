@@ -39,6 +39,12 @@ class TrainedGestureModel:
     version: str
 
 
+@dataclass(frozen=True)
+class DetectedHand:
+    box: tuple[int, int, int, int]
+    features: FeatureVector
+
+
 def read_jpeg_dimensions(data: bytes) -> JpegDimensions:
     if len(data) < 4 or data[:2] != b"\xff\xd8":
         return None, None
@@ -210,7 +216,54 @@ def is_likely_face_candidate(
     )
 
 
-def detect_mediapipe_hand_boxes(image: np.ndarray) -> list[tuple[int, int, int, int]]:
+def build_landmark_feature_vector(
+    landmarks: list[tuple[float, float, float]],
+    box: tuple[int, int, int, int],
+    image_width: int,
+    image_height: int,
+) -> FeatureVector:
+    left, top, width, height = box
+    wrist_x, wrist_y, wrist_z = landmarks[0]
+    scale = max(width / image_width, height / image_height, 0.001)
+    normalized: FeatureVector = []
+
+    for x, y, z in landmarks:
+        normalized.extend([
+            (x - wrist_x) / scale,
+            (y - wrist_y) / scale,
+            z - wrist_z,
+        ])
+
+    finger_tip_indices = [4, 8, 12, 16, 20]
+    for index in finger_tip_indices:
+        x, y, z = landmarks[index]
+        normalized.append(
+            math.sqrt((x - wrist_x) ** 2 + (y - wrist_y) ** 2 + (z - wrist_z) ** 2) / scale
+        )
+
+    for left_index, right_index in zip(finger_tip_indices, finger_tip_indices[1:]):
+        left_x, left_y, left_z = landmarks[left_index]
+        right_x, right_y, right_z = landmarks[right_index]
+        normalized.append(
+            math.sqrt(
+                (left_x - right_x) ** 2
+                + (left_y - right_y) ** 2
+                + (left_z - right_z) ** 2
+            ) / scale
+        )
+
+    normalized.extend([
+        (left + width / 2) / image_width,
+        (top + height / 2) / image_height,
+        width / image_width,
+        height / image_height,
+        (width / height) if height else 0,
+    ])
+
+    return normalized
+
+
+def detect_mediapipe_hands(image: np.ndarray) -> list[DetectedHand]:
     rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     image_height, image_width = image.shape[:2]
 
@@ -225,10 +278,14 @@ def detect_mediapipe_hand_boxes(image: np.ndarray) -> list[tuple[int, int, int, 
     if not result.multi_hand_landmarks:
         return []
 
-    boxes = []
-    for landmarks in result.multi_hand_landmarks:
-        xs = [landmark.x for landmark in landmarks.landmark]
-        ys = [landmark.y for landmark in landmarks.landmark]
+    detected_hands = []
+    for hand_landmarks in result.multi_hand_landmarks:
+        landmarks = [
+            (landmark.x, landmark.y, landmark.z)
+            for landmark in hand_landmarks.landmark
+        ]
+        xs = [landmark[0] for landmark in landmarks]
+        ys = [landmark[1] for landmark in landmarks]
         left = max(0, int(min(xs) * image_width))
         top = max(0, int(min(ys) * image_height))
         right = min(image_width, int(max(xs) * image_width))
@@ -239,9 +296,24 @@ def detect_mediapipe_hand_boxes(image: np.ndarray) -> list[tuple[int, int, int, 
         if width <= 0 or height <= 0:
             continue
 
-        boxes.append((left, top, width, height))
+        box = (left, top, width, height)
+        detected_hands.append(
+            DetectedHand(
+                box=box,
+                features=build_landmark_feature_vector(
+                    landmarks,
+                    box,
+                    image_width,
+                    image_height,
+                ),
+            )
+        )
 
-    return boxes
+    return detected_hands
+
+
+def detect_mediapipe_hand_boxes(image: np.ndarray) -> list[tuple[int, int, int, int]]:
+    return [hand.box for hand in detect_mediapipe_hands(image)]
 
 
 def find_skin_contour_hand_region(image: np.ndarray) -> tuple[int, int, int, int] | None:
@@ -346,12 +418,7 @@ def extract_attention_region_bytes(data: bytes) -> bytes:
     return encoded.tobytes()
 
 
-def extract_image_features(file_path: str) -> FeatureVector:
-    data = Path(file_path).read_bytes()
-
-    if not data:
-        raise ValueError(f"Sample file is empty: {file_path}")
-
+def extract_jpeg_crop_features(data: bytes) -> FeatureVector:
     focused_data = extract_attention_region_bytes(data)
     width, height = read_jpeg_dimensions(focused_data)
     total = len(focused_data)
@@ -370,6 +437,28 @@ def extract_image_features(file_path: str) -> FeatureVector:
         *normalized_histogram(focused_data),
         *segment_features(focused_data),
     ]
+
+
+def extract_image_features(file_path: str) -> FeatureVector:
+    data = Path(file_path).read_bytes()
+
+    if not data:
+        raise ValueError(f"Sample file is empty: {file_path}")
+
+    image = cv2.imdecode(np.frombuffer(data, dtype=np.uint8), cv2.IMREAD_COLOR)
+
+    if image is None:
+        raise NoHandRegionDetected("Could not decode image for hand detection.")
+
+    detected_hands = detect_mediapipe_hands(image)
+    if detected_hands:
+        hand = max(detected_hands, key=lambda detected: detected.box[2] * detected.box[3])
+        return hand.features
+
+    if os.environ.get("VISIONGUARD_ALLOW_SKIN_HAND_FALLBACK") == "1":
+        return extract_jpeg_crop_features(data)
+
+    raise NoHandRegionDetected("No hand landmarks detected in frame.")
 
 
 def detect_hand_presence(file_path: str) -> tuple[bool, str | None]:
@@ -608,7 +697,7 @@ def train_gesture_model(
         "classRadii": class_radii,
         "centroids": centroids,
         "datasetId": dataset.id,
-        "featureExtractor": "hand-only-attention-jpeg-statistical-v5",
+        "featureExtractor": "mediapipe-hand-landmarks-v6",
         "inputSize": len(training_rows[0][0]),
         "labels": labels,
         "modelBackend": "pure-python-mlp",

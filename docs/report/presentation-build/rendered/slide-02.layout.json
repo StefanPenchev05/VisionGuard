@@ -2,15 +2,15 @@
   "schema": "openai.presentation.layout/v4",
   "unit": "px",
   "slide": {
-    "aid": "sl/18fcqa",
-    "id": "18fcqa",
+    "aid": "sl/kmiwp4",
+    "id": "kmiwp4",
     "slide": 2,
-    "layoutId": "45acdb32-d4b9-4ca6-9b59-f174dea2ec30",
+    "layoutId": "cb145558-2755-41f3-8894-c55854af6c20",
     "layoutName": "Title Slide",
     "layoutType": "title",
-    "masterLayoutId": "dc448232-15f3-4e48-8bee-9c0a57b22431",
+    "masterLayoutId": "e14c3c45-0f6b-482a-98eb-874386684769",
     "masterLayoutName": "Master",
-    "backgroundColor": "#FFFFFF",
+    "backgroundColor": "#071014",
     "frame": {
       "left": 0,
       "top": 0,
@@ -45,15 +45,15 @@
   "inheritedLayers": [
     {
       "scope": "layout",
-      "id": "45acdb32-d4b9-4ca6-9b59-f174dea2ec30",
+      "id": "cb145558-2755-41f3-8894-c55854af6c20",
       "name": "Title Slide",
       "type": "title",
-      "parentLayoutId": "dc448232-15f3-4e48-8bee-9c0a57b22431",
+      "parentLayoutId": "e14c3c45-0f6b-482a-98eb-874386684769",
       "elements": []
     },
     {
       "scope": "master",
-      "id": "dc448232-15f3-4e48-8bee-9c0a57b22431",
+      "id": "e14c3c45-0f6b-482a-98eb-874386684769",
       "name": "Master",
       "type": "master",
       "elements": []
@@ -64,8 +64,26 @@
       "order": 1,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/u9cfqpg7",
+      "aid": "sh/e507qdwv",
       "id": "1",
+      "name": "dark-background",
+      "bbox": [
+        0,
+        0,
+        1280,
+        720
+      ],
+      "geometry": "rect",
+      "fillColor": "#071014",
+      "lineColor": "#071014",
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/18r61svm",
+      "id": "2",
       "name": "kicker",
       "bbox": [
         48,
@@ -81,7 +99,7 @@
         "anchor": 1,
         "fontSize": 17,
         "typeface": "+mn-lt",
-        "color": "#127C95",
+        "color": "#67E8F9",
         "bold": true,
         "alignment": "left",
         "verticalAlignment": "top",
@@ -107,7 +125,7 @@
           "text": "VISIONGUARD",
           "resolvedTextStyle": {
             "fontSize": 17,
-            "color": "#127C95",
+            "color": "#67E8F9",
             "bold": true,
             "alignment": "left"
           },
@@ -116,7 +134,7 @@
               "index": 1,
               "text": "VISIONGUARD",
               "fontSize": 17,
-              "color": "#127C95",
+              "color": "#67E8F9",
               "bold": true,
               "alignment": "left"
             }
@@ -127,11 +145,11 @@
       "lineWidth": 0
     },
     {
-      "order": 2,
+      "order": 3,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/hc3y14fi",
-      "id": "2",
+      "aid": "sh/07ipsne1",
+      "id": "3",
       "name": "slide-title",
       "bbox": [
         48,
@@ -147,7 +165,7 @@
         "anchor": 1,
         "fontSize": 42,
         "typeface": "+mn-lt",
-        "color": "#050505",
+        "color": "#F5FAFC",
         "bold": true,
         "alignment": "left",
         "verticalAlignment": "top",
@@ -173,7 +191,7 @@
           "text": "Desktop security needs context after login",
           "resolvedTextStyle": {
             "fontSize": 42,
-            "color": "#050505",
+            "color": "#F5FAFC",
             "bold": true,
             "alignment": "left"
           },
@@ -182,7 +200,7 @@
               "index": 1,
               "text": "Desktop security needs context after login",
               "fontSize": 42,
-              "color": "#050505",
+              "color": "#F5FAFC",
               "bold": true,
               "alignment": "left"
             }
@@ -193,11 +211,11 @@
       "lineWidth": 0
     },
     {
-      "order": 3,
+      "order": 4,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/wbuhszyd",
-      "id": "3",
+      "aid": "sh/ri9ovydk",
+      "id": "4",
       "name": "problem-head-0",
       "bbox": [
         62,
@@ -213,7 +231,7 @@
         "anchor": 1,
         "fontSize": 24,
         "typeface": "+mn-lt",
-        "color": "#050505",
+        "color": "#F5FAFC",
         "bold": true,
         "alignment": "left",
         "verticalAlignment": "top",
@@ -239,7 +257,7 @@
           "text": "One-time checks are limited",
           "resolvedTextStyle": {
             "fontSize": 24,
-            "color": "#050505",
+            "color": "#F5FAFC",
             "bold": true,
             "alignment": "left"
           },
@@ -248,7 +266,7 @@
               "index": 1,
               "text": "One-time checks are limited",
               "fontSize": 24,
-              "color": "#050505",
+              "color": "#F5FAFC",
               "bold": true,
               "alignment": "left"
             }
@@ -259,11 +277,11 @@
       "lineWidth": 0
     },
     {
-      "order": 4,
+      "order": 5,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/jelg3uxo",
-      "id": "4",
+      "aid": "sh/qhg72twz",
+      "id": "5",
       "name": "problem-body-0",
       "bbox": [
         62,
@@ -279,7 +297,7 @@
         "anchor": 1,
         "fontSize": 17,
         "typeface": "+mn-lt",
-        "color": "#525866",
+        "color": "#A7B3BD",
         "alignment": "left",
         "verticalAlignment": "top",
         "insets": {
@@ -304,7 +322,7 @@
           "text": "Traditional login verifies a moment, not the full session.",
           "resolvedTextStyle": {
             "fontSize": 17,
-            "color": "#525866",
+            "color": "#A7B3BD",
             "alignment": "left"
           },
           "runs": [
@@ -312,7 +330,7 @@
               "index": 1,
               "text": "Traditional login verifies a moment, not the full session.",
               "fontSize": 17,
-              "color": "#525866",
+              "color": "#A7B3BD",
               "alignment": "left"
             }
           ],
@@ -322,11 +340,11 @@
       "lineWidth": 0
     },
     {
-      "order": 5,
+      "order": 6,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/idczupg3",
-      "id": "5",
+      "aid": "sh/dkr6x8va",
+      "id": "6",
       "name": "problem-head-1",
       "bbox": [
         62,
@@ -342,7 +360,7 @@
         "anchor": 1,
         "fontSize": 24,
         "typeface": "+mn-lt",
-        "color": "#050505",
+        "color": "#F5FAFC",
         "bold": true,
         "alignment": "left",
         "verticalAlignment": "top",
@@ -368,7 +386,7 @@
           "text": "Hands-free control is useful",
           "resolvedTextStyle": {
             "fontSize": 24,
-            "color": "#050505",
+            "color": "#F5FAFC",
             "bold": true,
             "alignment": "left"
           },
@@ -377,7 +395,7 @@
               "index": 1,
               "text": "Hands-free control is useful",
               "fontSize": 24,
-              "color": "#050505",
+              "color": "#F5FAFC",
               "bold": true,
               "alignment": "left"
             }
@@ -388,11 +406,11 @@
       "lineWidth": 0
     },
     {
-      "order": 6,
+      "order": 7,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/5gny54fu",
-      "id": "6",
+      "aid": "sh/cjip43ep",
+      "id": "7",
       "name": "problem-body-1",
       "bbox": [
         62,
@@ -408,7 +426,7 @@
         "anchor": 1,
         "fontSize": 17,
         "typeface": "+mn-lt",
-        "color": "#525866",
+        "color": "#A7B3BD",
         "alignment": "left",
         "verticalAlignment": "top",
         "insets": {
@@ -437,7 +455,7 @@
           "text": "Repeated desktop actions can be faster through reliable gestures.",
           "resolvedTextStyle": {
             "fontSize": 17,
-            "color": "#525866",
+            "color": "#A7B3BD",
             "alignment": "left"
           },
           "runs": [
@@ -445,7 +463,7 @@
               "index": 1,
               "text": "Repeated desktop actions can be faster through reliable gestures.",
               "fontSize": 17,
-              "color": "#525866",
+              "color": "#A7B3BD",
               "alignment": "left"
             }
           ],
@@ -455,11 +473,11 @@
       "lineWidth": 0
     },
     {
-      "order": 7,
+      "order": 8,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/4fuhwzy9",
-      "id": "7",
+      "aid": "sh/bet872do",
+      "id": "8",
       "name": "problem-head-2",
       "bbox": [
         62,
@@ -475,7 +493,7 @@
         "anchor": 1,
         "fontSize": 24,
         "typeface": "+mn-lt",
-        "color": "#050505",
+        "color": "#F5FAFC",
         "bold": true,
         "alignment": "left",
         "verticalAlignment": "top",
@@ -501,7 +519,7 @@
           "text": "Camera input is sensitive",
           "resolvedTextStyle": {
             "fontSize": 24,
-            "color": "#050505",
+            "color": "#F5FAFC",
             "bold": true,
             "alignment": "left"
           },
@@ -510,7 +528,7 @@
               "index": 1,
               "text": "Camera input is sensitive",
               "fontSize": 24,
-              "color": "#050505",
+              "color": "#F5FAFC",
               "bold": true,
               "alignment": "left"
             }
@@ -521,11 +539,11 @@
       "lineWidth": 0
     },
     {
-      "order": 8,
+      "order": 9,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/zi1grahk",
-      "id": "8",
+      "aid": "sh/adk7yxw3",
+      "id": "9",
       "name": "problem-body-2",
       "bbox": [
         62,
@@ -541,7 +559,7 @@
         "anchor": 1,
         "fontSize": 17,
         "typeface": "+mn-lt",
-        "color": "#525866",
+        "color": "#A7B3BD",
         "alignment": "left",
         "verticalAlignment": "top",
         "insets": {
@@ -570,7 +588,7 @@
           "text": "A practical system should process frames locally and expose clear state.",
           "resolvedTextStyle": {
             "fontSize": 17,
-            "color": "#525866",
+            "color": "#A7B3BD",
             "alignment": "left"
           },
           "runs": [
@@ -578,7 +596,7 @@
               "index": 1,
               "text": "A practical system should process frames locally and expose clear state.",
               "fontSize": 17,
-              "color": "#525866",
+              "color": "#A7B3BD",
               "alignment": "left"
             }
           ],
@@ -588,11 +606,11 @@
       "lineWidth": 0
     },
     {
-      "order": 9,
+      "order": 10,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/yhsfy5gz",
-      "id": "9",
+      "aid": "sh/sze98jml",
+      "id": "10",
       "name": "problem-callout",
       "bbox": [
         660,
@@ -601,16 +619,16 @@
         310
       ],
       "geometry": "roundRect",
-      "fillColor": "#EAF7FB",
-      "lineColor": "#B8BCC4",
+      "fillColor": "#0B2F3A",
+      "lineColor": "#254854",
       "lineWidth": 1
     },
     {
-      "order": 10,
+      "order": 11,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/kvehw3y9",
-      "id": "10",
+      "aid": "sh/t07qhonq",
+      "id": "11",
       "name": "problem-callout-title",
       "bbox": [
         704,
@@ -626,7 +644,7 @@
         "anchor": 1,
         "fontSize": 32,
         "typeface": "+mn-lt",
-        "color": "#050505",
+        "color": "#F5FAFC",
         "bold": true,
         "alignment": "left",
         "verticalAlignment": "top",
@@ -652,7 +670,7 @@
           "text": "Project question",
           "resolvedTextStyle": {
             "fontSize": 32,
-            "color": "#050505",
+            "color": "#F5FAFC",
             "bold": true,
             "alignment": "left"
           },
@@ -661,7 +679,7 @@
               "index": 1,
               "text": "Project question",
               "fontSize": 32,
-              "color": "#050505",
+              "color": "#F5FAFC",
               "bold": true,
               "alignment": "left"
             }
@@ -672,11 +690,11 @@
       "lineWidth": 0
     },
     {
-      "order": 11,
+      "order": 12,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/5wny58zu",
-      "id": "11",
+      "aid": "sh/6xwr694f",
+      "id": "12",
       "name": "problem-callout-body",
       "bbox": [
         704,
@@ -692,7 +710,7 @@
         "anchor": 1,
         "fontSize": 25,
         "typeface": "+mn-lt",
-        "color": "#050505",
+        "color": "#F5FAFC",
         "alignment": "left",
         "verticalAlignment": "top",
         "insets": {
@@ -733,7 +751,7 @@
           "text": "Can a local desktop app connect camera monitoring, gesture training, live inference, and action execution in one understandable workflow?",
           "resolvedTextStyle": {
             "fontSize": 25,
-            "color": "#050505",
+            "color": "#F5FAFC",
             "alignment": "left"
           },
           "runs": [
@@ -741,7 +759,7 @@
               "index": 1,
               "text": "Can a local desktop app connect camera monitoring, gesture training, live inference, and action execution in one understandable workflow?",
               "fontSize": 25,
-              "color": "#050505",
+              "color": "#F5FAFC",
               "alignment": "left"
             }
           ],
@@ -751,11 +769,11 @@
       "lineWidth": 0
     },
     {
-      "order": 12,
+      "order": 13,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/itwzutg3",
-      "id": "12",
+      "aid": "sh/ry58fe50",
+      "id": "13",
       "name": "footer-2",
       "bbox": [
         1184,
@@ -771,7 +789,7 @@
         "anchor": 1,
         "fontSize": 14,
         "typeface": "+mn-lt",
-        "color": "#525866",
+        "color": "#A7B3BD",
         "alignment": "right",
         "verticalAlignment": "top",
         "insets": {
@@ -796,7 +814,7 @@
           "text": "02",
           "resolvedTextStyle": {
             "fontSize": 14,
-            "color": "#525866",
+            "color": "#A7B3BD",
             "alignment": "right"
           },
           "runs": [
@@ -804,7 +822,7 @@
               "index": 1,
               "text": "02",
               "fontSize": 14,
-              "color": "#525866",
+              "color": "#A7B3BD",
               "alignment": "right"
             }
           ],

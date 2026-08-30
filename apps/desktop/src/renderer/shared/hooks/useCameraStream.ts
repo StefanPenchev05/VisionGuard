@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export type CameraStatus = "idle" | "requesting" | "active" | "error";
+export type CameraPermissionState = PermissionState | "unsupported" | "unknown";
 
 export function buildCameraConstraints(deviceId: string | null): MediaStreamConstraints {
   return {
@@ -34,6 +35,44 @@ export function getCameraErrorMessage(error: unknown): string {
   return error.message || "Camera could not be started.";
 }
 
+export function getCameraStatusLabel(params: {
+  deviceCount: number;
+  errorMessage: string | null;
+  isSupported: boolean;
+  permissionState: CameraPermissionState;
+  status: CameraStatus;
+}): string {
+  if (!params.isSupported) {
+    return "Unsupported";
+  }
+
+  if (params.status === "requesting") {
+    return "Connecting";
+  }
+
+  if (params.status === "active") {
+    return "Connected";
+  }
+
+  if (params.status === "error") {
+    return params.errorMessage ?? "Unavailable";
+  }
+
+  if (params.permissionState === "denied") {
+    return "Permission denied";
+  }
+
+  if (params.deviceCount === 0) {
+    return "No camera found";
+  }
+
+  if (params.permissionState === "prompt") {
+    return "Permission needed";
+  }
+
+  return "Ready";
+}
+
 function shouldRetryWithDefaultCamera(error: unknown, deviceId: string | null): boolean {
   return Boolean(
     deviceId &&
@@ -44,6 +83,7 @@ function shouldRetryWithDefaultCamera(error: unknown, deviceId: string | null): 
 
 export function useCameraStream() {
   const [devices, setDevices] = useState<MediaDeviceInfo[]>([]);
+  const [permissionState, setPermissionState] = useState<CameraPermissionState>("unknown");
   const [selectedDeviceId, setSelectedDeviceId] = useState<string | null>(() =>
     window.localStorage.getItem("visionguard.camera.deviceId")
   );
@@ -51,18 +91,31 @@ export function useCameraStream() {
   const [status, setStatus] = useState<CameraStatus>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const activeStreamRef = useRef<MediaStream | null>(null);
+  const requestIdRef = useRef(0);
   const selectedDeviceIdRef = useRef(selectedDeviceId);
+  const isCameraSupported = Boolean(navigator.mediaDevices?.getUserMedia);
 
   const setActiveStream = useCallback((mediaStream: MediaStream | null) => {
     activeStreamRef.current = mediaStream;
     setStream(mediaStream);
 
     mediaStream?.getVideoTracks().forEach((track) => {
-      track.onended = () => {
+      const handleTrackEnded = () => {
         if (activeStreamRef.current === mediaStream) {
           activeStreamRef.current = null;
           setStream(null);
           setStatus("idle");
+        }
+      };
+      track.onended = handleTrackEnded;
+      track.onmute = () => {
+        if (activeStreamRef.current === mediaStream) {
+          setStatus("idle");
+        }
+      };
+      track.onunmute = () => {
+        if (activeStreamRef.current === mediaStream) {
+          setStatus("active");
         }
       };
     });
@@ -74,27 +127,35 @@ export function useCameraStream() {
       return;
     }
 
-    const mediaDevices = await navigator.mediaDevices.enumerateDevices();
-    const videoDevices = mediaDevices.filter((device) => device.kind === "videoinput");
-    setDevices(videoDevices);
+    try {
+      const mediaDevices = await navigator.mediaDevices.enumerateDevices();
+      const videoDevices = mediaDevices.filter((device) => device.kind === "videoinput");
+      setDevices(videoDevices);
 
-    if (
-      selectedDeviceIdRef.current &&
-      !videoDevices.some((device) => device.deviceId === selectedDeviceIdRef.current)
-    ) {
-      selectedDeviceIdRef.current = null;
-      setSelectedDeviceId(null);
-      window.localStorage.removeItem("visionguard.camera.deviceId");
+      if (
+        selectedDeviceIdRef.current &&
+        !videoDevices.some((device) => device.deviceId === selectedDeviceIdRef.current)
+      ) {
+        selectedDeviceIdRef.current = null;
+        setSelectedDeviceId(null);
+        window.localStorage.removeItem("visionguard.camera.deviceId");
+      }
+    } catch {
+      setDevices([]);
     }
   }, []);
 
   const stopCamera = useCallback(() => {
+    requestIdRef.current += 1;
     activeStreamRef.current?.getTracks().forEach((track) => {
       track.onended = null;
+      track.onmute = null;
+      track.onunmute = null;
       track.stop();
     });
     setActiveStream(null);
     setStatus("idle");
+    setErrorMessage(null);
   }, [setActiveStream]);
 
   const startCamera = useCallback(async (deviceId = selectedDeviceIdRef.current) => {
@@ -104,12 +165,16 @@ export function useCameraStream() {
       return;
     }
 
+    const requestId = requestIdRef.current + 1;
+    requestIdRef.current = requestId;
     setStatus("requesting");
     setErrorMessage(null);
 
     try {
       activeStreamRef.current?.getTracks().forEach((track) => {
         track.onended = null;
+        track.onmute = null;
+        track.onunmute = null;
         track.stop();
       });
       let mediaStream: MediaStream;
@@ -127,13 +192,26 @@ export function useCameraStream() {
         mediaStream = await navigator.mediaDevices.getUserMedia(buildCameraConstraints(null));
       }
 
+      if (requestIdRef.current !== requestId) {
+        mediaStream.getTracks().forEach((track) => track.stop());
+        return;
+      }
+
       setActiveStream(mediaStream);
       setStatus("active");
+      setPermissionState("granted");
       await refreshDevices();
     } catch (error) {
+      if (requestIdRef.current !== requestId) {
+        return;
+      }
+
       setActiveStream(null);
       setStatus("error");
       setErrorMessage(getCameraErrorMessage(error));
+      if (error instanceof DOMException && error.name === "NotAllowedError") {
+        setPermissionState("denied");
+      }
     }
   }, [refreshDevices, setActiveStream]);
 
@@ -150,6 +228,7 @@ export function useCameraStream() {
     (deviceId: string) => {
       selectedDeviceIdRef.current = deviceId || null;
       setSelectedDeviceId(deviceId || null);
+      setErrorMessage(null);
 
       if (deviceId) {
         window.localStorage.setItem("visionguard.camera.deviceId", deviceId);
@@ -171,17 +250,59 @@ export function useCameraStream() {
     return () => navigator.mediaDevices?.removeEventListener?.("devicechange", refreshDevices);
   }, [refreshDevices]);
 
+  useEffect(() => {
+    let isMounted = true;
+    let permissionStatus: PermissionStatus | null = null;
+
+    if (!navigator.permissions?.query) {
+      setPermissionState(isCameraSupported ? "unknown" : "unsupported");
+      return undefined;
+    }
+
+    void navigator.permissions
+      .query({ name: "camera" as PermissionName })
+      .then((statusResult) => {
+        if (!isMounted) return;
+
+        permissionStatus = statusResult;
+        setPermissionState(statusResult.state);
+        statusResult.onchange = () => setPermissionState(statusResult.state);
+      })
+      .catch(() => {
+        if (isMounted) {
+          setPermissionState(isCameraSupported ? "unknown" : "unsupported");
+        }
+      });
+
+    return () => {
+      isMounted = false;
+      if (permissionStatus) {
+        permissionStatus.onchange = null;
+      }
+    };
+  }, [isCameraSupported]);
+
   useEffect(() => stopCamera, [stopCamera]);
 
   return {
+    activeCameraLabel: devices.find((device) => device.deviceId === selectedDeviceId)?.label ?? null,
     devices,
     errorMessage,
     isCameraActive: status === "active",
+    isCameraSupported,
+    permissionState,
     refreshDevices,
     selectCamera,
     selectedDeviceId,
     startCamera,
     status,
+    statusLabel: getCameraStatusLabel({
+      deviceCount: devices.length,
+      errorMessage,
+      isSupported: isCameraSupported,
+      permissionState,
+      status
+    }),
     stopCamera,
     stream,
     toggleCamera

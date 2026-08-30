@@ -46,14 +46,22 @@ export function LiveVisionPanel({
   const lastFpsTimeRef = useRef(performance.now());
   const rafRef = useRef<number | null>(null);
   const [stats, setStats] = useState<CameraStats>({ fps: 0, width: 0, height: 0, brightness: "OK" });
+  const [isPreviewReady, setIsPreviewReady] = useState(false);
 
   useEffect(() => {
     if (!videoRef.current) return;
     videoRef.current.srcObject = stream;
+    setIsPreviewReady(false);
   }, [stream]);
 
   useEffect(() => {
-    if (!isCameraActive || !inferenceEnabled) {
+    if (!isCameraActive) {
+      setIsPreviewReady(false);
+    }
+  }, [isCameraActive]);
+
+  useEffect(() => {
+    if (!isCameraActive || !isPreviewReady || !inferenceEnabled) {
       return;
     }
 
@@ -84,11 +92,11 @@ export function LiveVisionPanel({
     }, 1_200);
 
     return () => window.clearInterval(intervalId);
-  }, [inferenceEnabled, isCameraActive, onInferenceFrame]);
+  }, [inferenceEnabled, isCameraActive, isPreviewReady, onInferenceFrame]);
 
   // Real-time FPS + resolution counter
   useEffect(() => {
-    if (!isCameraActive) {
+    if (!isCameraActive || !isPreviewReady) {
       if (rafRef.current !== null) {
         cancelAnimationFrame(rafRef.current);
         rafRef.current = null;
@@ -126,7 +134,7 @@ export function LiveVisionPanel({
     return () => {
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
     };
-  }, [isCameraActive, stream]);
+  }, [isCameraActive, isPreviewReady, stream]);
 
   const resolutionLabel = stats.width && stats.height
     ? `${stats.width} × ${stats.height}`
@@ -149,7 +157,7 @@ export function LiveVisionPanel({
           {isCameraActive ? (
             <>
               <span>{resolutionLabel}</span>
-              <span>{stats.fps} FPS</span>
+              <span>{isPreviewReady ? stats.fps : 0} FPS</span>
             </>
           ) : (
             <>
@@ -170,6 +178,12 @@ export function LiveVisionPanel({
             autoPlay
             className="camera-video"
             muted
+            onLoadedMetadata={(event) => {
+              setIsPreviewReady(true);
+              void event.currentTarget.play();
+            }}
+            onPlaying={() => setIsPreviewReady(true)}
+            onWaiting={() => setIsPreviewReady(false)}
             playsInline
           />
         ) : (
@@ -203,6 +217,13 @@ export function LiveVisionPanel({
           </div>
         )}
 
+        {isCameraActive && !isPreviewReady && (
+          <div className="camera-status">
+            <strong>Starting camera preview</strong>
+            <span>Waiting for the video stream to become readable.</span>
+          </div>
+        )}
+
         {!isCameraActive && (
           <>
             <div className="face-box">
@@ -228,7 +249,7 @@ export function LiveVisionPanel({
           </>
         )}
 
-        {isCameraActive && (
+        {isCameraActive && isPreviewReady && (
           <>
             <div className="prediction-card">
               <span>Gesture</span>

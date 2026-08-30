@@ -2,15 +2,15 @@
   "schema": "openai.presentation.layout/v4",
   "unit": "px",
   "slide": {
-    "aid": "sl/s9fbsm",
-    "id": "s9fbsm",
+    "aid": "sl/nghz7c",
+    "id": "nghz7c",
     "slide": 7,
-    "layoutId": "45acdb32-d4b9-4ca6-9b59-f174dea2ec30",
+    "layoutId": "cb145558-2755-41f3-8894-c55854af6c20",
     "layoutName": "Title Slide",
     "layoutType": "title",
-    "masterLayoutId": "dc448232-15f3-4e48-8bee-9c0a57b22431",
+    "masterLayoutId": "e14c3c45-0f6b-482a-98eb-874386684769",
     "masterLayoutName": "Master",
-    "backgroundColor": "#FFFFFF",
+    "backgroundColor": "#071014",
     "frame": {
       "left": 0,
       "top": 0,
@@ -45,15 +45,15 @@
   "inheritedLayers": [
     {
       "scope": "layout",
-      "id": "45acdb32-d4b9-4ca6-9b59-f174dea2ec30",
+      "id": "cb145558-2755-41f3-8894-c55854af6c20",
       "name": "Title Slide",
       "type": "title",
-      "parentLayoutId": "dc448232-15f3-4e48-8bee-9c0a57b22431",
+      "parentLayoutId": "e14c3c45-0f6b-482a-98eb-874386684769",
       "elements": []
     },
     {
       "scope": "master",
-      "id": "dc448232-15f3-4e48-8bee-9c0a57b22431",
+      "id": "e14c3c45-0f6b-482a-98eb-874386684769",
       "name": "Master",
       "type": "master",
       "elements": []
@@ -64,8 +64,26 @@
       "order": 1,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/y5wzalsr",
+      "aid": "sh/fu1sv69c",
       "id": "1",
+      "name": "dark-background",
+      "bbox": [
+        0,
+        0,
+        1280,
+        720
+      ],
+      "geometry": "rect",
+      "fillColor": "#071014",
+      "lineColor": "#071014",
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/gva94bqx",
+      "id": "2",
       "name": "kicker",
       "bbox": [
         48,
@@ -81,7 +99,7 @@
         "anchor": 1,
         "fontSize": 17,
         "typeface": "+mn-lt",
-        "color": "#127C95",
+        "color": "#67E8F9",
         "bold": true,
         "alignment": "left",
         "verticalAlignment": "top",
@@ -107,7 +125,7 @@
           "text": "VISIONGUARD",
           "resolvedTextStyle": {
             "fontSize": 17,
-            "color": "#127C95",
+            "color": "#67E8F9",
             "bold": true,
             "alignment": "left"
           },
@@ -116,77 +134,7 @@
               "index": 1,
               "text": "VISIONGUARD",
               "fontSize": 17,
-              "color": "#127C95",
-              "bold": true,
-              "alignment": "left"
-            }
-          ],
-          "marginLeft": 0
-        }
-      ],
-      "lineWidth": 0
-    },
-    {
-      "order": 2,
-      "kind": "shape",
-      "scope": "slide",
-      "aid": "sh/l8ni5gr2",
-      "id": "2",
-      "name": "slide-title",
-      "bbox": [
-        48,
-        72,
-        1030,
-        96
-      ],
-      "geometry": "rect",
-      "text": "The gesture view connects recording, mapping, and training",
-      "textPreview": "The gesture view connects recording, mapping, and training",
-      "resolvedFontSize": 42,
-      "resolvedTextStyle": {
-        "anchor": 1,
-        "fontSize": 42,
-        "typeface": "+mn-lt",
-        "color": "#050505",
-        "bold": true,
-        "alignment": "left",
-        "verticalAlignment": "top",
-        "insets": {
-          "top": 4.8,
-          "right": 9.6,
-          "bottom": 4.8,
-          "left": 9.6
-        }
-      },
-      "textLayout": {
-        "lineCount": 2,
-        "lines": [
-          {
-            "index": 1,
-            "text": "The gesture view connects recording, mapping,"
-          },
-          {
-            "index": 2,
-            "text": "and training"
-          }
-        ]
-      },
-      "paragraphs": [
-        {
-          "index": 1,
-          "text": "The gesture view connects recording, mapping, and training",
-          "resolvedTextStyle": {
-            "fontSize": 42,
-            "color": "#050505",
-            "bold": true,
-            "alignment": "left"
-          },
-          "runs": [
-            {
-              "index": 1,
-              "text": "The gesture view connects recording, mapping, and training",
-              "fontSize": 42,
-              "color": "#050505",
+              "color": "#67E8F9",
               "bold": true,
               "alignment": "left"
             }
@@ -198,10 +146,76 @@
     },
     {
       "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/1wjaxgri",
+      "id": "3",
+      "name": "slide-title",
+      "bbox": [
+        48,
+        72,
+        1030,
+        96
+      ],
+      "geometry": "rect",
+      "text": "The live monitor makes system state visible",
+      "textPreview": "The live monitor makes system state visible",
+      "resolvedFontSize": 42,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 42,
+        "typeface": "+mn-lt",
+        "color": "#F5FAFC",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "The live monitor makes system state visible"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "The live monitor makes system state visible",
+          "resolvedTextStyle": {
+            "fontSize": 42,
+            "color": "#F5FAFC",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "The live monitor makes system state visible",
+              "fontSize": 42,
+              "color": "#F5FAFC",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
       "kind": "image",
       "scope": "slide",
-      "aid": "im/hkfu1sz2",
-      "id": "3",
+      "aid": "im/7ul0bipc",
+      "id": "4",
       "bbox": [
         70,
         178,
@@ -209,7 +223,7 @@
         440
       ],
       "geometry": "roundRect",
-      "alt": "Gesture view screenshot",
+      "alt": "Live monitor screenshot",
       "contentType": "image/png",
       "imageCrop": {
         "left": 0,
@@ -228,33 +242,33 @@
         ]
       },
       "asset": {
-        "assetId": "a2fa2a00-f6be-4fda-b25e-0c663c9e48e3",
+        "assetId": "fa363d84-ebe8-413d-b19c-4c0a5d63780c",
         "contentType": "image/png",
-        "byteLength": 367307
+        "byteLength": 540327
       }
     },
     {
-      "order": 4,
+      "order": 5,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/b2l0z690",
-      "id": "4",
-      "name": "gesture-notes-head-0",
+      "aid": "sh/3y1szq9o",
+      "id": "5",
+      "name": "monitor-notes-head-0",
       "bbox": [
         884,
-        202,
-        306,
+        206,
+        300,
         30
       ],
       "geometry": "rect",
-      "text": "Six action types",
-      "textPreview": "Six action types",
+      "text": "Readiness",
+      "textPreview": "Readiness",
       "resolvedFontSize": 24,
       "resolvedTextStyle": {
         "anchor": 1,
         "fontSize": 24,
         "typeface": "+mn-lt",
-        "color": "#050505",
+        "color": "#F5FAFC",
         "bold": true,
         "alignment": "left",
         "verticalAlignment": "top",
@@ -270,94 +284,27 @@
         "lines": [
           {
             "index": 1,
-            "text": "Six action types"
+            "text": "Readiness"
           }
         ]
       },
       "paragraphs": [
         {
           "index": 1,
-          "text": "Six action types",
+          "text": "Readiness",
           "resolvedTextStyle": {
             "fontSize": 24,
-            "color": "#050505",
+            "color": "#F5FAFC",
             "bold": true,
             "alignment": "left"
           },
           "runs": [
             {
               "index": 1,
-              "text": "Six action types",
+              "text": "Readiness",
               "fontSize": 24,
-              "color": "#050505",
+              "color": "#F5FAFC",
               "bold": true,
-              "alignment": "left"
-            }
-          ],
-          "marginLeft": 0
-        }
-      ],
-      "lineWidth": 0
-    },
-    {
-      "order": 5,
-      "kind": "shape",
-      "scope": "slide",
-      "aid": "sh/ahcz61sf",
-      "id": "5",
-      "name": "gesture-notes-body-0",
-      "bbox": [
-        884,
-        236,
-        306,
-        38
-      ],
-      "geometry": "rect",
-      "text": "Open app, volume down, volume up, mute, shortcut, and mouse click.",
-      "textPreview": "Open app, volume down, volume up, mute, shortcut, and mouse click.",
-      "resolvedFontSize": 17,
-      "resolvedTextStyle": {
-        "anchor": 1,
-        "fontSize": 17,
-        "typeface": "+mn-lt",
-        "color": "#525866",
-        "alignment": "left",
-        "verticalAlignment": "top",
-        "insets": {
-          "top": 4.8,
-          "right": 9.6,
-          "bottom": 4.8,
-          "left": 9.6
-        }
-      },
-      "textLayout": {
-        "lineCount": 2,
-        "lines": [
-          {
-            "index": 1,
-            "text": "Open app, volume down, volume up,"
-          },
-          {
-            "index": 2,
-            "text": "mute, shortcut, and mouse click."
-          }
-        ]
-      },
-      "paragraphs": [
-        {
-          "index": 1,
-          "text": "Open app, volume down, volume up, mute, shortcut, and mouse click.",
-          "resolvedTextStyle": {
-            "fontSize": 17,
-            "color": "#525866",
-            "alignment": "left"
-          },
-          "runs": [
-            {
-              "index": 1,
-              "text": "Open app, volume down, volume up, mute, shortcut, and mouse click.",
-              "fontSize": 17,
-              "color": "#525866",
               "alignment": "left"
             }
           ],
@@ -370,25 +317,24 @@
       "order": 6,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/x4ni1gr6",
+      "aid": "sh/ozu98vqt",
       "id": "6",
-      "name": "gesture-notes-head-1",
+      "name": "monitor-notes-body-0",
       "bbox": [
         884,
-        314,
-        306,
-        30
+        240,
+        300,
+        38
       ],
       "geometry": "rect",
-      "text": "Sample rule",
-      "textPreview": "Sample rule",
-      "resolvedFontSize": 24,
+      "text": "Camera, AI service, trained model, and inference state are visible.",
+      "textPreview": "Camera, AI service, trained model, and inference state are visible.",
+      "resolvedFontSize": 17,
       "resolvedTextStyle": {
         "anchor": 1,
-        "fontSize": 24,
+        "fontSize": 17,
         "typeface": "+mn-lt",
-        "color": "#050505",
-        "bold": true,
+        "color": "#A7B3BD",
         "alignment": "left",
         "verticalAlignment": "top",
         "insets": {
@@ -399,31 +345,33 @@
         }
       },
       "textLayout": {
-        "lineCount": 1,
+        "lineCount": 2,
         "lines": [
           {
             "index": 1,
-            "text": "Sample rule"
+            "text": "Camera, AI service, trained model,"
+          },
+          {
+            "index": 2,
+            "text": "and inference state are visible."
           }
         ]
       },
       "paragraphs": [
         {
           "index": 1,
-          "text": "Sample rule",
+          "text": "Camera, AI service, trained model, and inference state are visible.",
           "resolvedTextStyle": {
-            "fontSize": 24,
-            "color": "#050505",
-            "bold": true,
+            "fontSize": 17,
+            "color": "#A7B3BD",
             "alignment": "left"
           },
           "runs": [
             {
               "index": 1,
-              "text": "Sample rule",
-              "fontSize": 24,
-              "color": "#050505",
-              "bold": true,
+              "text": "Camera, AI service, trained model, and inference state are visible.",
+              "fontSize": 17,
+              "color": "#A7B3BD",
               "alignment": "left"
             }
           ],
@@ -436,91 +384,24 @@
       "order": 7,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/c3uh8bal",
+      "aid": "sh/p03a10re",
       "id": "7",
-      "name": "gesture-notes-body-1",
+      "name": "monitor-notes-head-1",
       "bbox": [
         884,
-        348,
-        306,
-        38
-      ],
-      "geometry": "rect",
-      "text": "A gesture needs 12 captured hand samples before saving.",
-      "textPreview": "A gesture needs 12 captured hand samples before saving.",
-      "resolvedFontSize": 17,
-      "resolvedTextStyle": {
-        "anchor": 1,
-        "fontSize": 17,
-        "typeface": "+mn-lt",
-        "color": "#525866",
-        "alignment": "left",
-        "verticalAlignment": "top",
-        "insets": {
-          "top": 4.8,
-          "right": 9.6,
-          "bottom": 4.8,
-          "left": 9.6
-        }
-      },
-      "textLayout": {
-        "lineCount": 2,
-        "lines": [
-          {
-            "index": 1,
-            "text": "A gesture needs 12 captured hand"
-          },
-          {
-            "index": 2,
-            "text": "samples before saving."
-          }
-        ]
-      },
-      "paragraphs": [
-        {
-          "index": 1,
-          "text": "A gesture needs 12 captured hand samples before saving.",
-          "resolvedTextStyle": {
-            "fontSize": 17,
-            "color": "#525866",
-            "alignment": "left"
-          },
-          "runs": [
-            {
-              "index": 1,
-              "text": "A gesture needs 12 captured hand samples before saving.",
-              "fontSize": 17,
-              "color": "#525866",
-              "alignment": "left"
-            }
-          ],
-          "marginLeft": 0
-        }
-      ],
-      "lineWidth": 0
-    },
-    {
-      "order": 8,
-      "kind": "shape",
-      "scope": "slide",
-      "aid": "sh/3elgv6t4",
-      "id": "8",
-      "name": "gesture-notes-head-2",
-      "bbox": [
-        884,
-        426,
-        306,
+        314,
+        300,
         30
       ],
       "geometry": "rect",
-      "text": "Training state",
-      "textPreview": "Training state",
+      "text": "Feedback",
+      "textPreview": "Feedback",
       "resolvedFontSize": 24,
       "resolvedTextStyle": {
         "anchor": 1,
         "fontSize": 24,
         "typeface": "+mn-lt",
-        "color": "#050505",
+        "color": "#F5FAFC",
         "bold": true,
         "alignment": "left",
         "verticalAlignment": "top",
@@ -536,27 +417,98 @@
         "lines": [
           {
             "index": 1,
-            "text": "Training state"
+            "text": "Feedback"
           }
         ]
       },
       "paragraphs": [
         {
           "index": 1,
-          "text": "Training state",
+          "text": "Feedback",
           "resolvedTextStyle": {
             "fontSize": 24,
-            "color": "#050505",
+            "color": "#F5FAFC",
             "bold": true,
             "alignment": "left"
           },
           "runs": [
             {
               "index": 1,
-              "text": "Training state",
+              "text": "Feedback",
               "fontSize": 24,
-              "color": "#050505",
+              "color": "#F5FAFC",
               "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/i18ruh8j",
+      "id": "8",
+      "name": "monitor-notes-body-1",
+      "bbox": [
+        884,
+        348,
+        300,
+        38
+      ],
+      "geometry": "rect",
+      "text": "Prediction, confidence, model health, and event timeline are shown together.",
+      "textPreview": "Prediction, confidence, model health, and event timeline are shown together.",
+      "resolvedFontSize": 17,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 17,
+        "typeface": "+mn-lt",
+        "color": "#A7B3BD",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 3,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Prediction, confidence, model"
+          },
+          {
+            "index": 2,
+            "text": "health, and event timeline are shown"
+          },
+          {
+            "index": 3,
+            "text": "together."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Prediction, confidence, model health, and event timeline are shown together.",
+          "resolvedTextStyle": {
+            "fontSize": 17,
+            "color": "#A7B3BD",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Prediction, confidence, model health, and event timeline are shown together.",
+              "fontSize": 17,
+              "color": "#A7B3BD",
               "alignment": "left"
             }
           ],
@@ -569,24 +521,90 @@
       "order": 9,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/2dcz21sj",
+      "aid": "sh/j2h8nm94",
       "id": "9",
-      "name": "gesture-notes-body-2",
+      "name": "monitor-notes-head-2",
       "bbox": [
         884,
-        460,
-        306,
+        422,
+        300,
+        30
+      ],
+      "geometry": "rect",
+      "text": "Control",
+      "textPreview": "Control",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "+mn-lt",
+        "color": "#F5FAFC",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Control"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Control",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "color": "#F5FAFC",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Control",
+              "fontSize": 24,
+              "color": "#F5FAFC",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/vapcbq9o",
+      "id": "10",
+      "name": "monitor-notes-body-2",
+      "bbox": [
+        884,
+        456,
+        300,
         38
       ],
       "geometry": "rect",
-      "text": "Saved gestures move from draft or ready into training and trained states.",
-      "textPreview": "Saved gestures move from draft or ready into training and trained states.",
+      "text": "The user starts sessions, calibrates, exports, and changes views.",
+      "textPreview": "The user starts sessions, calibrates, exports, and changes views.",
       "resolvedFontSize": 17,
       "resolvedTextStyle": {
         "anchor": 1,
         "fontSize": 17,
         "typeface": "+mn-lt",
-        "color": "#525866",
+        "color": "#A7B3BD",
         "alignment": "left",
         "verticalAlignment": "top",
         "insets": {
@@ -601,29 +619,29 @@
         "lines": [
           {
             "index": 1,
-            "text": "Saved gestures move from draft or"
+            "text": "The user starts sessions, calibrates,"
           },
           {
             "index": 2,
-            "text": "ready into training and trained states."
+            "text": "exports, and changes views."
           }
         ]
       },
       "paragraphs": [
         {
           "index": 1,
-          "text": "Saved gestures move from draft or ready into training and trained states.",
+          "text": "The user starts sessions, calibrates, exports, and changes views.",
           "resolvedTextStyle": {
             "fontSize": 17,
-            "color": "#525866",
+            "color": "#A7B3BD",
             "alignment": "left"
           },
           "runs": [
             {
               "index": 1,
-              "text": "Saved gestures move from draft or ready into training and trained states.",
+              "text": "The user starts sessions, calibrates, exports, and changes views.",
               "fontSize": 17,
-              "color": "#525866",
+              "color": "#A7B3BD",
               "alignment": "left"
             }
           ],
@@ -633,11 +651,11 @@
       "lineWidth": 0
     },
     {
-      "order": 10,
+      "order": 11,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/ovm543al",
-      "id": "10",
+      "aid": "sh/u9wb2ls3",
+      "id": "11",
       "name": "footer-7",
       "bbox": [
         1184,
@@ -653,7 +671,7 @@
         "anchor": 1,
         "fontSize": 14,
         "typeface": "+mn-lt",
-        "color": "#525866",
+        "color": "#A7B3BD",
         "alignment": "right",
         "verticalAlignment": "top",
         "insets": {
@@ -678,7 +696,7 @@
           "text": "07",
           "resolvedTextStyle": {
             "fontSize": 14,
-            "color": "#525866",
+            "color": "#A7B3BD",
             "alignment": "right"
           },
           "runs": [
@@ -686,7 +704,7 @@
               "index": 1,
               "text": "07",
               "fontSize": 14,
-              "color": "#525866",
+              "color": "#A7B3BD",
               "alignment": "right"
             }
           ],

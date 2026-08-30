@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 import pytest
 from application.training.gesture_training_worker import (
+    build_landmark_feature_vector,
     detect_hand_presence,
     extract_attention_region_bytes,
     extract_image_features,
@@ -82,6 +83,30 @@ def write_face_with_curtain_image(path: Path) -> None:
 
 def test_read_jpeg_dimensions_from_sof_marker() -> None:
     assert read_jpeg_dimensions(build_minimal_jpeg(640, 360)) == (640, 360)
+
+
+def test_landmark_feature_vector_has_stable_shape() -> None:
+    landmarks = [
+        (index / 100, index / 120, index / 1000)
+        for index in range(21)
+    ]
+
+    features = build_landmark_feature_vector(
+        landmarks,
+        box=(100, 80, 160, 220),
+        image_width=640,
+        image_height=360,
+    )
+
+    assert len(features) == 77
+    assert features[0:3] == [0, 0, 0]
+    assert features[-5:] == [
+        (100 + 160 / 2) / 640,
+        (80 + 220 / 2) / 360,
+        160 / 640,
+        220 / 360,
+        160 / 220,
+    ]
 
 
 def test_extract_image_features_include_dimension_and_content_features(tmp_path: Path) -> None:
@@ -234,7 +259,7 @@ def test_train_gesture_model_writes_neural_network_artifact(tmp_path: Path) -> N
     artifact = load_model_artifact(trained_model.artifact_path)
 
     assert artifact["modelBackend"] == "pure-python-mlp"
-    assert artifact["featureExtractor"] == "hand-only-attention-jpeg-statistical-v5"
+    assert artifact["featureExtractor"] == "mediapipe-hand-landmarks-v6"
     assert artifact["inputSize"] > 50
     assert trained_model.accuracy >= 0.9
 

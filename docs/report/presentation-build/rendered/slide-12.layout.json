@@ -2,9 +2,9 @@
   "schema": "openai.presentation.layout/v4",
   "unit": "px",
   "slide": {
-    "aid": "sl/vygqxk",
-    "id": "vygqxk",
-    "slide": 9,
+    "aid": "sl/yoh2tg",
+    "id": "yoh2tg",
+    "slide": 12,
     "layoutId": "cb145558-2755-41f3-8894-c55854af6c20",
     "layoutName": "Title Slide",
     "layoutType": "title",
@@ -64,7 +64,7 @@
       "order": 1,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/ah8vmxkz",
+      "aid": "sh/vqpwzy5c",
       "id": "1",
       "name": "dark-background",
       "bbox": [
@@ -82,7 +82,7 @@
       "order": 2,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/x4jexc3a",
+      "aid": "sh/wryx83mx",
       "id": "2",
       "name": "kicker",
       "bbox": [
@@ -148,7 +148,7 @@
       "order": 3,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/w3qdo72p",
+      "aid": "sh/hs7e183i",
       "id": "3",
       "name": "slide-title",
       "bbox": [
@@ -158,8 +158,8 @@
         96
       ],
       "geometry": "rect",
-      "text": "A small contract drives model operations",
-      "textPreview": "A small contract drives model operations",
+      "text": "Evaluation should prove the system is reliable",
+      "textPreview": "Evaluation should prove the system is reliable",
       "resolvedFontSize": 42,
       "resolvedTextStyle": {
         "anchor": 1,
@@ -181,14 +181,14 @@
         "lines": [
           {
             "index": 1,
-            "text": "A small contract drives model operations"
+            "text": "Evaluation should prove the system is reliable"
           }
         ]
       },
       "paragraphs": [
         {
           "index": 1,
-          "text": "A small contract drives model operations",
+          "text": "Evaluation should prove the system is reliable",
           "resolvedTextStyle": {
             "fontSize": 42,
             "color": "#F5FAFC",
@@ -198,7 +198,7 @@
           "runs": [
             {
               "index": 1,
-              "text": "A small contract drives model operations",
+              "text": "Evaluation should prove the system is reliable",
               "fontSize": 42,
               "color": "#F5FAFC",
               "bold": true,
@@ -214,40 +214,22 @@
       "order": 4,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/j61wzmlg",
+      "aid": "sh/itgfad43",
       "id": "4",
-      "name": "contract-row-0",
-      "bbox": [
-        72,
-        178,
-        1040,
-        52
-      ],
-      "geometry": "roundRect",
-      "fillColor": "#101D23",
-      "lineColor": "#254854",
-      "lineWidth": 1
-    },
-    {
-      "order": 5,
-      "kind": "shape",
-      "scope": "slide",
-      "aid": "sh/i5svqhkv",
-      "id": "5",
-      "name": "contract-head-0",
+      "name": "eval-head-0",
       "bbox": [
         96,
-        190,
-        210,
-        28
+        188,
+        1000,
+        30
       ],
       "geometry": "rect",
-      "text": "Dataset",
-      "textPreview": "Dataset",
-      "resolvedFontSize": 22,
+      "text": "Gesture quality",
+      "textPreview": "Gesture quality",
+      "resolvedFontSize": 24,
       "resolvedTextStyle": {
         "anchor": 1,
-        "fontSize": 22,
+        "fontSize": 24,
         "typeface": "+mn-lt",
         "color": "#F5FAFC",
         "bold": true,
@@ -265,16 +247,16 @@
         "lines": [
           {
             "index": 1,
-            "text": "Dataset"
+            "text": "Gesture quality"
           }
         ]
       },
       "paragraphs": [
         {
           "index": 1,
-          "text": "Dataset",
+          "text": "Gesture quality",
           "resolvedTextStyle": {
-            "fontSize": 22,
+            "fontSize": 24,
             "color": "#F5FAFC",
             "bold": true,
             "alignment": "left"
@@ -282,8 +264,8 @@
           "runs": [
             {
               "index": 1,
-              "text": "Dataset",
-              "fontSize": 22,
+              "text": "Gesture quality",
+              "fontSize": 24,
               "color": "#F5FAFC",
               "bold": true,
               "alignment": "left"
@@ -295,25 +277,25 @@
       "lineWidth": 0
     },
     {
-      "order": 6,
+      "order": 5,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/58je1c3m",
-      "id": "6",
-      "name": "contract-body-0",
+      "aid": "sh/jupw3ylo",
+      "id": "5",
+      "name": "eval-body-0",
       "bbox": [
-        330,
-        191,
-        740,
-        28
+        96,
+        222,
+        1000,
+        38
       ],
       "geometry": "rect",
-      "text": "Create dataset from gesture labels and sample references",
-      "textPreview": "Create dataset from gesture labels and sample references",
-      "resolvedFontSize": 20,
+      "text": "Measure correct detections, missed gestures, and accidental activations.",
+      "textPreview": "Measure correct detections, missed gestures, and accidental activations.",
+      "resolvedFontSize": 17,
       "resolvedTextStyle": {
         "anchor": 1,
-        "fontSize": 20,
+        "fontSize": 17,
         "typeface": "+mn-lt",
         "color": "#A7B3BD",
         "alignment": "left",
@@ -330,24 +312,24 @@
         "lines": [
           {
             "index": 1,
-            "text": "Create dataset from gesture labels and sample references"
+            "text": "Measure correct detections, missed gestures, and accidental activations."
           }
         ]
       },
       "paragraphs": [
         {
           "index": 1,
-          "text": "Create dataset from gesture labels and sample references",
+          "text": "Measure correct detections, missed gestures, and accidental activations.",
           "resolvedTextStyle": {
-            "fontSize": 20,
+            "fontSize": 17,
             "color": "#A7B3BD",
             "alignment": "left"
           },
           "runs": [
             {
               "index": 1,
-              "text": "Create dataset from gesture labels and sample references",
-              "fontSize": 20,
+              "text": "Measure correct detections, missed gestures, and accidental activations.",
+              "fontSize": 17,
               "color": "#A7B3BD",
               "alignment": "left"
             }
@@ -358,43 +340,25 @@
       "lineWidth": 0
     },
     {
-      "order": 7,
+      "order": 6,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/k7ads721",
-      "id": "7",
-      "name": "contract-row-1",
-      "bbox": [
-        72,
-        240,
-        1040,
-        52
-      ],
-      "geometry": "roundRect",
-      "fillColor": "#071014",
-      "lineColor": "#254854",
-      "lineWidth": 1
-    },
-    {
-      "order": 8,
-      "kind": "shape",
-      "scope": "slide",
-      "aid": "sh/7a1w3mlc",
-      "id": "8",
-      "name": "contract-head-1",
+      "aid": "sh/4vixc3m9",
+      "id": "6",
+      "name": "eval-head-1",
       "bbox": [
         96,
-        252,
-        210,
-        28
+        282,
+        1000,
+        30
       ],
       "geometry": "rect",
-      "text": "Training job",
-      "textPreview": "Training job",
-      "resolvedFontSize": 22,
+      "text": "Authentication behavior",
+      "textPreview": "Authentication behavior",
+      "resolvedFontSize": 24,
       "resolvedTextStyle": {
         "anchor": 1,
-        "fontSize": 22,
+        "fontSize": 24,
         "typeface": "+mn-lt",
         "color": "#F5FAFC",
         "bold": true,
@@ -412,16 +376,16 @@
         "lines": [
           {
             "index": 1,
-            "text": "Training job"
+            "text": "Authentication behavior"
           }
         ]
       },
       "paragraphs": [
         {
           "index": 1,
-          "text": "Training job",
+          "text": "Authentication behavior",
           "resolvedTextStyle": {
-            "fontSize": 22,
+            "fontSize": 24,
             "color": "#F5FAFC",
             "bold": true,
             "alignment": "left"
@@ -429,8 +393,137 @@
           "runs": [
             {
               "index": 1,
-              "text": "Training job",
-              "fontSize": 22,
+              "text": "Authentication behavior",
+              "fontSize": 24,
+              "color": "#F5FAFC",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/5wre583e",
+      "id": "7",
+      "name": "eval-body-1",
+      "bbox": [
+        96,
+        316,
+        1000,
+        38
+      ],
+      "geometry": "rect",
+      "text": "Test authorized user, absent user, and different-user cases.",
+      "textPreview": "Test authorized user, absent user, and different-user cases.",
+      "resolvedFontSize": 17,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 17,
+        "typeface": "+mn-lt",
+        "color": "#A7B3BD",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Test authorized user, absent user, and different-user cases."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Test authorized user, absent user, and different-user cases.",
+          "resolvedTextStyle": {
+            "fontSize": 17,
+            "color": "#A7B3BD",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Test authorized user, absent user, and different-user cases.",
+              "fontSize": 17,
+              "color": "#A7B3BD",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/6x0fed4z",
+      "id": "8",
+      "name": "eval-head-2",
+      "bbox": [
+        96,
+        376,
+        1000,
+        30
+      ],
+      "geometry": "rect",
+      "text": "Responsiveness",
+      "textPreview": "Responsiveness",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "+mn-lt",
+        "color": "#F5FAFC",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Responsiveness"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Responsiveness",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "color": "#F5FAFC",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Responsiveness",
+              "fontSize": 24,
               "color": "#F5FAFC",
               "bold": true,
               "alignment": "left"
@@ -445,22 +538,22 @@
       "order": 9,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/69svuhkr",
+      "aid": "sh/ry9w7ilk",
       "id": "9",
-      "name": "contract-body-1",
+      "name": "eval-body-2",
       "bbox": [
-        330,
-        253,
-        740,
-        28
+        96,
+        410,
+        1000,
+        38
       ],
       "geometry": "rect",
-      "text": "Queue, run, poll, and complete model training",
-      "textPreview": "Queue, run, poll, and complete model training",
-      "resolvedFontSize": 20,
+      "text": "Record frame processing, inference time, action time, and end-to-end latency.",
+      "textPreview": "Record frame processing, inference time, action time, and end-to-end latency.",
+      "resolvedFontSize": 17,
       "resolvedTextStyle": {
         "anchor": 1,
-        "fontSize": 20,
+        "fontSize": 17,
         "typeface": "+mn-lt",
         "color": "#A7B3BD",
         "alignment": "left",
@@ -477,24 +570,24 @@
         "lines": [
           {
             "index": 1,
-            "text": "Queue, run, poll, and complete model training"
+            "text": "Record frame processing, inference time, action time, and end-to-end latency."
           }
         ]
       },
       "paragraphs": [
         {
           "index": 1,
-          "text": "Queue, run, poll, and complete model training",
+          "text": "Record frame processing, inference time, action time, and end-to-end latency.",
           "resolvedTextStyle": {
-            "fontSize": 20,
+            "fontSize": 17,
             "color": "#A7B3BD",
             "alignment": "left"
           },
           "runs": [
             {
               "index": 1,
-              "text": "Queue, run, poll, and complete model training",
-              "fontSize": 20,
+              "text": "Record frame processing, inference time, action time, and end-to-end latency.",
+              "fontSize": 17,
               "color": "#A7B3BD",
               "alignment": "left"
             }
@@ -508,40 +601,22 @@
       "order": 10,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/onq1sn6l",
+      "aid": "sh/va1sr2tw",
       "id": "10",
-      "name": "contract-row-2",
-      "bbox": [
-        72,
-        302,
-        1040,
-        52
-      ],
-      "geometry": "roundRect",
-      "fillColor": "#101D23",
-      "lineColor": "#254854",
-      "lineWidth": 1
-    },
-    {
-      "order": 11,
-      "kind": "shape",
-      "scope": "slide",
-      "aid": "sh/pozilsn6",
-      "id": "11",
-      "name": "contract-head-2",
+      "name": "eval-head-3",
       "bbox": [
         96,
-        314,
-        210,
-        28
+        470,
+        1000,
+        30
       ],
       "geometry": "rect",
-      "text": "Model status",
-      "textPreview": "Model status",
-      "resolvedFontSize": 22,
+      "text": "Platform readiness",
+      "textPreview": "Platform readiness",
+      "resolvedFontSize": 24,
       "resolvedTextStyle": {
         "anchor": 1,
-        "fontSize": 22,
+        "fontSize": 24,
         "typeface": "+mn-lt",
         "color": "#F5FAFC",
         "bold": true,
@@ -559,16 +634,16 @@
         "lines": [
           {
             "index": 1,
-            "text": "Model status"
+            "text": "Platform readiness"
           }
         ]
       },
       "paragraphs": [
         {
           "index": 1,
-          "text": "Model status",
+          "text": "Platform readiness",
           "resolvedTextStyle": {
-            "fontSize": 22,
+            "fontSize": 24,
             "color": "#F5FAFC",
             "bold": true,
             "alignment": "left"
@@ -576,10 +651,73 @@
           "runs": [
             {
               "index": 1,
-              "text": "Model status",
-              "fontSize": 22,
+              "text": "Platform readiness",
+              "fontSize": 24,
               "color": "#F5FAFC",
               "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/u9sryhsb",
+      "id": "11",
+      "name": "eval-body-3",
+      "bbox": [
+        96,
+        504,
+        1000,
+        38
+      ],
+      "geometry": "rect",
+      "text": "Check what works on macOS now and what adapters are needed for Windows and Linux.",
+      "textPreview": "Check what works on macOS now and what adapters are needed for Windows and Linux.",
+      "resolvedFontSize": 17,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 17,
+        "typeface": "+mn-lt",
+        "color": "#A7B3BD",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Check what works on macOS now and what adapters are needed for Windows and Linux."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Check what works on macOS now and what adapters are needed for Windows and Linux.",
+          "resolvedTextStyle": {
+            "fontSize": 17,
+            "color": "#A7B3BD",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Check what works on macOS now and what adapters are needed for Windows and Linux.",
+              "fontSize": 17,
+              "color": "#A7B3BD",
               "alignment": "left"
             }
           ],
@@ -592,513 +730,9 @@
       "order": 12,
       "kind": "shape",
       "scope": "slide",
-      "aid": "sh/21ojqdof",
+      "aid": "sh/hwjatcbm",
       "id": "12",
-      "name": "contract-body-2",
-      "bbox": [
-        330,
-        315,
-        740,
-        28
-      ],
-      "geometry": "rect",
-      "text": "Report not-trained, loading, ready, degraded, or error",
-      "textPreview": "Report not-trained, loading, ready, degraded, or error",
-      "resolvedFontSize": 20,
-      "resolvedTextStyle": {
-        "anchor": 1,
-        "fontSize": 20,
-        "typeface": "+mn-lt",
-        "color": "#A7B3BD",
-        "alignment": "left",
-        "verticalAlignment": "top",
-        "insets": {
-          "top": 4.8,
-          "right": 9.6,
-          "bottom": 4.8,
-          "left": 9.6
-        }
-      },
-      "textLayout": {
-        "lineCount": 1,
-        "lines": [
-          {
-            "index": 1,
-            "text": "Report not-trained, loading, ready, degraded, or error"
-          }
-        ]
-      },
-      "paragraphs": [
-        {
-          "index": 1,
-          "text": "Report not-trained, loading, ready, degraded, or error",
-          "resolvedTextStyle": {
-            "fontSize": 20,
-            "color": "#A7B3BD",
-            "alignment": "left"
-          },
-          "runs": [
-            {
-              "index": 1,
-              "text": "Report not-trained, loading, ready, degraded, or error",
-              "fontSize": 20,
-              "color": "#A7B3BD",
-              "alignment": "left"
-            }
-          ],
-          "marginLeft": 0
-        }
-      ],
-      "lineWidth": 0
-    },
-    {
-      "order": 13,
-      "kind": "shape",
-      "scope": "slide",
-      "aid": "sh/nmx0ji50",
-      "id": "13",
-      "name": "contract-row-3",
-      "bbox": [
-        72,
-        364,
-        1040,
-        52
-      ],
-      "geometry": "roundRect",
-      "fillColor": "#071014",
-      "lineColor": "#254854",
-      "lineWidth": 1
-    },
-    {
-      "order": 14,
-      "kind": "shape",
-      "scope": "slide",
-      "aid": "sh/crq1wn6h",
-      "id": "14",
-      "name": "contract-head-3",
-      "bbox": [
-        96,
-        376,
-        210,
-        28
-      ],
-      "geometry": "rect",
-      "text": "Hand presence",
-      "textPreview": "Hand presence",
-      "resolvedFontSize": 22,
-      "resolvedTextStyle": {
-        "anchor": 1,
-        "fontSize": 22,
-        "typeface": "+mn-lt",
-        "color": "#F5FAFC",
-        "bold": true,
-        "alignment": "left",
-        "verticalAlignment": "top",
-        "insets": {
-          "top": 4.8,
-          "right": 9.6,
-          "bottom": 4.8,
-          "left": 9.6
-        }
-      },
-      "textLayout": {
-        "lineCount": 1,
-        "lines": [
-          {
-            "index": 1,
-            "text": "Hand presence"
-          }
-        ]
-      },
-      "paragraphs": [
-        {
-          "index": 1,
-          "text": "Hand presence",
-          "resolvedTextStyle": {
-            "fontSize": 22,
-            "color": "#F5FAFC",
-            "bold": true,
-            "alignment": "left"
-          },
-          "runs": [
-            {
-              "index": 1,
-              "text": "Hand presence",
-              "fontSize": 22,
-              "color": "#F5FAFC",
-              "bold": true,
-              "alignment": "left"
-            }
-          ],
-          "marginLeft": 0
-        }
-      ],
-      "lineWidth": 0
-    },
-    {
-      "order": 15,
-      "kind": "shape",
-      "scope": "slide",
-      "aid": "sh/xsz2psn2",
-      "id": "15",
-      "name": "contract-body-3",
-      "bbox": [
-        330,
-        377,
-        740,
-        28
-      ],
-      "geometry": "rect",
-      "text": "Reject frames that do not contain a detectable hand",
-      "textPreview": "Reject frames that do not contain a detectable hand",
-      "resolvedFontSize": 20,
-      "resolvedTextStyle": {
-        "anchor": 1,
-        "fontSize": 20,
-        "typeface": "+mn-lt",
-        "color": "#A7B3BD",
-        "alignment": "left",
-        "verticalAlignment": "top",
-        "insets": {
-          "top": 4.8,
-          "right": 9.6,
-          "bottom": 4.8,
-          "left": 9.6
-        }
-      },
-      "textLayout": {
-        "lineCount": 1,
-        "lines": [
-          {
-            "index": 1,
-            "text": "Reject frames that do not contain a detectable hand"
-          }
-        ]
-      },
-      "paragraphs": [
-        {
-          "index": 1,
-          "text": "Reject frames that do not contain a detectable hand",
-          "resolvedTextStyle": {
-            "fontSize": 20,
-            "color": "#A7B3BD",
-            "alignment": "left"
-          },
-          "runs": [
-            {
-              "index": 1,
-              "text": "Reject frames that do not contain a detectable hand",
-              "fontSize": 20,
-              "color": "#A7B3BD",
-              "alignment": "left"
-            }
-          ],
-          "marginLeft": 0
-        }
-      ],
-      "lineWidth": 0
-    },
-    {
-      "order": 16,
-      "kind": "shape",
-      "scope": "slide",
-      "aid": "sh/ap8juxob",
-      "id": "16",
-      "name": "contract-row-4",
-      "bbox": [
-        72,
-        426,
-        1040,
-        52
-      ],
-      "geometry": "roundRect",
-      "fillColor": "#101D23",
-      "lineColor": "#254854",
-      "lineWidth": 1
-    },
-    {
-      "order": 17,
-      "kind": "shape",
-      "scope": "slide",
-      "aid": "sh/bqh0ni5w",
-      "id": "17",
-      "name": "contract-head-4",
-      "bbox": [
-        96,
-        438,
-        210,
-        28
-      ],
-      "geometry": "rect",
-      "text": "Inference",
-      "textPreview": "Inference",
-      "resolvedFontSize": 22,
-      "resolvedTextStyle": {
-        "anchor": 1,
-        "fontSize": 22,
-        "typeface": "+mn-lt",
-        "color": "#F5FAFC",
-        "bold": true,
-        "alignment": "left",
-        "verticalAlignment": "top",
-        "insets": {
-          "top": 4.8,
-          "right": 9.6,
-          "bottom": 4.8,
-          "left": 9.6
-        }
-      },
-      "textLayout": {
-        "lineCount": 1,
-        "lines": [
-          {
-            "index": 1,
-            "text": "Inference"
-          }
-        ]
-      },
-      "paragraphs": [
-        {
-          "index": 1,
-          "text": "Inference",
-          "resolvedTextStyle": {
-            "fontSize": 22,
-            "color": "#F5FAFC",
-            "bold": true,
-            "alignment": "left"
-          },
-          "runs": [
-            {
-              "index": 1,
-              "text": "Inference",
-              "fontSize": 22,
-              "color": "#F5FAFC",
-              "bold": true,
-              "alignment": "left"
-            }
-          ],
-          "marginLeft": 0
-        }
-      ],
-      "lineWidth": 0
-    },
-    {
-      "order": 18,
-      "kind": "shape",
-      "scope": "slide",
-      "aid": "sh/kva1076t",
-      "id": "18",
-      "name": "contract-body-4",
-      "bbox": [
-        330,
-        439,
-        740,
-        28
-      ],
-      "geometry": "rect",
-      "text": "Return predictions, best match, confidence, and latency",
-      "textPreview": "Return predictions, best match, confidence, and latency",
-      "resolvedFontSize": 20,
-      "resolvedTextStyle": {
-        "anchor": 1,
-        "fontSize": 20,
-        "typeface": "+mn-lt",
-        "color": "#A7B3BD",
-        "alignment": "left",
-        "verticalAlignment": "top",
-        "insets": {
-          "top": 4.8,
-          "right": 9.6,
-          "bottom": 4.8,
-          "left": 9.6
-        }
-      },
-      "textLayout": {
-        "lineCount": 1,
-        "lines": [
-          {
-            "index": 1,
-            "text": "Return predictions, best match, confidence, and latency"
-          }
-        ]
-      },
-      "paragraphs": [
-        {
-          "index": 1,
-          "text": "Return predictions, best match, confidence, and latency",
-          "resolvedTextStyle": {
-            "fontSize": 20,
-            "color": "#A7B3BD",
-            "alignment": "left"
-          },
-          "runs": [
-            {
-              "index": 1,
-              "text": "Return predictions, best match, confidence, and latency",
-              "fontSize": 20,
-              "color": "#A7B3BD",
-              "alignment": "left"
-            }
-          ],
-          "marginLeft": 0
-        }
-      ],
-      "lineWidth": 0
-    },
-    {
-      "order": 19,
-      "kind": "shape",
-      "scope": "slide",
-      "aid": "sh/lwj2tcne",
-      "id": "19",
-      "name": "contract-row-5",
-      "bbox": [
-        72,
-        488,
-        1040,
-        52
-      ],
-      "geometry": "roundRect",
-      "fillColor": "#071014",
-      "lineColor": "#254854",
-      "lineWidth": 1
-    },
-    {
-      "order": 20,
-      "kind": "shape",
-      "scope": "slide",
-      "aid": "sh/tcfidcfi",
-      "id": "20",
-      "name": "contract-head-5",
-      "bbox": [
-        96,
-        500,
-        210,
-        28
-      ],
-      "geometry": "rect",
-      "text": "Authentication",
-      "textPreview": "Authentication",
-      "resolvedFontSize": 22,
-      "resolvedTextStyle": {
-        "anchor": 1,
-        "fontSize": 22,
-        "typeface": "+mn-lt",
-        "color": "#F5FAFC",
-        "bold": true,
-        "alignment": "left",
-        "verticalAlignment": "top",
-        "insets": {
-          "top": 4.8,
-          "right": 9.6,
-          "bottom": 4.8,
-          "left": 9.6
-        }
-      },
-      "textLayout": {
-        "lineCount": 1,
-        "lines": [
-          {
-            "index": 1,
-            "text": "Authentication"
-          }
-        ]
-      },
-      "paragraphs": [
-        {
-          "index": 1,
-          "text": "Authentication",
-          "resolvedTextStyle": {
-            "fontSize": 22,
-            "color": "#F5FAFC",
-            "bold": true,
-            "alignment": "left"
-          },
-          "runs": [
-            {
-              "index": 1,
-              "text": "Authentication",
-              "fontSize": 22,
-              "color": "#F5FAFC",
-              "bold": true,
-              "alignment": "left"
-            }
-          ],
-          "marginLeft": 0
-        }
-      ],
-      "lineWidth": 0
-    },
-    {
-      "order": 21,
-      "kind": "shape",
-      "scope": "slide",
-      "aid": "sh/8b61k7yx",
-      "id": "21",
-      "name": "contract-body-5",
-      "bbox": [
-        330,
-        501,
-        740,
-        28
-      ],
-      "geometry": "rect",
-      "text": "Return face and presence state for the active session",
-      "textPreview": "Return face and presence state for the active session",
-      "resolvedFontSize": 20,
-      "resolvedTextStyle": {
-        "anchor": 1,
-        "fontSize": 20,
-        "typeface": "+mn-lt",
-        "color": "#A7B3BD",
-        "alignment": "left",
-        "verticalAlignment": "top",
-        "insets": {
-          "top": 4.8,
-          "right": 9.6,
-          "bottom": 4.8,
-          "left": 9.6
-        }
-      },
-      "textLayout": {
-        "lineCount": 1,
-        "lines": [
-          {
-            "index": 1,
-            "text": "Return face and presence state for the active session"
-          }
-        ]
-      },
-      "paragraphs": [
-        {
-          "index": 1,
-          "text": "Return face and presence state for the active session",
-          "resolvedTextStyle": {
-            "fontSize": 20,
-            "color": "#A7B3BD",
-            "alignment": "left"
-          },
-          "runs": [
-            {
-              "index": 1,
-              "text": "Return face and presence state for the active session",
-              "fontSize": 20,
-              "color": "#A7B3BD",
-              "alignment": "left"
-            }
-          ],
-          "marginLeft": 0
-        }
-      ],
-      "lineWidth": 0
-    },
-    {
-      "order": 22,
-      "kind": "shape",
-      "scope": "slide",
-      "aid": "sh/7ax0b2xc",
-      "id": "22",
-      "name": "footer-9",
+      "name": "footer-12",
       "bbox": [
         1184,
         654,
@@ -1106,8 +740,8 @@
         24
       ],
       "geometry": "rect",
-      "text": "09",
-      "textPreview": "09",
+      "text": "12",
+      "textPreview": "12",
       "resolvedFontSize": 14,
       "resolvedTextStyle": {
         "anchor": 1,
@@ -1128,14 +762,14 @@
         "lines": [
           {
             "index": 1,
-            "text": "09"
+            "text": "12"
           }
         ]
       },
       "paragraphs": [
         {
           "index": 1,
-          "text": "09",
+          "text": "12",
           "resolvedTextStyle": {
             "fontSize": 14,
             "color": "#A7B3BD",
@@ -1144,7 +778,7 @@
           "runs": [
             {
               "index": 1,
-              "text": "09",
+              "text": "12",
               "fontSize": 14,
               "color": "#A7B3BD",
               "alignment": "right"

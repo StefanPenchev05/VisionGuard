@@ -5,7 +5,7 @@ A local desktop computer-vision project for gesture recognition and continuous u
 VisionGuard is split into two parts:
 
 - Electron desktop app: camera UI, gesture recording, training controls, live inference, and desktop actions.
-- Python AI service: dataset creation, training jobs, model status, and gesture inference.
+- Python AI service: dataset creation, MediaPipe hand validation, training jobs, model status, and gesture inference.
 
 ## Requirements
 
@@ -92,6 +92,7 @@ Expected result:
 
 - The gesture appears in the Gesture Library.
 - Saved sample files are stored locally by Electron.
+- Frames without a detected hand are rejected before they become samples.
 - The gesture becomes ready for training.
 
 ### 4. Train The Gesture
@@ -104,6 +105,7 @@ Expected result:
 
 - Electron sends saved sample file references to the AI service.
 - The AI service creates a dataset.
+- MediaPipe hand landmarks are extracted from each saved sample.
 - A training job starts.
 - The training panel shows job status and progress.
 - When complete, the gesture status changes to `trained`.

@@ -94,4 +94,44 @@ describe("HttpAiModelClient", () => {
       })
     );
   });
+
+  it("posts hand-presence checks for recorder sample validation", async () => {
+    const fetchMock = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          frameId: "frame-1",
+          handDetected: true,
+          reason: null
+        }),
+        { status: 200 }
+      )
+    );
+
+    const client = new HttpAiModelClient({
+      baseUrl: "http://127.0.0.1:8765"
+    });
+
+    const result = await client.detectHandPresence({
+      frame: {
+        capturedAt: "2026-08-30T00:00:00+00:00",
+        filePath: "/tmp/frame.jpg",
+        frameId: "frame-1"
+      }
+    });
+
+    expect(result.handDetected).toBe(true);
+    expect(fetchMock).toHaveBeenCalledWith(
+      new URL("http://127.0.0.1:8765/inference/hand-presence"),
+      expect.objectContaining({
+        body: JSON.stringify({
+          frame: {
+            capturedAt: "2026-08-30T00:00:00+00:00",
+            filePath: "/tmp/frame.jpg",
+            frameId: "frame-1"
+          }
+        }),
+        method: "POST"
+      })
+    );
+  });
 });
