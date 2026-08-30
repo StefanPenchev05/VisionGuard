@@ -8,6 +8,7 @@ from application.training.gesture_training_worker import (
     detect_hand_presence,
     extract_attention_region_bytes,
     extract_image_features,
+    has_valid_hand_landmark_geometry,
     load_model_artifact,
     NoHandRegionDetected,
     predict_gesture,
@@ -107,6 +108,83 @@ def test_landmark_feature_vector_has_stable_shape() -> None:
         220 / 360,
         160 / 220,
     ]
+
+
+def test_valid_hand_landmark_geometry_accepts_visible_hand_shape() -> None:
+    landmarks = [
+        (0.50, 0.72, 0.00),
+        (0.45, 0.66, -0.01),
+        (0.42, 0.58, -0.02),
+        (0.39, 0.51, -0.03),
+        (0.36, 0.45, -0.04),
+        (0.47, 0.56, -0.02),
+        (0.46, 0.45, -0.03),
+        (0.45, 0.34, -0.04),
+        (0.44, 0.24, -0.05),
+        (0.52, 0.54, -0.02),
+        (0.52, 0.42, -0.03),
+        (0.52, 0.30, -0.04),
+        (0.52, 0.20, -0.05),
+        (0.57, 0.56, -0.02),
+        (0.59, 0.45, -0.03),
+        (0.60, 0.35, -0.04),
+        (0.61, 0.26, -0.05),
+        (0.62, 0.60, -0.02),
+        (0.66, 0.51, -0.03),
+        (0.68, 0.43, -0.04),
+        (0.70, 0.36, -0.05),
+    ]
+
+    assert has_valid_hand_landmark_geometry(
+        landmarks,
+        image_height=720,
+        image_width=1280,
+    )
+
+
+def test_valid_hand_landmark_geometry_rejects_collapsed_arm_like_landmarks() -> None:
+    landmarks = [
+        (0.50 + index * 0.002, 0.72 - index * 0.006, 0.00)
+        for index in range(21)
+    ]
+
+    assert not has_valid_hand_landmark_geometry(
+        landmarks,
+        image_height=720,
+        image_width=1280,
+    )
+
+
+def test_valid_hand_landmark_geometry_rejects_edge_touching_candidates() -> None:
+    landmarks = [
+        (0.50, 0.985, 0.00),
+        (0.45, 0.91, -0.01),
+        (0.42, 0.84, -0.02),
+        (0.39, 0.78, -0.03),
+        (0.36, 0.72, -0.04),
+        (0.47, 0.82, -0.02),
+        (0.46, 0.72, -0.03),
+        (0.45, 0.62, -0.04),
+        (0.44, 0.53, -0.05),
+        (0.52, 0.80, -0.02),
+        (0.52, 0.69, -0.03),
+        (0.52, 0.58, -0.04),
+        (0.52, 0.49, -0.05),
+        (0.57, 0.82, -0.02),
+        (0.59, 0.72, -0.03),
+        (0.60, 0.63, -0.04),
+        (0.61, 0.55, -0.05),
+        (0.62, 0.86, -0.02),
+        (0.66, 0.78, -0.03),
+        (0.68, 0.70, -0.04),
+        (0.70, 0.64, -0.05),
+    ]
+
+    assert not has_valid_hand_landmark_geometry(
+        landmarks,
+        image_height=720,
+        image_width=1280,
+    )
 
 
 def test_extract_image_features_include_dimension_and_content_features(tmp_path: Path) -> None:

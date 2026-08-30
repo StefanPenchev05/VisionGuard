@@ -277,6 +277,109 @@ def build_landmark_feature_vector(
     return normalized
 
 
+def landmark_distance(
+    left: tuple[float, float, float],
+    right: tuple[float, float, float],
+) -> float:
+    return math.sqrt(
+        (left[0] - right[0]) ** 2
+        + (left[1] - right[1]) ** 2
+        + (left[2] - right[2]) ** 2
+    )
+
+
+def triangle_area(
+    first: tuple[float, float, float],
+    second: tuple[float, float, float],
+    third: tuple[float, float, float],
+) -> float:
+    return abs(
+        (
+            first[0] * (second[1] - third[1])
+            + second[0] * (third[1] - first[1])
+            + third[0] * (first[1] - second[1])
+        )
+        / 2
+    )
+
+
+def has_valid_hand_landmark_geometry(
+    landmarks: list[tuple[float, float, float]],
+    *,
+    image_height: int,
+    image_width: int,
+) -> bool:
+    if len(landmarks) != 21:
+        return False
+
+    xs = [landmark[0] for landmark in landmarks]
+    ys = [landmark[1] for landmark in landmarks]
+    normalized_width = max(xs) - min(xs)
+    normalized_height = max(ys) - min(ys)
+
+    if normalized_width <= 0 or normalized_height <= 0:
+        return False
+
+    pixel_width = normalized_width * image_width
+    pixel_height = normalized_height * image_height
+    image_area = max(image_width * image_height, 1)
+    area_ratio = (pixel_width * pixel_height) / image_area
+    aspect_ratio = normalized_width / normalized_height
+
+    if pixel_width < 38 or pixel_height < 38 or area_ratio < 0.0025:
+        return False
+
+    if area_ratio > 0.38 or aspect_ratio < 0.22 or aspect_ratio > 3.8:
+        return False
+
+    edge_margin = 0.025
+    if (
+        min(xs) <= edge_margin
+        or max(xs) >= 1 - edge_margin
+        or min(ys) <= edge_margin
+        or max(ys) >= 1 - edge_margin
+    ):
+        return False
+
+    wrist = landmarks[0]
+    middle_mcp = landmarks[9]
+    index_mcp = landmarks[5]
+    pinky_mcp = landmarks[17]
+    palm_length = landmark_distance(wrist, middle_mcp)
+    palm_width = landmark_distance(index_mcp, pinky_mcp)
+
+    if palm_length <= 0.015 or palm_width <= 0.015:
+        return False
+
+    palm_ratio = palm_width / palm_length
+    if palm_ratio < 0.28 or palm_ratio > 2.4:
+        return False
+
+    palm_area_ratio = triangle_area(wrist, index_mcp, pinky_mcp) / max(palm_length**2, 0.0001)
+    if palm_area_ratio < 0.08:
+        return False
+
+    finger_tip_indices = [4, 8, 12, 16, 20]
+    tip_distances = [
+        landmark_distance(wrist, landmarks[index])
+        for index in finger_tip_indices
+    ]
+
+    if max(tip_distances) < palm_length * 0.62:
+        return False
+
+    mcp_indices = [5, 9, 13, 17]
+    mcp_spread = max(
+        landmark_distance(landmarks[left], landmarks[right])
+        for left, right in zip(mcp_indices, mcp_indices[1:])
+    )
+
+    if mcp_spread < palm_width * 0.18:
+        return False
+
+    return True
+
+
 def detect_mediapipe_hands(image: np.ndarray) -> list[DetectedHand]:
     rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     image_height, image_width = image.shape[:2]
@@ -300,6 +403,14 @@ def detect_mediapipe_hands(image: np.ndarray) -> list[DetectedHand]:
         ]
         xs = [landmark[0] for landmark in landmarks]
         ys = [landmark[1] for landmark in landmarks]
+
+        if not has_valid_hand_landmark_geometry(
+            landmarks,
+            image_height=image_height,
+            image_width=image_width,
+        ):
+            continue
+
         left = max(0, int(min(xs) * image_width))
         top = max(0, int(min(ys) * image_height))
         right = min(image_width, int(max(xs) * image_width))
