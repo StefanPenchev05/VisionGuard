@@ -9,6 +9,9 @@ export type GestureActionType =
 export type GestureSample = {
   capturedAt: string;
   filePath: string;
+  handDetected?: boolean;
+  handDetectionConfidence?: number | null;
+  handLandmarkCount?: number | null;
   id: string;
   height?: number;
   width?: number;

@@ -16,13 +16,18 @@ import {
   Volume2
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { TrainingDataset, TrainingJob } from "@visionguard/shared-kernel/contracts/ai";
+import type { HandPresenceResult, TrainingDataset, TrainingJob } from "@visionguard/shared-kernel/contracts/ai";
 import type { GestureActionType, GestureDefinition, GestureSample } from "../types/gestures";
 
 type CapturedGestureSample = {
   capturedAt: string;
   dataUrl: string;
+  handDetected?: boolean;
+  handDetectionConfidence?: number | null;
+  handLandmarkCount?: number | null;
+  height?: number;
   id: string;
+  width?: number;
 };
 
 export type HandCaptureStatus = "idle" | "checking" | "detected" | "missing" | "error";
@@ -118,7 +123,9 @@ function captureVideoSample(video: HTMLVideoElement): CapturedGestureSample | nu
   return {
     capturedAt: new Date().toISOString(),
     dataUrl: canvas.toDataURL("image/jpeg", 0.82),
-    id: crypto.randomUUID()
+    height: canvas.height,
+    id: crypto.randomUUID(),
+    width: canvas.width
   };
 }
 
@@ -161,6 +168,18 @@ export function getGestureCaptureInstruction(params: {
   }
 
   return { detail: "Keep hand centered in frame", title: "Ready to record" };
+}
+
+function attachHandMetadata(
+  sample: CapturedGestureSample,
+  result: HandPresenceResult
+): CapturedGestureSample {
+  return {
+    ...sample,
+    handDetected: result.handDetected,
+    handDetectionConfidence: result.confidence,
+    handLandmarkCount: result.landmarkCount
+  };
 }
 
 export function GesturesPanel({
@@ -349,7 +368,7 @@ export function GesturesPanel({
         setCaptureError(null);
         setHandCaptureStatus("detected");
         setCapturedSamples((current) => (
-          current.length >= REQUIRED_SAMPLE_COUNT ? current : [...current, sample]
+          current.length >= REQUIRED_SAMPLE_COUNT ? current : [...current, attachHandMetadata(sample, result)]
         ));
       }).catch((error: unknown) => {
         if (!recordingActiveRef.current) {
@@ -517,6 +536,17 @@ export function GesturesPanel({
   );
   const selectedTrainingProgress = selectedGesture?.training?.jobProgress ?? 0;
   const selectedTrainingStatus = selectedGesture?.training?.jobStatus;
+  const detectedSampleCount = capturedSamples.filter((sample) => sample.handDetected).length;
+  const confidenceSamples = capturedSamples
+    .map((sample) => sample.handDetectionConfidence)
+    .filter((confidence): confidence is number => typeof confidence === "number");
+  const averageHandConfidence = confidenceSamples.length > 0
+    ? confidenceSamples.reduce((sum, confidence) => sum + confidence, 0) / confidenceSamples.length
+    : null;
+  const landmarkSampleCounts = capturedSamples
+    .map((sample) => sample.handLandmarkCount)
+    .filter((count): count is number => typeof count === "number");
+  const latestLandmarkCount = landmarkSampleCounts.at(-1) ?? null;
   const trainingButtonTitle = !isTrainingApiAvailable
     ? "Training is available in the Electron desktop app."
     : selectedGestureCanTrain
@@ -588,6 +618,21 @@ export function GesturesPanel({
                   <i className={index < capturedSamples.length ? "filled" : ""} key={index} />
                 ))}
               </div>
+              {capturedSamples.length > 0 ? (
+                <div className="sample-quality">
+                  <span>{detectedSampleCount}/{capturedSamples.length} hand verified</span>
+                  <span>
+                    {averageHandConfidence === null
+                      ? "Confidence pending"
+                      : `${Math.round(averageHandConfidence * 100)}% avg confidence`}
+                  </span>
+                  <span>
+                    {latestLandmarkCount === null
+                      ? "Landmarks pending"
+                      : `${latestLandmarkCount} landmarks`}
+                  </span>
+                </div>
+              ) : null}
               {captureError || (capturedSamples.length > 0 && validationMessage) ? (
                 <p className="capture-error">{captureError ?? validationMessage}</p>
               ) : null}

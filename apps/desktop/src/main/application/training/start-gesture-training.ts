@@ -10,6 +10,9 @@ import { getAiServiceBaseUrl } from "../../infrastructure/settings/app-settings-
 type DesktopGestureSample = {
   capturedAt: string;
   filePath: string;
+  handDetected?: boolean;
+  handDetectionConfidence?: number | null;
+  handLandmarkCount?: number | null;
   height?: number;
   id: string;
   width?: number;
@@ -70,6 +73,9 @@ function parseDesktopGesture(value: unknown): DesktopGestureForTraining {
     return {
       capturedAt: sample.capturedAt,
       filePath: sample.filePath,
+      handDetected: sample.handDetected,
+      handDetectionConfidence: sample.handDetectionConfidence,
+      handLandmarkCount: sample.handLandmarkCount,
       height: sample.height,
       id: sample.id,
       width: sample.width
@@ -90,6 +96,9 @@ function buildSampleReferences(gesture: DesktopGestureForTraining): GestureSampl
     capturedAt: sample.capturedAt,
     filePath: sample.filePath,
     gestureId: gesture.id,
+    handDetected: sample.handDetected,
+    handDetectionConfidence: sample.handDetectionConfidence,
+    handLandmarkCount: sample.handLandmarkCount,
     height: sample.height,
     id: sample.id,
     source: "desktop-camera",

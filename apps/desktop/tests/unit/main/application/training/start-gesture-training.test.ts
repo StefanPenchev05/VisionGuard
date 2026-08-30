@@ -16,7 +16,12 @@ function buildGesture(sampleCount = 12) {
     sampleFiles: Array.from({ length: sampleCount }).map((_, index) => ({
       capturedAt: "2026-08-21T00:00:00.000Z",
       filePath: `/tmp/sample-${index + 1}.jpg`,
-      id: `sample-${index + 1}`
+      handDetected: true,
+      handDetectionConfidence: 0.9,
+      handLandmarkCount: 21,
+      height: 720,
+      id: `sample-${index + 1}`,
+      width: 1280
     }))
   };
 }
@@ -65,6 +70,11 @@ describe("startGestureTraining", () => {
         expect.objectContaining({
           filePath: "/tmp/sample-1.jpg",
           gestureId: "gesture-open-palm",
+          handDetected: true,
+          handDetectionConfidence: 0.9,
+          handLandmarkCount: 21,
+          height: 720,
+          width: 1280,
           source: "desktop-camera"
         })
       ])

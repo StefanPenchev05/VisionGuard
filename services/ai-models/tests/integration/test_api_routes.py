@@ -229,10 +229,16 @@ def test_hand_presence_endpoint_detects_usable_hand_frame(
 
     assert hand_response.status_code == 200
     assert hand_response.json() == {
+        "boundingBox": hand_response.json()["boundingBox"],
+        "confidence": hand_response.json()["confidence"],
         "frameId": "frame-hand",
         "handDetected": True,
+        "landmarkCount": hand_response.json()["landmarkCount"],
         "reason": None,
     }
+    assert hand_response.json()["boundingBox"]
+    assert hand_response.json()["confidence"] is not None
+    assert hand_response.json()["landmarkCount"] is not None
     assert background_response.status_code == 200
     assert background_response.json()["handDetected"] is False
 

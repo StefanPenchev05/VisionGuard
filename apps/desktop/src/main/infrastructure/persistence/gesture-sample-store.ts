@@ -5,13 +5,23 @@ import { app } from "electron";
 type CapturedGestureSample = {
   capturedAt: string;
   dataUrl: string;
+  handDetected?: boolean;
+  handDetectionConfidence?: number | null;
+  handLandmarkCount?: number | null;
+  height?: number;
   id: string;
+  width?: number;
 };
 
 type SavedGestureSample = {
   capturedAt: string;
   filePath: string;
+  handDetected?: boolean;
+  handDetectionConfidence?: number | null;
+  handLandmarkCount?: number | null;
+  height?: number;
   id: string;
+  width?: number;
 };
 
 const dataUrlPattern = /^data:image\/jpeg;base64,/;
@@ -54,7 +64,12 @@ export async function saveGestureSamples(
       return {
         capturedAt: sample.capturedAt,
         filePath,
-        id: sampleId
+        handDetected: sample.handDetected,
+        handDetectionConfidence: sample.handDetectionConfidence,
+        handLandmarkCount: sample.handLandmarkCount,
+        height: sample.height,
+        id: sampleId,
+        width: sample.width
       };
     })
   );

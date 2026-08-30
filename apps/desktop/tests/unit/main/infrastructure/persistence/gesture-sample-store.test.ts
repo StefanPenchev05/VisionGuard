@@ -43,7 +43,12 @@ describe("gesture-sample-store", () => {
         {
           capturedAt: "2026-08-21T00:00:00.000Z",
           dataUrl,
-          id: "sample/one"
+          handDetected: true,
+          handDetectionConfidence: 0.91,
+          handLandmarkCount: 21,
+          height: 720,
+          id: "sample/one",
+          width: 1280
         }
       ],
       userDataPath
@@ -52,7 +57,12 @@ describe("gesture-sample-store", () => {
     expect(savedSamples).toHaveLength(1);
     expect(savedSamples[0]).toMatchObject({
       capturedAt: "2026-08-21T00:00:00.000Z",
-      id: "sample_one"
+      handDetected: true,
+      handDetectionConfidence: 0.91,
+      handLandmarkCount: 21,
+      height: 720,
+      id: "sample_one",
+      width: 1280
     });
     expect(basename(savedSamples[0].filePath)).toBe("001-sample_one.jpg");
     expect(await readFile(savedSamples[0].filePath)).toEqual(jpegBytes);

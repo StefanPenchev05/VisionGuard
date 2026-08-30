@@ -99,8 +99,16 @@ describe("HttpAiModelClient", () => {
     const fetchMock = vi.spyOn(globalThis, "fetch").mockResolvedValue(
       new Response(
         JSON.stringify({
+          boundingBox: {
+            height: 160,
+            width: 120,
+            x: 200,
+            y: 100
+          },
+          confidence: 0.94,
           frameId: "frame-1",
           handDetected: true,
+          landmarkCount: 21,
           reason: null
         }),
         { status: 200 }
@@ -120,6 +128,8 @@ describe("HttpAiModelClient", () => {
     });
 
     expect(result.handDetected).toBe(true);
+    expect(result.confidence).toBe(0.94);
+    expect(result.landmarkCount).toBe(21);
     expect(fetchMock).toHaveBeenCalledWith(
       new URL("http://127.0.0.1:8765/inference/hand-presence"),
       expect.objectContaining({

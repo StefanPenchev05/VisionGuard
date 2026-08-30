@@ -23,8 +23,16 @@ class InMemoryAiModelService implements AiModelServiceContract {
 
   async detectHandPresence(): Promise<HandPresenceResult> {
     return {
+      boundingBox: {
+        height: 170,
+        width: 130,
+        x: 240,
+        y: 120
+      },
+      confidence: 0.92,
       frameId: "frame-1",
-      handDetected: true
+      handDetected: true,
+      landmarkCount: 21
     };
   }
 
@@ -91,6 +99,9 @@ describe("AiModelServiceContract", () => {
           capturedAt: "2026-08-21T00:00:00.000Z",
           filePath: "/tmp/open-palm.jpg",
           gestureId: "gesture-open-palm",
+          handDetected: true,
+          handDetectionConfidence: 0.92,
+          handLandmarkCount: 21,
           id: "sample-1",
           source: "desktop-camera"
         }

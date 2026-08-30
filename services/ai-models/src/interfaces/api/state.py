@@ -9,6 +9,7 @@ from uuid import uuid4
 
 from application.training.gesture_training_worker import (
     detect_hand_presence,
+    inspect_hand_presence,
     load_model_artifact,
     predict_gesture,
     train_gesture_model,
@@ -141,13 +142,24 @@ class InMemoryAiServiceState:
     ) -> HandPresenceResultSchema:
         hand_detected = False
         reason = "Frame file is missing."
+        confidence = None
+        landmark_count = None
+        bounding_box = None
 
         if request.frame.filePath:
-            hand_detected, reason = detect_hand_presence(request.frame.filePath)
+            detection = inspect_hand_presence(request.frame.filePath)
+            hand_detected = detection.hand_detected
+            reason = detection.reason
+            confidence = detection.confidence
+            landmark_count = detection.landmark_count
+            bounding_box = detection.bounding_box
 
         return HandPresenceResultSchema(
+            boundingBox=bounding_box,
+            confidence=confidence,
             frameId=request.frame.frameId,
             handDetected=hand_detected,
+            landmarkCount=landmark_count,
             reason=reason,
         )
 

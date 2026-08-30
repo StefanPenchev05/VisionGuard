@@ -18,6 +18,9 @@ export type GestureSampleReference = {
   filePath: string;
   width?: number;
   height?: number;
+  handDetected?: boolean;
+  handDetectionConfidence?: number | null;
+  handLandmarkCount?: number | null;
   source: "desktop-camera";
 };
 
@@ -85,6 +88,14 @@ export type InferenceResult = {
 export type HandPresenceResult = {
   frameId: string;
   handDetected: boolean;
+  confidence?: number | null;
+  landmarkCount?: number | null;
+  boundingBox?: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  } | null;
   reason?: string | null;
 };
 

@@ -1620,6 +1620,22 @@ h2 {
   box-shadow: 0 0 16px rgba(78, 231, 224, 0.18);
 }
 
+.sample-quality {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.sample-quality span {
+  padding: 5px 7px;
+  border: 1px solid rgba(80, 220, 142, 0.2);
+  border-radius: 5px;
+  background: rgba(19, 59, 39, 0.32);
+  color: #a8f5c6;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
 .capture-error {
   padding: 8px 10px;
   border: 1px solid rgba(255, 92, 82, 0.28);

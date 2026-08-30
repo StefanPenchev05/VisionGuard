@@ -43,6 +43,16 @@ class TrainedGestureModel:
 class DetectedHand:
     box: tuple[int, int, int, int]
     features: FeatureVector
+    landmark_count: int
+
+
+@dataclass(frozen=True)
+class HandPresenceDetection:
+    bounding_box: dict[str, int] | None
+    confidence: float | None
+    hand_detected: bool
+    landmark_count: int | None
+    reason: str | None
 
 
 def read_jpeg_dimensions(data: bytes) -> JpegDimensions:
@@ -306,6 +316,7 @@ def detect_mediapipe_hands(image: np.ndarray) -> list[DetectedHand]:
                     image_width,
                     image_height,
                 ),
+                landmark_count=len(landmarks),
             )
         )
 
@@ -461,17 +472,79 @@ def extract_image_features(file_path: str) -> FeatureVector:
     raise NoHandRegionDetected("No hand landmarks detected in frame.")
 
 
-def detect_hand_presence(file_path: str) -> tuple[bool, str | None]:
+def estimate_hand_confidence(hand: DetectedHand, image_width: int, image_height: int) -> float:
+    _left, _top, width, height = hand.box
+    area_ratio = (width * height) / max(image_width * image_height, 1)
+    size_score = min(1.0, max(0.0, area_ratio / 0.12))
+    landmark_score = min(1.0, hand.landmark_count / 21)
+    return round(max(0.45, min(0.99, 0.35 + size_score * 0.35 + landmark_score * 0.3)), 3)
+
+
+def inspect_hand_presence(file_path: str) -> HandPresenceDetection:
     try:
         data = Path(file_path).read_bytes()
         if not data:
-            return False, "Frame is empty."
+            return HandPresenceDetection(
+                bounding_box=None,
+                confidence=None,
+                hand_detected=False,
+                landmark_count=None,
+                reason="Frame is empty.",
+            )
 
-        extract_attention_region_bytes(data)
+        image = cv2.imdecode(np.frombuffer(data, dtype=np.uint8), cv2.IMREAD_COLOR)
+        if image is None:
+            raise NoHandRegionDetected("Could not decode image for hand detection.")
+
+        detected_hands = detect_mediapipe_hands(image)
+        if not detected_hands:
+            if os.environ.get("VISIONGUARD_ALLOW_SKIN_HAND_FALLBACK") == "1":
+                fallback_box = find_skin_contour_hand_region(image)
+                if fallback_box:
+                    left, top, right, bottom = fallback_box
+                    return HandPresenceDetection(
+                        bounding_box={
+                            "x": left,
+                            "y": top,
+                            "width": right - left,
+                            "height": bottom - top,
+                        },
+                        confidence=0.5,
+                        hand_detected=True,
+                        landmark_count=0,
+                        reason=None,
+                    )
+
+            raise NoHandRegionDetected("No hand landmarks detected in frame.")
+
+        hand = max(detected_hands, key=lambda detected: detected.box[2] * detected.box[3])
+        left, top, width, height = hand.box
+        image_height, image_width = image.shape[:2]
+        return HandPresenceDetection(
+            bounding_box={
+                "x": left,
+                "y": top,
+                "width": width,
+                "height": height,
+            },
+            confidence=estimate_hand_confidence(hand, image_width, image_height),
+            hand_detected=True,
+            landmark_count=hand.landmark_count,
+            reason=None,
+        )
     except NoHandRegionDetected as error:
-        return False, str(error)
+        return HandPresenceDetection(
+            bounding_box=None,
+            confidence=None,
+            hand_detected=False,
+            landmark_count=None,
+            reason=str(error),
+        )
 
-    return True, None
+
+def detect_hand_presence(file_path: str) -> tuple[bool, str | None]:
+    result = inspect_hand_presence(file_path)
+    return result.hand_detected, result.reason
 
 
 def relu(values: FeatureVector) -> FeatureVector:

@@ -30,6 +30,9 @@ class GestureSampleReferenceSchema(BaseModel):
     source: Literal["desktop-camera"]
     width: int | None = None
     height: int | None = None
+    handDetected: bool | None = None
+    handDetectionConfidence: float | None = Field(default=None, ge=0, le=1)
+    handLandmarkCount: int | None = Field(default=None, ge=0)
 
 
 class TrainingDatasetSchema(BaseModel):
@@ -116,4 +119,7 @@ class InferenceResultSchema(BaseModel):
 class HandPresenceResultSchema(BaseModel):
     frameId: str
     handDetected: bool
+    confidence: float | None = Field(default=None, ge=0, le=1)
+    landmarkCount: int | None = Field(default=None, ge=0)
+    boundingBox: dict[str, int] | None = None
     reason: str | None = None
