@@ -1,6 +1,8 @@
 import type {
   AiModelServiceContract,
   CreateTrainingDatasetRequest,
+  DetectHandPresenceRequest,
+  HandPresenceResult,
   InferenceResult,
   ModelStatus,
   RunGestureInferenceRequest,
@@ -60,6 +62,13 @@ export class HttpAiModelClient implements AiModelServiceContract {
 
   createTrainingDataset(request: CreateTrainingDatasetRequest): Promise<TrainingDataset> {
     return requestJson(this.config, "/datasets", {
+      body: JSON.stringify(request),
+      method: "POST"
+    });
+  }
+
+  detectHandPresence(request: DetectHandPresenceRequest): Promise<HandPresenceResult> {
+    return requestJson(this.config, "/inference/hand-presence", {
       body: JSON.stringify(request),
       method: "POST"
     });

@@ -41,6 +41,9 @@
 body {
   margin: 0;
   min-width: 1180px;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
   overflow: hidden;
 }
 
@@ -64,9 +67,13 @@ button:disabled {
 }
 
 .app-shell {
-  min-height: 100vh;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
   display: grid;
   grid-template-columns: 188px minmax(0, 1fr);
+  overflow: hidden;
   background:
     radial-gradient(circle at 72% 0%, rgba(21, 205, 198, 0.08), transparent 28%),
     linear-gradient(135deg, #071016 0%, #0d171d 42%, #091116 100%);
@@ -95,6 +102,8 @@ button:disabled {
 }
 
 .sidebar {
+  min-height: 0;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   border-right: 1px solid rgba(140, 170, 184, 0.18);
@@ -201,8 +210,10 @@ button:disabled {
 
 .workspace {
   min-width: 0;
+  min-height: 0;
   display: grid;
   grid-template-rows: 56px minmax(0, 1fr);
+  overflow: hidden;
 }
 
 .topbar {
@@ -345,8 +356,11 @@ button:disabled {
 
 .dashboard {
   min-height: 0;
+  height: 100%;
   padding: 18px 22px;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .dashboard-header {
@@ -406,6 +420,16 @@ h2 {
   background: linear-gradient(180deg, #1ae4de, #0ec4bf);
   border-color: rgba(22, 223, 218, 0.78);
   opacity: 1;
+}
+
+.danger-action {
+  border-color: rgba(255, 98, 98, 0.28);
+  color: #ffc3c3;
+}
+
+.danger-action:hover:not(:disabled) {
+  border-color: rgba(255, 98, 98, 0.56);
+  background: rgba(91, 28, 28, 0.28);
 }
 
 .primary-action.is-live {
@@ -524,7 +548,7 @@ h2 {
 }
 
 .camera-frame.has-video {
-  height: clamp(440px, 56vh, 620px);
+  height: clamp(320px, 46dvh, 500px);
   background:
     linear-gradient(rgba(35, 254, 236, 0.045) 1px, transparent 1px),
     linear-gradient(90deg, rgba(35, 254, 236, 0.045) 1px, transparent 1px),
@@ -1280,6 +1304,7 @@ h2 {
 }
 
 .gestures-workspace {
+  min-height: 0;
   display: grid;
   grid-template-columns: minmax(560px, 1.35fr) minmax(360px, 0.9fr);
   grid-template-areas:
@@ -1434,6 +1459,26 @@ h2 {
 .gesture-capture-frame.is-recording {
   border-color: rgba(34, 218, 205, 0.58);
   box-shadow: inset 0 0 46px rgba(34, 218, 205, 0.08);
+}
+
+.gesture-capture-frame.hand-status-detected {
+  border-color: rgba(80, 220, 142, 0.66);
+  box-shadow: inset 0 0 46px rgba(80, 220, 142, 0.1);
+}
+
+.gesture-capture-frame.hand-status-missing,
+.gesture-capture-frame.hand-status-error {
+  border-color: rgba(255, 135, 106, 0.72);
+  box-shadow: inset 0 0 46px rgba(255, 135, 106, 0.12);
+}
+
+.gesture-capture-frame.hand-status-detected .capture-overlay-text span {
+  color: #93e6b5;
+}
+
+.gesture-capture-frame.hand-status-missing .capture-overlay-text span,
+.gesture-capture-frame.hand-status-error .capture-overlay-text span {
+  color: #ffab96;
 }
 
 .capture-reticle {
@@ -1701,21 +1746,54 @@ h2 {
 .gesture-library-row {
   width: 100%;
   display: grid;
-  grid-template-columns: 42px minmax(0, 1fr) auto;
-  gap: 12px;
+  grid-template-columns: minmax(0, 1fr) 34px;
+  gap: 8px;
   align-items: center;
   min-height: 68px;
-  padding: 10px 12px;
+  padding: 8px;
   border: 1px solid rgba(140, 170, 184, 0.14);
   border-radius: 8px;
   background: rgba(17, 29, 37, 0.72);
   color: inherit;
+}
+
+.gesture-library-main {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
   text-align: left;
+}
+
+.gesture-library-main:focus-visible,
+.gesture-row-delete:focus-visible {
+  outline: 2px solid rgba(34, 218, 205, 0.72);
+  outline-offset: 2px;
 }
 
 .gesture-library-row.is-selected {
   border-color: rgba(34, 218, 205, 0.42);
   background: rgba(22, 53, 58, 0.58);
+}
+
+.gesture-row-delete {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 98, 98, 0.24);
+  border-radius: 6px;
+  background: rgba(91, 28, 28, 0.18);
+  color: #ffc3c3;
+}
+
+.gesture-row-delete:hover:not(:disabled) {
+  border-color: rgba(255, 98, 98, 0.58);
+  background: rgba(91, 28, 28, 0.42);
 }
 
 .gesture-row-icon {

@@ -1,4 +1,4 @@
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { app } from "electron";
 
@@ -58,4 +58,20 @@ export async function saveGestureSamples(
       };
     })
   );
+}
+
+export async function deleteGestureSamples(
+  gestureId: string,
+  userDataPath?: string
+): Promise<{ deleted: boolean }> {
+  if (!gestureId) {
+    throw new TypeError("Gesture id is required.");
+  }
+
+  await rm(getSampleDirectory(sanitizePathSegment(gestureId), userDataPath), {
+    force: true,
+    recursive: true
+  });
+
+  return { deleted: true };
 }

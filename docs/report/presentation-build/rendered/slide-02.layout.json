@@ -1,0 +1,818 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/18fcqa",
+    "id": "18fcqa",
+    "slide": 2,
+    "layoutId": "45acdb32-d4b9-4ca6-9b59-f174dea2ec30",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "dc448232-15f3-4e48-8bee-9c0a57b22431",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FFFFFF",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "bg1": "#FFFFFF",
+      "bg2": "#000000",
+      "tx1": "#1F1F1F",
+      "tx2": "#FFFFFF",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "typefaces": [
+      "+mn-lt"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "45acdb32-d4b9-4ca6-9b59-f174dea2ec30",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "dc448232-15f3-4e48-8bee-9c0a57b22431",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "dc448232-15f3-4e48-8bee-9c0a57b22431",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/u9cfqpg7",
+      "id": "1",
+      "name": "kicker",
+      "bbox": [
+        48,
+        36,
+        420,
+        26
+      ],
+      "geometry": "rect",
+      "text": "VISIONGUARD",
+      "textPreview": "VISIONGUARD",
+      "resolvedFontSize": 17,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 17,
+        "typeface": "+mn-lt",
+        "color": "#127C95",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "VISIONGUARD"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "VISIONGUARD",
+          "resolvedTextStyle": {
+            "fontSize": 17,
+            "color": "#127C95",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "VISIONGUARD",
+              "fontSize": 17,
+              "color": "#127C95",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/hc3y14fi",
+      "id": "2",
+      "name": "slide-title",
+      "bbox": [
+        48,
+        72,
+        1030,
+        96
+      ],
+      "geometry": "rect",
+      "text": "Desktop security needs context after login",
+      "textPreview": "Desktop security needs context after login",
+      "resolvedFontSize": 42,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 42,
+        "typeface": "+mn-lt",
+        "color": "#050505",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Desktop security needs context after login"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Desktop security needs context after login",
+          "resolvedTextStyle": {
+            "fontSize": 42,
+            "color": "#050505",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Desktop security needs context after login",
+              "fontSize": 42,
+              "color": "#050505",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/wbuhszyd",
+      "id": "3",
+      "name": "problem-head-0",
+      "bbox": [
+        62,
+        226,
+        500,
+        30
+      ],
+      "geometry": "rect",
+      "text": "One-time checks are limited",
+      "textPreview": "One-time checks are limited",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "+mn-lt",
+        "color": "#050505",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "One-time checks are limited"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "One-time checks are limited",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "color": "#050505",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "One-time checks are limited",
+              "fontSize": 24,
+              "color": "#050505",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/jelg3uxo",
+      "id": "4",
+      "name": "problem-body-0",
+      "bbox": [
+        62,
+        260,
+        500,
+        38
+      ],
+      "geometry": "rect",
+      "text": "Traditional login verifies a moment, not the full session.",
+      "textPreview": "Traditional login verifies a moment, not the full session.",
+      "resolvedFontSize": 17,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 17,
+        "typeface": "+mn-lt",
+        "color": "#525866",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Traditional login verifies a moment, not the full session."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Traditional login verifies a moment, not the full session.",
+          "resolvedTextStyle": {
+            "fontSize": 17,
+            "color": "#525866",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Traditional login verifies a moment, not the full session.",
+              "fontSize": 17,
+              "color": "#525866",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/idczupg3",
+      "id": "5",
+      "name": "problem-head-1",
+      "bbox": [
+        62,
+        322,
+        500,
+        30
+      ],
+      "geometry": "rect",
+      "text": "Hands-free control is useful",
+      "textPreview": "Hands-free control is useful",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "+mn-lt",
+        "color": "#050505",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Hands-free control is useful"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Hands-free control is useful",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "color": "#050505",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Hands-free control is useful",
+              "fontSize": 24,
+              "color": "#050505",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/5gny54fu",
+      "id": "6",
+      "name": "problem-body-1",
+      "bbox": [
+        62,
+        356,
+        500,
+        38
+      ],
+      "geometry": "rect",
+      "text": "Repeated desktop actions can be faster through reliable gestures.",
+      "textPreview": "Repeated desktop actions can be faster through reliable gestures.",
+      "resolvedFontSize": 17,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 17,
+        "typeface": "+mn-lt",
+        "color": "#525866",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Repeated desktop actions can be faster through reliable"
+          },
+          {
+            "index": 2,
+            "text": "gestures."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Repeated desktop actions can be faster through reliable gestures.",
+          "resolvedTextStyle": {
+            "fontSize": 17,
+            "color": "#525866",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Repeated desktop actions can be faster through reliable gestures.",
+              "fontSize": 17,
+              "color": "#525866",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/4fuhwzy9",
+      "id": "7",
+      "name": "problem-head-2",
+      "bbox": [
+        62,
+        418,
+        500,
+        30
+      ],
+      "geometry": "rect",
+      "text": "Camera input is sensitive",
+      "textPreview": "Camera input is sensitive",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "+mn-lt",
+        "color": "#050505",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Camera input is sensitive"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Camera input is sensitive",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "color": "#050505",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Camera input is sensitive",
+              "fontSize": 24,
+              "color": "#050505",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/zi1grahk",
+      "id": "8",
+      "name": "problem-body-2",
+      "bbox": [
+        62,
+        452,
+        500,
+        38
+      ],
+      "geometry": "rect",
+      "text": "A practical system should process frames locally and expose clear state.",
+      "textPreview": "A practical system should process frames locally and expose clear state.",
+      "resolvedFontSize": 17,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 17,
+        "typeface": "+mn-lt",
+        "color": "#525866",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "A practical system should process frames locally and expose"
+          },
+          {
+            "index": 2,
+            "text": "clear state."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "A practical system should process frames locally and expose clear state.",
+          "resolvedTextStyle": {
+            "fontSize": 17,
+            "color": "#525866",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "A practical system should process frames locally and expose clear state.",
+              "fontSize": 17,
+              "color": "#525866",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/yhsfy5gz",
+      "id": "9",
+      "name": "problem-callout",
+      "bbox": [
+        660,
+        202,
+        520,
+        310
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#EAF7FB",
+      "lineColor": "#B8BCC4",
+      "lineWidth": 1
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/kvehw3y9",
+      "id": "10",
+      "name": "problem-callout-title",
+      "bbox": [
+        704,
+        252,
+        430,
+        48
+      ],
+      "geometry": "rect",
+      "text": "Project question",
+      "textPreview": "Project question",
+      "resolvedFontSize": 32,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 32,
+        "typeface": "+mn-lt",
+        "color": "#050505",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Project question"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Project question",
+          "resolvedTextStyle": {
+            "fontSize": 32,
+            "color": "#050505",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Project question",
+              "fontSize": 32,
+              "color": "#050505",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/5wny58zu",
+      "id": "11",
+      "name": "problem-callout-body",
+      "bbox": [
+        704,
+        326,
+        420,
+        126
+      ],
+      "geometry": "rect",
+      "text": "Can a local desktop app connect camera monitoring, gesture training, live inference, and action execution in one understandable workflow?",
+      "textPreview": "Can a local desktop app connect camera monitoring, gesture training, live inference, and action execution in one understandable workflow?",
+      "resolvedFontSize": 25,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 25,
+        "typeface": "+mn-lt",
+        "color": "#050505",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 5,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Can a local desktop app connect"
+          },
+          {
+            "index": 2,
+            "text": "camera monitoring, gesture"
+          },
+          {
+            "index": 3,
+            "text": "training, live inference, and action"
+          },
+          {
+            "index": 4,
+            "text": "execution in one understandable"
+          },
+          {
+            "index": 5,
+            "text": "workflow?"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Can a local desktop app connect camera monitoring, gesture training, live inference, and action execution in one understandable workflow?",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "color": "#050505",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Can a local desktop app connect camera monitoring, gesture training, live inference, and action execution in one understandable workflow?",
+              "fontSize": 25,
+              "color": "#050505",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 12,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/itwzutg3",
+      "id": "12",
+      "name": "footer-2",
+      "bbox": [
+        1184,
+        654,
+        48,
+        24
+      ],
+      "geometry": "rect",
+      "text": "02",
+      "textPreview": "02",
+      "resolvedFontSize": 14,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 14,
+        "typeface": "+mn-lt",
+        "color": "#525866",
+        "alignment": "right",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "02"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "02",
+          "resolvedTextStyle": {
+            "fontSize": 14,
+            "color": "#525866",
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "02",
+              "fontSize": 14,
+              "color": "#525866",
+              "alignment": "right"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

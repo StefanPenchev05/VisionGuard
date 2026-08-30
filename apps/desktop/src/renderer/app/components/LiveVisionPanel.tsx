@@ -232,7 +232,10 @@ export function LiveVisionPanel({
           <>
             <div className="prediction-card">
               <span>Gesture</span>
-              <strong>{inferenceResult?.bestPrediction?.label ?? "No match"}</strong>
+              <strong>
+                {inferenceResult?.bestPrediction?.label ??
+                  (inferenceResult ? "No hand detected" : "Waiting")}
+              </strong>
               <em>
                 {inferenceStatus === "running"
                   ? "Scanning"
@@ -244,6 +247,8 @@ export function LiveVisionPanel({
                         ? "Error"
                     : inferenceResult?.bestPrediction
                       ? `${Math.round(inferenceResult.bestPrediction.confidence * 100)}%`
+                      : inferenceResult
+                        ? "Hand required"
                       : inferenceEnabled
                         ? "Ready"
                         : "No trained model"}

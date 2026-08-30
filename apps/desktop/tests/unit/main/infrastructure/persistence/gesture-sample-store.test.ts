@@ -1,4 +1,4 @@
-import { readFile, rm, mkdtemp } from "node:fs/promises";
+import { access, readFile, rm, mkdtemp } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { basename, join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -10,6 +10,7 @@ vi.mock("electron", () => ({
 }));
 
 const {
+  deleteGestureSamples,
   getSampleDirectory,
   sanitizePathSegment,
   saveGestureSamples
@@ -74,5 +75,29 @@ describe("gesture-sample-store", () => {
         userDataPath
       )
     ).rejects.toThrow("Gesture samples must be JPEG data URLs.");
+  });
+
+  it("deletes all saved sample files for a gesture", async () => {
+    const jpegBytes = Buffer.from("fake-jpeg-frame");
+    const dataUrl = `data:image/jpeg;base64,${jpegBytes.toString("base64")}`;
+    const [savedSample] = await saveGestureSamples(
+      "gesture-1",
+      [
+        {
+          capturedAt: "2026-08-21T00:00:00.000Z",
+          dataUrl,
+          id: "sample-1"
+        }
+      ],
+      userDataPath
+    );
+
+    await expect(access(savedSample.filePath)).resolves.toBeUndefined();
+    await expect(deleteGestureSamples("gesture-1", userDataPath)).resolves.toEqual({
+      deleted: true
+    });
+    await expect(access(savedSample.filePath)).rejects.toMatchObject({
+      code: "ENOENT"
+    });
   });
 });

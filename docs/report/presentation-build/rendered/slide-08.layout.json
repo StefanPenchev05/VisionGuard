@@ -1,0 +1,999 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/95pqd2",
+    "id": "95pqd2",
+    "slide": 8,
+    "layoutId": "45acdb32-d4b9-4ca6-9b59-f174dea2ec30",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "dc448232-15f3-4e48-8bee-9c0a57b22431",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FFFFFF",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "bg1": "#FFFFFF",
+      "bg2": "#000000",
+      "tx1": "#1F1F1F",
+      "tx2": "#FFFFFF",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "typefaces": [
+      "+mn-lt"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "45acdb32-d4b9-4ca6-9b59-f174dea2ec30",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "dc448232-15f3-4e48-8bee-9c0a57b22431",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "dc448232-15f3-4e48-8bee-9c0a57b22431",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/f69obax0",
+      "id": "1",
+      "name": "kicker",
+      "bbox": [
+        48,
+        36,
+        420,
+        26
+      ],
+      "geometry": "rect",
+      "text": "VISIONGUARD",
+      "textPreview": "VISIONGUARD",
+      "resolvedFontSize": 17,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 17,
+        "typeface": "+mn-lt",
+        "color": "#127C95",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "VISIONGUARD"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "VISIONGUARD",
+          "resolvedTextStyle": {
+            "fontSize": 17,
+            "color": "#127C95",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "VISIONGUARD",
+              "fontSize": 17,
+              "color": "#127C95",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/g7i54fel",
+      "id": "2",
+      "name": "slide-title",
+      "bbox": [
+        48,
+        72,
+        1030,
+        96
+      ],
+      "geometry": "rect",
+      "text": "The AI service exposes a small contract for model operations",
+      "textPreview": "The AI service exposes a small contract for model operations",
+      "resolvedFontSize": 42,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 42,
+        "typeface": "+mn-lt",
+        "color": "#050505",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "The AI service exposes a small contract for model"
+          },
+          {
+            "index": 2,
+            "text": "operations"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "The AI service exposes a small contract for model operations",
+          "resolvedTextStyle": {
+            "fontSize": 42,
+            "color": "#050505",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "The AI service exposes a small contract for model operations",
+              "fontSize": 42,
+              "color": "#050505",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/h8r6dkf6",
+      "id": "3",
+      "name": "contract-row-0",
+      "bbox": [
+        72,
+        190,
+        1040,
+        52
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#F2F2F2",
+      "lineColor": "#B8BCC4",
+      "lineWidth": 1
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/6hgny5gj",
+      "id": "4",
+      "name": "contract-head-0",
+      "bbox": [
+        96,
+        202,
+        210,
+        28
+      ],
+      "geometry": "rect",
+      "text": "Dataset",
+      "textPreview": "Dataset",
+      "resolvedFontSize": 22,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 22,
+        "typeface": "+mn-lt",
+        "color": "#050505",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Dataset"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Dataset",
+          "resolvedTextStyle": {
+            "fontSize": 22,
+            "color": "#050505",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Dataset",
+              "fontSize": 22,
+              "color": "#050505",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/7ip47ax4",
+      "id": "5",
+      "name": "contract-body-0",
+      "bbox": [
+        330,
+        203,
+        740,
+        28
+      ],
+      "geometry": "rect",
+      "text": "Create dataset from gesture labels and sample references",
+      "textPreview": "Create dataset from gesture labels and sample references",
+      "resolvedFontSize": 20,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 20,
+        "typeface": "+mn-lt",
+        "color": "#525866",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Create dataset from gesture labels and sample references"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Create dataset from gesture labels and sample references",
+          "resolvedTextStyle": {
+            "fontSize": 20,
+            "color": "#525866",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Create dataset from gesture labels and sample references",
+              "fontSize": 20,
+              "color": "#525866",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/sjy50fe9",
+      "id": "6",
+      "name": "contract-row-1",
+      "bbox": [
+        72,
+        262,
+        1040,
+        52
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#FFFFFF",
+      "lineColor": "#B8BCC4",
+      "lineWidth": 1
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/tkrm90fu",
+      "id": "7",
+      "name": "contract-head-1",
+      "bbox": [
+        96,
+        274,
+        210,
+        28
+      ],
+      "geometry": "rect",
+      "text": "Training job",
+      "textPreview": "Training job",
+      "resolvedFontSize": 22,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 22,
+        "typeface": "+mn-lt",
+        "color": "#050505",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Training job"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Training job",
+          "resolvedTextStyle": {
+            "fontSize": 22,
+            "color": "#050505",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Training job",
+              "fontSize": 22,
+              "color": "#050505",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/qdknapwn",
+      "id": "8",
+      "name": "contract-body-1",
+      "bbox": [
+        330,
+        275,
+        740,
+        28
+      ],
+      "geometry": "rect",
+      "text": "Queue, run, poll, and complete model training",
+      "textPreview": "Queue, run, poll, and complete model training",
+      "resolvedFontSize": 20,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 20,
+        "typeface": "+mn-lt",
+        "color": "#525866",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Queue, run, poll, and complete model training"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Queue, run, poll, and complete model training",
+          "resolvedTextStyle": {
+            "fontSize": 20,
+            "color": "#525866",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Queue, run, poll, and complete model training",
+              "fontSize": 20,
+              "color": "#525866",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/retojux8",
+      "id": "9",
+      "name": "contract-row-2",
+      "bbox": [
+        72,
+        334,
+        1040,
+        52
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#F2F2F2",
+      "lineColor": "#B8BCC4",
+      "lineWidth": 1
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/7mt8rml0",
+      "id": "10",
+      "name": "contract-head-2",
+      "bbox": [
+        96,
+        346,
+        210,
+        28
+      ],
+      "geometry": "rect",
+      "text": "Model status",
+      "textPreview": "Model status",
+      "resolvedFontSize": 22,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 22,
+        "typeface": "+mn-lt",
+        "color": "#050505",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Model status"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Model status",
+          "resolvedTextStyle": {
+            "fontSize": 22,
+            "color": "#050505",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Model status",
+              "fontSize": 22,
+              "color": "#050505",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/6lkryh4f",
+      "id": "11",
+      "name": "contract-body-2",
+      "bbox": [
+        330,
+        347,
+        740,
+        28
+      ],
+      "geometry": "rect",
+      "text": "Report not-trained, loading, ready, degraded, or error",
+      "textPreview": "Report not-trained, loading, ready, degraded, or error",
+      "resolvedFontSize": 20,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 20,
+        "typeface": "+mn-lt",
+        "color": "#525866",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Report not-trained, loading, ready, degraded, or error"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Report not-trained, loading, ready, degraded, or error",
+          "resolvedTextStyle": {
+            "fontSize": 20,
+            "color": "#525866",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Report not-trained, loading, ready, degraded, or error",
+              "fontSize": 20,
+              "color": "#525866",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 12,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/t8bqtw36",
+      "id": "12",
+      "name": "contract-row-3",
+      "bbox": [
+        72,
+        406,
+        1040,
+        52
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#FFFFFF",
+      "lineColor": "#B8BCC4",
+      "lineWidth": 1
+    },
+    {
+      "order": 13,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/s7290rml",
+      "id": "13",
+      "name": "contract-head-3",
+      "bbox": [
+        96,
+        418,
+        210,
+        28
+      ],
+      "geometry": "rect",
+      "text": "Hand presence",
+      "textPreview": "Hand presence",
+      "resolvedFontSize": 22,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 22,
+        "typeface": "+mn-lt",
+        "color": "#050505",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Hand presence"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Hand presence",
+          "resolvedTextStyle": {
+            "fontSize": 22,
+            "color": "#050505",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Hand presence",
+              "fontSize": 22,
+              "color": "#050505",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 14,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/fad8vmlc",
+      "id": "14",
+      "name": "contract-body-3",
+      "bbox": [
+        330,
+        419,
+        740,
+        28
+      ],
+      "geometry": "rect",
+      "text": "Reject frames that do not contain a detectable hand",
+      "textPreview": "Reject frames that do not contain a detectable hand",
+      "resolvedFontSize": 20,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 20,
+        "typeface": "+mn-lt",
+        "color": "#525866",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Reject frames that do not contain a detectable hand"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Reject frames that do not contain a detectable hand",
+          "resolvedTextStyle": {
+            "fontSize": 20,
+            "color": "#525866",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Reject frames that do not contain a detectable hand",
+              "fontSize": 20,
+              "color": "#525866",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 15,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/u94r214r",
+      "id": "15",
+      "name": "contract-row-4",
+      "bbox": [
+        72,
+        478,
+        1040,
+        52
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#F2F2F2",
+      "lineColor": "#B8BCC4",
+      "lineWidth": 1
+    },
+    {
+      "order": 16,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/hcvqxw32",
+      "id": "16",
+      "name": "contract-head-4",
+      "bbox": [
+        96,
+        490,
+        210,
+        28
+      ],
+      "geometry": "rect",
+      "text": "Inference",
+      "textPreview": "Inference",
+      "resolvedFontSize": 22,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 22,
+        "typeface": "+mn-lt",
+        "color": "#050505",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Inference"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Inference",
+          "resolvedTextStyle": {
+            "fontSize": 22,
+            "color": "#050505",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Inference",
+              "fontSize": 22,
+              "color": "#050505",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 17,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/gbm94rmx",
+      "id": "17",
+      "name": "contract-body-4",
+      "bbox": [
+        330,
+        491,
+        740,
+        28
+      ],
+      "geometry": "rect",
+      "text": "Return predictions, best match, confidence, and latency",
+      "textPreview": "Return predictions, best match, confidence, and latency",
+      "resolvedFontSize": 20,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 20,
+        "typeface": "+mn-lt",
+        "color": "#525866",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Return predictions, best match, confidence, and latency"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Return predictions, best match, confidence, and latency",
+          "resolvedTextStyle": {
+            "fontSize": 20,
+            "color": "#525866",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Return predictions, best match, confidence, and latency",
+              "fontSize": 20,
+              "color": "#525866",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 18,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/3ed8z6l8",
+      "id": "18",
+      "name": "footer-8",
+      "bbox": [
+        1184,
+        654,
+        48,
+        24
+      ],
+      "geometry": "rect",
+      "text": "08",
+      "textPreview": "08",
+      "resolvedFontSize": 14,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 14,
+        "typeface": "+mn-lt",
+        "color": "#525866",
+        "alignment": "right",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "08"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "08",
+          "resolvedTextStyle": {
+            "fontSize": 14,
+            "color": "#525866",
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "08",
+              "fontSize": 14,
+              "color": "#525866",
+              "alignment": "right"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

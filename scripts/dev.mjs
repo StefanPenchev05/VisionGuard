@@ -5,33 +5,19 @@ import { resolve } from "node:path";
 const root = resolve(import.meta.dirname, "..");
 const aiServicePath = resolve(root, "services/ai-models");
 
+const nodeCommand = process.execPath;
 const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
-const pythonCommand = process.env.PYTHON ?? "python3";
 
 const processes = [
   spawn(
-    pythonCommand,
+    nodeCommand,
     [
-      "-m",
-      "uvicorn",
-      "interfaces.api.app:create_app",
-      "--factory",
-      "--host",
-      "127.0.0.1",
-      "--port",
-      "8765"
+      "scripts/ai.mjs",
+      "dev"
     ],
     {
-      cwd: aiServicePath,
-      env: {
-        ...process.env,
-        PYTHONPATH: [
-          resolve(aiServicePath, "src"),
-          process.env.PYTHONPATH
-        ].filter(Boolean).join(":"),
-        VISIONGUARD_AI_MODEL_DIR:
-          process.env.VISIONGUARD_AI_MODEL_DIR ?? resolve(root, ".visionguard/models")
-      },
+      cwd: root,
+      env: process.env,
       stdio: "inherit"
     }
   ),

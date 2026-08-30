@@ -11,10 +11,14 @@ contextBridge.exposeInMainWorld("visionGuard", {
     save: (gestures: unknown[]) => ipcRenderer.invoke("gestures:save", gestures)
   },
   samples: {
+    deleteGesture: (gestureId: string) =>
+      ipcRenderer.invoke("gesture-samples:delete-gesture", gestureId),
     saveBatch: (gestureId: string, samples: unknown[]) =>
       ipcRenderer.invoke("gesture-samples:save-batch", gestureId, samples)
   },
   inference: {
+    detectHandFrame: (frame: unknown) =>
+      ipcRenderer.invoke("inference:detect-hand-frame", frame),
     runGestureFrame: (frame: unknown) =>
       ipcRenderer.invoke("inference:run-gesture-frame", frame)
   },

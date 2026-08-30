@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import type {
   AiModelServiceContract,
   CreateTrainingDatasetRequest,
+  HandPresenceResult,
   InferenceResult,
   ModelStatus,
   TrainingDataset,
@@ -17,6 +18,13 @@ class InMemoryAiModelService implements AiModelServiceContract {
       name: request.name,
       sampleCount: request.samples.length,
       updatedAt: "2026-08-21T00:00:00.000Z"
+    };
+  }
+
+  async detectHandPresence(): Promise<HandPresenceResult> {
+    return {
+      frameId: "frame-1",
+      handDetected: true
     };
   }
 

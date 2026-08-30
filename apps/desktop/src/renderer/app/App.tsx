@@ -54,6 +54,10 @@ const initialGestures: GestureDefinition[] = [
   }
 ];
 
+const LIVE_INFERENCE_MIN_CONFIDENCE = 0.75;
+const ACTION_EXECUTION_MIN_CONFIDENCE = 0.92;
+const ACTION_COOLDOWN_MS = 4_000;
+
 type CapturedGestureSample = {
   capturedAt: string;
   dataUrl: string;
@@ -174,6 +178,16 @@ export function App() {
     }));
   };
 
+  const handleDeleteGesture = async (gestureId: string) => {
+    if (window.visionGuard?.samples) {
+      await window.visionGuard.samples.deleteGesture(gestureId);
+    }
+
+    setGestureDefinitions((current) =>
+      current.filter((gesture) => gesture.id !== gestureId)
+    );
+  };
+
   const handleStartGestureTraining = async (gesture: GestureDefinition) => {
     if (!window.visionGuard?.training) {
       throw new Error("Training is available only in the Electron desktop app.");
@@ -235,7 +249,7 @@ export function App() {
       try {
         const result = await window.visionGuard.inference.runGestureFrame({
           ...frame,
-          minConfidence: 0.75,
+          minConfidence: LIVE_INFERENCE_MIN_CONFIDENCE,
           modelId: "default"
         });
         setInferenceResult(result);
@@ -249,14 +263,18 @@ export function App() {
             )
           : null;
 
-        if (!prediction || !matchedGesture || prediction.confidence < 0.75) {
+        if (
+          !prediction ||
+          !matchedGesture ||
+          prediction.confidence < ACTION_EXECUTION_MIN_CONFIDENCE
+        ) {
           return;
         }
 
         const now = Date.now();
         const lastActionAt = lastActionAtRef.current[matchedGesture.id] ?? 0;
 
-        if (now - lastActionAt < 4_000) {
+        if (now - lastActionAt < ACTION_COOLDOWN_MS) {
           return;
         }
 
@@ -462,6 +480,7 @@ export function App() {
             onAddGesture={(gesture) =>
               setGestureDefinitions((current) => [gesture, ...current])
             }
+            onDeleteGesture={handleDeleteGesture}
             onSaveSamples={handleSaveGestureSamples}
             onStartCamera={camera.startCamera}
             onStartTraining={handleStartGestureTraining}

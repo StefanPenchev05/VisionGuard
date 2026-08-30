@@ -1,0 +1,411 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/zd617g",
+    "id": "zd617g",
+    "slide": 1,
+    "layoutId": "45acdb32-d4b9-4ca6-9b59-f174dea2ec30",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "dc448232-15f3-4e48-8bee-9c0a57b22431",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FFFFFF",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "bg1": "#FFFFFF",
+      "bg2": "#000000",
+      "tx1": "#1F1F1F",
+      "tx2": "#FFFFFF",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "typefaces": [
+      "+mn-lt"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "45acdb32-d4b9-4ca6-9b59-f174dea2ec30",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "dc448232-15f3-4e48-8bee-9c0a57b22431",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "dc448232-15f3-4e48-8bee-9c0a57b22431",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/xknmdkri",
+      "id": "1",
+      "name": "title",
+      "bbox": [
+        48,
+        62,
+        530,
+        76
+      ],
+      "geometry": "rect",
+      "text": "VisionGuard",
+      "textPreview": "VisionGuard",
+      "resolvedFontSize": 60,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 60,
+        "typeface": "+mn-lt",
+        "color": "#050505",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "VisionGuard"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "VisionGuard",
+          "resolvedTextStyle": {
+            "fontSize": 60,
+            "color": "#050505",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "VisionGuard",
+              "fontSize": 60,
+              "color": "#050505",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ahwn258r",
+      "id": "2",
+      "name": "subtitle",
+      "bbox": [
+        48,
+        158,
+        520,
+        112
+      ],
+      "geometry": "rect",
+      "text": "Local computer vision for gesture recognition and continuous user authentication",
+      "textPreview": "Local computer vision for gesture recognition and continuous user authentication",
+      "resolvedFontSize": 28,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 28,
+        "typeface": "+mn-lt",
+        "color": "#525866",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 3,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Local computer vision for gesture"
+          },
+          {
+            "index": 2,
+            "text": "recognition and continuous user"
+          },
+          {
+            "index": 3,
+            "text": "authentication"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Local computer vision for gesture recognition and continuous user authentication",
+          "resolvedTextStyle": {
+            "fontSize": 28,
+            "color": "#525866",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Local computer vision for gesture recognition and continuous user authentication",
+              "fontSize": 28,
+              "color": "#525866",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/vi54ba9c",
+      "id": "3",
+      "name": "meta",
+      "bbox": [
+        48,
+        528,
+        520,
+        90
+      ],
+      "geometry": "rect",
+      "text": "Bachelor Semester Project S2\nUniversity of Luxembourg\nStefan Penchev",
+      "textPreview": "Bachelor Semester Project S2 | University of Luxembourg | Stefan Penchev",
+      "resolvedFontSize": 19,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 19,
+        "typeface": "+mn-lt",
+        "color": "#525866",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 3,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Bachelor Semester Project S2"
+          },
+          {
+            "index": 2,
+            "text": "University of Luxembourg"
+          },
+          {
+            "index": 3,
+            "text": "Stefan Penchev"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Bachelor Semester Project S2",
+          "resolvedTextStyle": {
+            "fontSize": 19,
+            "color": "#525866",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Bachelor Semester Project S2",
+              "fontSize": 19,
+              "color": "#525866",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "University of Luxembourg",
+          "resolvedTextStyle": {
+            "fontSize": 19,
+            "color": "#525866",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "University of Luxembourg",
+              "fontSize": 19,
+              "color": "#525866",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 3,
+          "text": "Stefan Penchev",
+          "resolvedTextStyle": {
+            "fontSize": 19,
+            "color": "#525866",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Stefan Penchev",
+              "fontSize": 19,
+              "color": "#525866",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "image",
+      "scope": "slide",
+      "aid": "im/90fydsnm",
+      "id": "4",
+      "bbox": [
+        650,
+        48,
+        582,
+        624
+      ],
+      "geometry": "roundRect",
+      "alt": "VisionGuard live monitor screenshot",
+      "contentType": "image/png",
+      "imageCrop": {
+        "left": 0.02,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      },
+      "imageFit": "cover",
+      "imageMask": {
+        "geometry": "roundRect",
+        "adjustmentList": [
+          {
+            "name": "adj",
+            "formula": "val 1375"
+          }
+        ]
+      },
+      "asset": {
+        "assetId": "bb64373d-4ed4-4736-99f8-248641e6edf9",
+        "contentType": "image/png",
+        "byteLength": 540327
+      }
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/9gnm90r6",
+      "id": "5",
+      "name": "footer-1",
+      "bbox": [
+        1184,
+        654,
+        48,
+        24
+      ],
+      "geometry": "rect",
+      "text": "01",
+      "textPreview": "01",
+      "resolvedFontSize": 14,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 14,
+        "typeface": "+mn-lt",
+        "color": "#525866",
+        "alignment": "right",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "01"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "01",
+          "resolvedTextStyle": {
+            "fontSize": 14,
+            "color": "#525866",
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "01",
+              "fontSize": 14,
+              "color": "#525866",
+              "alignment": "right"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

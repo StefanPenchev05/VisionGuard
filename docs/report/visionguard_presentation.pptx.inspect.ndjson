@@ -1,0 +1,161 @@
+{"kind":"deck","id":"pr/8cr6x9","name":"Deck"}
+{"kind":"layout","layoutId":"dc448232-15f3-4e48-8bee-9c0a57b22431","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"45acdb32-d4b9-4ca6-9b59-f174dea2ec30","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/zd617g","slide":1,"title":"VisionGuard","textShapes":4}
+{"kind":"textbox","id":"sh/xknmdkri","slide":1,"name":"title","text":"VisionGuard","textPreview":"VisionGuard","textChars":11,"textLines":1,"bbox":[48,62,530,76]}
+{"kind":"textbox","id":"sh/ahwn258r","slide":1,"name":"subtitle","text":"Local computer vision for gesture recognition and continuous user authentication","textPreview":"Local computer vision for gesture recognition and continuous user authentication","textChars":80,"textLines":1,"bbox":[48,158,520,112]}
+{"kind":"textbox","id":"sh/vi54ba9c","slide":1,"name":"meta","text":"Bachelor Semester Project S2\nUniversity of Luxembourg\nStefan Penchev","textPreview":"Bachelor Semester Project S2 | University of Luxembourg | Stefan Penchev","textChars":68,"textLines":3,"bbox":[48,528,520,90]}
+{"kind":"textbox","id":"sh/9gnm90r6","slide":1,"name":"footer-1","text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[1184,654,48,24]}
+{"kind":"image","id":"im/90fydsnm","slide":1,"name":"","geometry":"roundRect","alt":"VisionGuard live monitor screenshot","bbox":[650,48,582,624]}
+{"kind":"notes","id":"nt/zd617g","slide":1,"text":"[Sources]\n- Project report source: docs/report/visionguard_report.tex\n- Screenshot: docs/report/figures/visionguard-monitor.png"}
+{"kind":"slide","id":"sl/18fcqa","slide":2,"title":"VISIONGUARD","textShapes":11}
+{"kind":"textbox","id":"sh/u9cfqpg7","slide":2,"name":"kicker","text":"VISIONGUARD","textPreview":"VISIONGUARD","textChars":11,"textLines":1,"bbox":[48,36,420,26]}
+{"kind":"textbox","id":"sh/hc3y14fi","slide":2,"name":"slide-title","text":"Desktop security needs context after login","textPreview":"Desktop security needs context after login","textChars":42,"textLines":1,"bbox":[48,72,1030,96]}
+{"kind":"textbox","id":"sh/wbuhszyd","slide":2,"name":"problem-head-0","text":"One-time checks are limited","textPreview":"One-time checks are limited","textChars":27,"textLines":1,"bbox":[62,226,500,30]}
+{"kind":"textbox","id":"sh/jelg3uxo","slide":2,"name":"problem-body-0","text":"Traditional login verifies a moment, not the full session.","textPreview":"Traditional login verifies a moment, not the full session.","textChars":58,"textLines":1,"bbox":[62,260,500,38]}
+{"kind":"textbox","id":"sh/idczupg3","slide":2,"name":"problem-head-1","text":"Hands-free control is useful","textPreview":"Hands-free control is useful","textChars":28,"textLines":1,"bbox":[62,322,500,30]}
+{"kind":"textbox","id":"sh/5gny54fu","slide":2,"name":"problem-body-1","text":"Repeated desktop actions can be faster through reliable gestures.","textPreview":"Repeated desktop actions can be faster through reliable gestures.","textChars":65,"textLines":1,"bbox":[62,356,500,38]}
+{"kind":"textbox","id":"sh/4fuhwzy9","slide":2,"name":"problem-head-2","text":"Camera input is sensitive","textPreview":"Camera input is sensitive","textChars":25,"textLines":1,"bbox":[62,418,500,30]}
+{"kind":"textbox","id":"sh/zi1grahk","slide":2,"name":"problem-body-2","text":"A practical system should process frames locally and expose clear state.","textPreview":"A practical system should process frames locally and expose clear state.","textChars":72,"textLines":1,"bbox":[62,452,500,38]}
+{"kind":"shape","id":"sh/yhsfy5gz","slide":2,"name":"problem-callout","bbox":[660,202,520,310]}
+{"kind":"textbox","id":"sh/kvehw3y9","slide":2,"name":"problem-callout-title","text":"Project question","textPreview":"Project question","textChars":16,"textLines":1,"bbox":[704,252,430,48]}
+{"kind":"textbox","id":"sh/5wny58zu","slide":2,"name":"problem-callout-body","text":"Can a local desktop app connect camera monitoring, gesture training, live inference, and action execution in one understandable workflow?","textPreview":"Can a local desktop app connect camera monitoring, gesture training, live inference, and action execution in one understandable workflow?","textChars":137,"textLines":1,"bbox":[704,326,420,126]}
+{"kind":"textbox","id":"sh/itwzutg3","slide":2,"name":"footer-2","text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[1184,654,48,24]}
+{"kind":"notes","id":"nt/18fcqa","slide":2,"text":"[Sources]\n- Project report sections: Introduction and Background in docs/report/visionguard_report.tex\n- Repository README: README.md"}
+{"kind":"slide","id":"sl/cbx89s","slide":3,"title":"VISIONGUARD","textShapes":18}
+{"kind":"textbox","id":"sh/dwzutgbm","slide":3,"name":"kicker","text":"VISIONGUARD","textPreview":"VISIONGUARD","textChars":11,"textLines":1,"bbox":[48,36,420,26]}
+{"kind":"textbox","id":"sh/qt8bylcv","slide":3,"name":"slide-title","text":"The prototype targets an end-to-end local vision loop","textPreview":"The prototype targets an end-to-end local vision loop","textChars":53,"textLines":1,"bbox":[48,72,1030,96]}
+{"kind":"textbox","id":"sh/ruhcrqtg","slide":3,"name":"objective-num-0","text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[72,196,70,42]}
+{"kind":"textbox","id":"sh/4r6twbu5","slide":3,"name":"objective-head-0","text":"Monitor","textPreview":"Monitor","textChars":7,"textLines":1,"bbox":[156,196,250,34]}
+{"kind":"textbox","id":"sh/pszupgba","slide":3,"name":"objective-body-0","text":"Start a camera session and show readiness state.","textPreview":"Start a camera session and show readiness state.","textChars":48,"textLines":1,"bbox":[430,198,650,34]}
+{"kind":"shape","id":"sh/25obu1cz","slide":3,"bbox":[72,250,1060,0]}
+{"kind":"textbox","id":"sh/36xcn6tk","slide":3,"name":"objective-num-1","text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[72,274,70,42]}
+{"kind":"textbox","id":"sh/g36tsrut","slide":3,"name":"objective-head-1","text":"Record","textPreview":"Record","textChars":6,"textLines":1,"bbox":[156,274,250,34]}
+{"kind":"textbox","id":"sh/h4fulwbe","slide":3,"name":"objective-body-1","text":"Capture 12 valid hand samples for a gesture.","textPreview":"Capture 12 valid hand samples for a gesture.","textChars":44,"textLines":1,"bbox":[430,276,650,34]}
+{"kind":"shape","id":"sh/1w7a1o7m","slide":3,"bbox":[72,328,1060,0]}
+{"kind":"textbox","id":"sh/0vyt8j61","slide":3,"name":"objective-num-2","text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[72,352,70,42]}
+{"kind":"textbox","id":"sh/zu5szepg","slide":3,"name":"objective-head-2","text":"Train","textPreview":"Train","textChars":5,"textLines":1,"bbox":[156,352,250,34]}
+{"kind":"textbox","id":"sh/etwb69ov","slide":3,"name":"objective-body-2","text":"Create a dataset and run a local training job.","textPreview":"Create a dataset and run a local training job.","textChars":46,"textLines":1,"bbox":[430,354,650,34]}
+{"kind":"shape","id":"sh/dsnax47a","slide":3,"bbox":[72,406,1060,0]}
+{"kind":"textbox","id":"sh/cret4z6p","slide":3,"name":"objective-num-3","text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[72,430,70,42]}
+{"kind":"textbox","id":"sh/rq5svupk","slide":3,"name":"objective-head-3","text":"Infer","textPreview":"Infer","textChars":5,"textLines":1,"bbox":[156,430,250,34]}
+{"kind":"textbox","id":"sh/qpwb29oz","slide":3,"name":"objective-body-3","text":"Predict gestures from live camera frames.","textPreview":"Predict gestures from live camera frames.","textChars":41,"textLines":1,"bbox":[430,432,650,34]}
+{"kind":"shape","id":"sh/ponat47e","slide":3,"bbox":[72,484,1060,0]}
+{"kind":"textbox","id":"sh/4net0z6t","slide":3,"name":"objective-num-4","text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[72,508,70,42]}
+{"kind":"textbox","id":"sh/g7ytgzep","slide":3,"name":"objective-head-4","text":"Act","textPreview":"Act","textChars":3,"textLines":1,"bbox":[156,508,250,34]}
+{"kind":"textbox","id":"sh/h87ap4fa","slide":3,"name":"objective-body-4","text":"Trigger desktop actions after a confident match.","textPreview":"Trigger desktop actions after a confident match.","textChars":48,"textLines":1,"bbox":[430,510,650,34]}
+{"kind":"shape","id":"sh/u5gbepwj","slide":3,"bbox":[72,562,1060,0]}
+{"kind":"textbox","id":"sh/v6psnux4","slide":3,"name":"footer-3","text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[1184,654,48,24]}
+{"kind":"notes","id":"nt/cbx89s","slide":3,"text":"[Sources]\n- Project objectives summarized from docs/report/visionguard_report.tex\n- Repository README demo flow: README.md"}
+{"kind":"slide","id":"sl/sfgdov","slide":4,"title":"VISIONGUARD","textShapes":12}
+{"kind":"textbox","id":"sh/v61cv6p4","slide":4,"name":"kicker","text":"VISIONGUARD","textPreview":"VISIONGUARD","textChars":11,"textLines":1,"bbox":[48,36,420,26]}
+{"kind":"textbox","id":"sh/w7adob6p","slide":4,"name":"slide-title","text":"The architecture separates UI, desktop control, and AI work","textPreview":"The architecture separates UI, desktop control, and AI work","textChars":59,"textLines":1,"bbox":[48,72,1030,96]}
+{"kind":"shape","id":"sh/h8juxg7u","slide":4,"name":"flow-0","bbox":[78,260,246,156]}
+{"kind":"textbox","id":"sh/i9svq1of","slide":4,"name":"flow-0-title","text":"React renderer","textPreview":"React renderer","textChars":14,"textLines":1,"bbox":[96,278,210,32]}
+{"kind":"textbox","id":"sh/ja1cz650","slide":4,"name":"flow-0-body","text":"Camera UI, gesture library, model health","textPreview":"Camera UI, gesture library, model health","textChars":40,"textLines":1,"bbox":[96,318,210,80]}
+{"kind":"shape","id":"sh/4badsb6l","slide":4,"name":"flow-1","bbox":[358,260,246,156]}
+{"kind":"textbox","id":"sh/5c3u1gn6","slide":4,"name":"flow-1-title","text":"Electron main","textPreview":"Electron main","textChars":13,"textLines":1,"bbox":[376,278,210,32]}
+{"kind":"textbox","id":"sh/yd8buhob","slide":4,"name":"flow-1-body","text":"IPC, sample files, desktop actions","textPreview":"IPC, sample files, desktop actions","textChars":34,"textLines":1,"bbox":[376,318,210,80]}
+{"kind":"shape","id":"sh/zehcnmpw","slide":4,"name":"flow-2","bbox":[638,260,246,156]}
+{"kind":"textbox","id":"sh/v6psjqx4","slide":4,"name":"flow-2-title","text":"Shared kernel","textPreview":"Shared kernel","textChars":13,"textLines":1,"bbox":[656,278,210,32]}
+{"kind":"textbox","id":"sh/u5gbqlgj","slide":4,"name":"flow-2-body","text":"Typed AI service contract","textPreview":"Typed AI service contract","textChars":25,"textLines":1,"bbox":[656,318,210,80]}
+{"kind":"shape","id":"sh/h87al0fa","slide":4,"name":"flow-3","bbox":[918,260,246,156]}
+{"kind":"textbox","id":"sh/g7ytsvyp","slide":4,"name":"flow-3-title","text":"FastAPI service","textPreview":"FastAPI service","textChars":15,"textLines":1,"bbox":[936,278,210,32]}
+{"kind":"textbox","id":"sh/725sfqxs","slide":4,"name":"flow-3-body","text":"Datasets, jobs, hand checks, inference","textPreview":"Datasets, jobs, hand checks, inference","textChars":38,"textLines":1,"bbox":[936,318,210,80]}
+{"kind":"shape","id":"sh/61wrmlgn","slide":4,"name":"flow-arrow-0","bbox":[331,330,20,16]}
+{"kind":"shape","id":"sh/t47ahgfy","slide":4,"name":"flow-arrow-1","bbox":[611,330,20,16]}
+{"kind":"shape","id":"sh/83y9ovyd","slide":4,"name":"flow-arrow-2","bbox":[891,330,20,16]}
+{"kind":"textbox","id":"sh/je5sb6xw","slide":4,"name":"architecture-note","text":"Camera frames and model calls stay on the local machine through http://127.0.0.1:8765.","textPreview":"Camera frames and model calls stay on the local machine through http://127.0.0.1:8765.","textChars":86,"textLines":1,"bbox":[146,486,990,42]}
+{"kind":"textbox","id":"sh/ydwri1gb","slide":4,"name":"footer-4","text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[1184,654,48,24]}
+{"kind":"notes","id":"nt/sfgdov","slide":4,"text":"[Sources]\n- Desktop app source: apps/desktop/src/renderer/app/App.tsx\n- Shared contract source: packages/shared-kernel/src/contracts/ai/model-contract.ts\n- AI service source: services/ai-models/src/interfaces/api/state.py"}
+{"kind":"slide","id":"sl/i2j87e","slide":5,"title":"VISIONGUARD","textShapes":12}
+{"kind":"textbox","id":"sh/pkrahkzq","slide":5,"name":"kicker","text":"VISIONGUARD","textPreview":"VISIONGUARD","textChars":11,"textLines":1,"bbox":[48,36,420,26]}
+{"kind":"textbox","id":"sh/2h0r6pgz","slide":5,"name":"slide-title","text":"The main workflow turns samples into confident actions","textPreview":"The main workflow turns samples into confident actions","textChars":54,"textLines":1,"bbox":[48,72,1030,96]}
+{"kind":"shape","id":"sh/ni98fuhk","slide":5,"name":"flow-0","bbox":[78,248,246,172]}
+{"kind":"textbox","id":"sh/c729czy1","slide":5,"name":"flow-0-title","text":"Capture","textPreview":"Capture","textChars":7,"textLines":1,"bbox":[96,266,210,32]}
+{"kind":"textbox","id":"sh/x8bal4zm","slide":5,"name":"flow-0-body","text":"User shows a hand gesture to the camera.","textPreview":"User shows a hand gesture to the camera.","textChars":40,"textLines":1,"bbox":[96,306,210,96]}
+{"kind":"shape","id":"sh/al0rapgb","slide":5,"name":"flow-1","bbox":[358,248,246,172]}
+{"kind":"textbox","id":"sh/b69sjuhw","slide":5,"name":"flow-1-title","text":"Validate","textPreview":"Validate","textChars":8,"textLines":1,"bbox":[376,266,210,32]}
+{"kind":"textbox","id":"sh/kb29gjyd","slide":5,"name":"flow-1-body","text":"Hand presence is checked before saving samples.","textPreview":"Hand presence is checked before saving samples.","textChars":47,"textLines":1,"bbox":[376,306,210,96]}
+{"kind":"shape","id":"sh/lcbap4zy","slide":5,"name":"flow-2","bbox":[638,248,246,172]}
+{"kind":"textbox","id":"sh/t8rax0zi","slide":5,"name":"flow-2-title","text":"Train","textPreview":"Train","textChars":5,"textLines":1,"bbox":[656,266,210,32]}
+{"kind":"textbox","id":"sh/s7ytovix","slide":5,"name":"flow-2-body","text":"Samples become a local gesture model artifact.","textPreview":"Samples become a local gesture model artifact.","textChars":46,"textLines":1,"bbox":[656,306,210,96]}
+{"kind":"shape","id":"sh/76psvqhc","slide":5,"name":"flow-3","bbox":[918,248,246,172]}
+{"kind":"textbox","id":"sh/65gbml0r","slide":5,"name":"flow-3-title","text":"Execute","textPreview":"Execute","textChars":7,"textLines":1,"bbox":[936,266,210,32]}
+{"kind":"textbox","id":"sh/hwru10ze","slide":5,"name":"flow-3-body","text":"High-confidence matches trigger mapped actions.","textPreview":"High-confidence matches trigger mapped actions.","textChars":47,"textLines":1,"bbox":[936,306,210,96]}
+{"kind":"shape","id":"sh/gvitsvit","slide":5,"name":"flow-arrow-0","bbox":[331,326,20,16]}
+{"kind":"shape","id":"sh/fa9szqh8","slide":5,"name":"flow-arrow-1","bbox":[611,326,20,16]}
+{"kind":"shape","id":"sh/u90bq50n","slide":5,"name":"flow-arrow-2","bbox":[891,326,20,16]}
+{"kind":"textbox","id":"sh/x0napgza","slide":5,"name":"threshold","text":"Execution threshold: 0.92 confidence with a cooldown to avoid repeated commands.","textPreview":"Execution threshold: 0.92 confidence with a cooldown to avoid repeated commands.","textChars":80,"textLines":1,"bbox":[154,500,970,44]}
+{"kind":"textbox","id":"sh/wzetgbip","slide":5,"name":"footer-5","text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1184,654,48,24]}
+{"kind":"notes","id":"nt/i2j87e","slide":5,"text":"[Sources]\n- Inference and cooldown logic: apps/desktop/src/renderer/app/App.tsx\n- Hand presence logic: services/ai-models/src/application/training/gesture_training_worker.py"}
+{"kind":"slide","id":"sl/wubjej","slide":6,"title":"VISIONGUARD","textShapes":9}
+{"kind":"textbox","id":"sh/ja18by1w","slide":6,"name":"kicker","text":"VISIONGUARD","textPreview":"VISIONGUARD","textChars":11,"textLines":1,"bbox":[48,36,420,26]}
+{"kind":"textbox","id":"sh/4bap4j2h","slide":6,"name":"slide-title","text":"The live monitor makes system state visible","textPreview":"The live monitor makes system state visible","textChars":43,"textLines":1,"bbox":[48,72,1030,96]}
+{"kind":"textbox","id":"sh/u5s7y9kf","slide":6,"name":"monitor-notes-head-0","text":"Readiness","textPreview":"Readiness","textChars":9,"textLines":1,"bbox":[884,206,300,30]}
+{"kind":"textbox","id":"sh/v61o7e10","slide":6,"name":"monitor-notes-body-0","text":"Camera, AI service, trained model, and inference state are visible.","textPreview":"Camera, AI service, trained model, and inference state are visible.","textChars":67,"textLines":1,"bbox":[884,240,300,38]}
+{"kind":"textbox","id":"sh/w7ap0j2l","slide":6,"name":"monitor-notes-head-1","text":"Feedback","textPreview":"Feedback","textChars":8,"textLines":1,"bbox":[884,314,300,30]}
+{"kind":"textbox","id":"sh/h8jq9oj6","slide":6,"name":"monitor-notes-body-1","text":"Prediction, confidence, model health, and event timeline are shown together.","textPreview":"Prediction, confidence, model health, and event timeline are shown together.","textChars":76,"textLines":1,"bbox":[884,348,300,38]}
+{"kind":"textbox","id":"sh/mh87u9k3","slide":6,"name":"monitor-notes-head-2","text":"Control","textPreview":"Control","textChars":7,"textLines":1,"bbox":[884,422,300,30]}
+{"kind":"textbox","id":"sh/7iho3ulo","slide":6,"name":"monitor-notes-body-2","text":"The user starts sessions, calibrates, exports, and changes views.","textPreview":"The user starts sessions, calibrates, exports, and changes views.","textChars":65,"textLines":1,"bbox":[884,456,300,38]}
+{"kind":"textbox","id":"sh/fah0zi9c","slide":6,"name":"footer-6","text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[1184,654,48,24]}
+{"kind":"image","id":"im/gvyx4bu1","slide":6,"name":"","geometry":"roundRect","alt":"Live monitor screenshot","bbox":[70,178,770,440]}
+{"kind":"notes","id":"nt/wubjej","slide":6,"text":"[Sources]\n- Screenshot: docs/report/figures/visionguard-monitor.png\n- Live monitor component: apps/desktop/src/renderer/app/components/LiveVisionPanel.tsx\n- Model health and event timeline rendered from apps/desktop/src/renderer/app/App.tsx"}
+{"kind":"slide","id":"sl/s9fbsm","slide":7,"title":"VISIONGUARD","textShapes":9}
+{"kind":"textbox","id":"sh/y5wzalsr","slide":7,"name":"kicker","text":"VISIONGUARD","textPreview":"VISIONGUARD","textChars":11,"textLines":1,"bbox":[48,36,420,26]}
+{"kind":"textbox","id":"sh/l8ni5gr2","slide":7,"name":"slide-title","text":"The gesture view connects recording, mapping, and training","textPreview":"The gesture view connects recording, mapping, and training","textChars":58,"textLines":1,"bbox":[48,72,1030,96]}
+{"kind":"textbox","id":"sh/b2l0z690","slide":7,"name":"gesture-notes-head-0","text":"Six action types","textPreview":"Six action types","textChars":16,"textLines":1,"bbox":[884,202,306,30]}
+{"kind":"textbox","id":"sh/ahcz61sf","slide":7,"name":"gesture-notes-body-0","text":"Open app, volume down, volume up, mute, shortcut, and mouse click.","textPreview":"Open app, volume down, volume up, mute, shortcut, and mouse click.","textChars":66,"textLines":1,"bbox":[884,236,306,38]}
+{"kind":"textbox","id":"sh/x4ni1gr6","slide":7,"name":"gesture-notes-head-1","text":"Sample rule","textPreview":"Sample rule","textChars":11,"textLines":1,"bbox":[884,314,306,30]}
+{"kind":"textbox","id":"sh/c3uh8bal","slide":7,"name":"gesture-notes-body-1","text":"A gesture needs 12 captured hand samples before saving.","textPreview":"A gesture needs 12 captured hand samples before saving.","textChars":55,"textLines":1,"bbox":[884,348,306,38]}
+{"kind":"textbox","id":"sh/3elgv6t4","slide":7,"name":"gesture-notes-head-2","text":"Training state","textPreview":"Training state","textChars":14,"textLines":1,"bbox":[884,426,306,30]}
+{"kind":"textbox","id":"sh/2dcz21sj","slide":7,"name":"gesture-notes-body-2","text":"Saved gestures move from draft or ready into training and trained states.","textPreview":"Saved gestures move from draft or ready into training and trained states.","textChars":73,"textLines":1,"bbox":[884,460,306,38]}
+{"kind":"textbox","id":"sh/ovm543al","slide":7,"name":"footer-7","text":"07","textPreview":"07","textChars":2,"textLines":1,"bbox":[1184,654,48,24]}
+{"kind":"image","id":"im/hkfu1sz2","slide":7,"name":"","geometry":"roundRect","alt":"Gesture view screenshot","bbox":[70,178,770,440]}
+{"kind":"notes","id":"nt/s9fbsm","slide":7,"text":"[Sources]\n- Screenshot: docs/report/figures/visionguard-gestures.png\n- Gesture component: apps/desktop/src/renderer/app/components/GesturesPanel.tsx\n- Desktop action support: apps/desktop/src/main/application/actions/execute-gesture-action.ts"}
+{"kind":"slide","id":"sl/95pqd2","slide":8,"title":"VISIONGUARD","textShapes":13}
+{"kind":"textbox","id":"sh/f69obax0","slide":8,"name":"kicker","text":"VISIONGUARD","textPreview":"VISIONGUARD","textChars":11,"textLines":1,"bbox":[48,36,420,26]}
+{"kind":"textbox","id":"sh/g7i54fel","slide":8,"name":"slide-title","text":"The AI service exposes a small contract for model operations","textPreview":"The AI service exposes a small contract for model operations","textChars":60,"textLines":1,"bbox":[48,72,1030,96]}
+{"kind":"shape","id":"sh/h8r6dkf6","slide":8,"name":"contract-row-0","bbox":[72,190,1040,52]}
+{"kind":"textbox","id":"sh/6hgny5gj","slide":8,"name":"contract-head-0","text":"Dataset","textPreview":"Dataset","textChars":7,"textLines":1,"bbox":[96,202,210,28]}
+{"kind":"textbox","id":"sh/7ip47ax4","slide":8,"name":"contract-body-0","text":"Create dataset from gesture labels and sample references","textPreview":"Create dataset from gesture labels and sample references","textChars":56,"textLines":1,"bbox":[330,203,740,28]}
+{"kind":"shape","id":"sh/sjy50fe9","slide":8,"name":"contract-row-1","bbox":[72,262,1040,52]}
+{"kind":"textbox","id":"sh/tkrm90fu","slide":8,"name":"contract-head-1","text":"Training job","textPreview":"Training job","textChars":12,"textLines":1,"bbox":[96,274,210,28]}
+{"kind":"textbox","id":"sh/qdknapwn","slide":8,"name":"contract-body-1","text":"Queue, run, poll, and complete model training","textPreview":"Queue, run, poll, and complete model training","textChars":45,"textLines":1,"bbox":[330,275,740,28]}
+{"kind":"shape","id":"sh/retojux8","slide":8,"name":"contract-row-2","bbox":[72,334,1040,52]}
+{"kind":"textbox","id":"sh/7mt8rml0","slide":8,"name":"contract-head-2","text":"Model status","textPreview":"Model status","textChars":12,"textLines":1,"bbox":[96,346,210,28]}
+{"kind":"textbox","id":"sh/6lkryh4f","slide":8,"name":"contract-body-2","text":"Report not-trained, loading, ready, degraded, or error","textPreview":"Report not-trained, loading, ready, degraded, or error","textChars":54,"textLines":1,"bbox":[330,347,740,28]}
+{"kind":"shape","id":"sh/t8bqtw36","slide":8,"name":"contract-row-3","bbox":[72,406,1040,52]}
+{"kind":"textbox","id":"sh/s7290rml","slide":8,"name":"contract-head-3","text":"Hand presence","textPreview":"Hand presence","textChars":13,"textLines":1,"bbox":[96,418,210,28]}
+{"kind":"textbox","id":"sh/fad8vmlc","slide":8,"name":"contract-body-3","text":"Reject frames that do not contain a detectable hand","textPreview":"Reject frames that do not contain a detectable hand","textChars":51,"textLines":1,"bbox":[330,419,740,28]}
+{"kind":"shape","id":"sh/u94r214r","slide":8,"name":"contract-row-4","bbox":[72,478,1040,52]}
+{"kind":"textbox","id":"sh/hcvqxw32","slide":8,"name":"contract-head-4","text":"Inference","textPreview":"Inference","textChars":9,"textLines":1,"bbox":[96,490,210,28]}
+{"kind":"textbox","id":"sh/gbm94rmx","slide":8,"name":"contract-body-4","text":"Return predictions, best match, confidence, and latency","textPreview":"Return predictions, best match, confidence, and latency","textChars":55,"textLines":1,"bbox":[330,491,740,28]}
+{"kind":"textbox","id":"sh/3ed8z6l8","slide":8,"name":"footer-8","text":"08","textPreview":"08","textChars":2,"textLines":1,"bbox":[1184,654,48,24]}
+{"kind":"notes","id":"nt/95pqd2","slide":8,"text":"[Sources]\n- Shared AI model contract: packages/shared-kernel/src/contracts/ai/model-contract.ts\n- FastAPI routes: services/ai-models/src/interfaces/api/routes/inference.py\n- AI service state and training job flow: services/ai-models/src/interfaces/api/state.py"}
+{"kind":"slide","id":"sl/iltq25","slide":9,"title":"VISIONGUARD","textShapes":9}
+{"kind":"textbox","id":"sh/7ax4be1w","slide":9,"name":"kicker","text":"VISIONGUARD","textPreview":"VISIONGUARD","textChars":11,"textLines":1,"bbox":[48,36,420,26]}
+{"kind":"textbox","id":"sh/8b6l4jih","slide":9,"name":"slide-title","text":"The prototype demonstrates a complete local pipeline","textPreview":"The prototype demonstrates a complete local pipeline","textChars":52,"textLines":1,"bbox":[48,72,1030,96]}
+{"kind":"textbox","id":"sh/y5o3yp0f","slide":9,"name":"result-head-0","text":"App views","textPreview":"App views","textChars":9,"textLines":1,"bbox":[684,190,410,30]}
+{"kind":"textbox","id":"sh/j6x47u1k","slide":9,"name":"result-body-0","text":"Monitor, Gestures, Identity, Models, Settings","textPreview":"Monitor, Gestures, Identity, Models, Settings","textChars":45,"textLines":1,"bbox":[684,225,440,54]}
+{"kind":"textbox","id":"sh/k76l0zi5","slide":9,"name":"result-head-1","text":"Action types","textPreview":"Action types","textChars":12,"textLines":1,"bbox":[684,302,410,30]}
+{"kind":"textbox","id":"sh/l8fm94jq","slide":9,"name":"result-body-1","text":"Application, audio, keyboard, and mouse actions","textPreview":"Application, audio, keyboard, and mouse actions","textChars":47,"textLines":1,"bbox":[684,337,440,54]}
+{"kind":"textbox","id":"sh/a143up03","slide":9,"name":"result-head-2","text":"Contract operations","textPreview":"Contract operations","textChars":19,"textLines":1,"bbox":[684,414,410,30]}
+{"kind":"textbox","id":"sh/b2dk3u1o","slide":9,"name":"result-body-2","text":"Dataset, training, model status, hand checks, inference","textPreview":"Dataset, training, model status, hand checks, inference","textChars":55,"textLines":1,"bbox":[684,449,440,54]}
+{"kind":"textbox","id":"sh/f2dcby90","slide":9,"name":"footer-9","text":"09","textPreview":"09","textChars":2,"textLines":1,"bbox":[1184,654,48,24]}
+{"kind":"chart","id":"ch/5sbilozi","slide":9,"name":"","chartType":"bar","bbox":[72,190,520,380]}
+{"kind":"notes","id":"nt/iltq25","slide":9,"text":"[Sources]\n- App views: apps/desktop/src/renderer/app/data.ts\n- Action types: apps/desktop/src/main/application/actions/execute-gesture-action.ts\n- Contract operations: packages/shared-kernel/src/contracts/ai/model-contract.ts"}
+{"kind":"slide","id":"sl/v6j5d0","slide":10,"title":"VISIONGUARD","textShapes":11}
+{"kind":"textbox","id":"sh/xsre903y","slide":10,"name":"kicker","text":"VISIONGUARD","textPreview":"VISIONGUARD","textChars":11,"textLines":1,"bbox":[48,36,420,26]}
+{"kind":"textbox","id":"sh/ap0fy5k7","slide":10,"name":"slide-title","text":"Next work should harden identity, models, and evaluation","textPreview":"Next work should harden identity, models, and evaluation","textChars":56,"textLines":1,"bbox":[48,72,1030,96]}
+{"kind":"textbox","id":"sh/onyxwv2h","slide":10,"name":"future-head-0","text":"Continuous authentication","textPreview":"Continuous authentication","textChars":25,"textLines":1,"bbox":[78,190,560,30]}
+{"kind":"textbox","id":"sh/9ore5032","slide":10,"name":"future-body-0","text":"Add identity-specific signals beyond gesture recognition.","textPreview":"Add identity-specific signals beyond gesture recognition.","textChars":57,"textLines":1,"bbox":[78,224,560,38]}
+{"kind":"textbox","id":"sh/mlgvulkb","slide":10,"name":"future-head-1","text":"Temporal gesture model","textPreview":"Temporal gesture model","textChars":22,"textLines":1,"bbox":[78,282,560,30]}
+{"kind":"textbox","id":"sh/nmpw3qlw","slide":10,"name":"future-body-1","text":"Use frame sequences for dynamic movements like swipes.","textPreview":"Use frame sequences for dynamic movements like swipes.","textChars":54,"textLines":1,"bbox":[78,316,560,38]}
+{"kind":"textbox","id":"sh/0jydsbm5","slide":10,"name":"future-head-2","text":"Cross-platform actions","textPreview":"Cross-platform actions","textChars":22,"textLines":1,"bbox":[78,374,560,30]}
+{"kind":"textbox","id":"sh/1k7e1g3q","slide":10,"name":"future-body-2","text":"Add Windows and Linux adapters instead of macOS-only commands.","textPreview":"Add Windows and Linux adapters instead of macOS-only commands.","textChars":62,"textLines":1,"bbox":[78,408,560,38]}
+{"kind":"textbox","id":"sh/90nqxobi","slide":10,"name":"future-head-3","text":"Formal evaluation","textPreview":"Formal evaluation","textChars":17,"textLines":1,"bbox":[78,466,560,30]}
+{"kind":"textbox","id":"sh/8zep4jux","slide":10,"name":"future-body-3","text":"Measure accuracy, false activations, latency, and usability.","textPreview":"Measure accuracy, false activations, latency, and usability.","textChars":60,"textLines":1,"bbox":[78,500,560,38]}
+{"kind":"textbox","id":"sh/ny58vetc","slide":10,"name":"footer-10","text":"10","textPreview":"10","textChars":2,"textLines":1,"bbox":[1184,654,48,24]}
+{"kind":"image","id":"im/y5kna9wf","slide":10,"name":"","geometry":"roundRect","alt":"Models view screenshot","bbox":[732,158,448,420]}
+{"kind":"notes","id":"nt/v6j5d0","slide":10,"text":"[Sources]\n- Future work summarized from docs/report/visionguard_report.tex\n- Screenshot: docs/report/figures/visionguard-models.png"}

@@ -1,0 +1,996 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/i2j87e",
+    "id": "i2j87e",
+    "slide": 5,
+    "layoutId": "45acdb32-d4b9-4ca6-9b59-f174dea2ec30",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "dc448232-15f3-4e48-8bee-9c0a57b22431",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FFFFFF",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "bg1": "#FFFFFF",
+      "bg2": "#000000",
+      "tx1": "#1F1F1F",
+      "tx2": "#FFFFFF",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "typefaces": [
+      "+mn-lt"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "45acdb32-d4b9-4ca6-9b59-f174dea2ec30",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "dc448232-15f3-4e48-8bee-9c0a57b22431",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "dc448232-15f3-4e48-8bee-9c0a57b22431",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/pkrahkzq",
+      "id": "1",
+      "name": "kicker",
+      "bbox": [
+        48,
+        36,
+        420,
+        26
+      ],
+      "geometry": "rect",
+      "text": "VISIONGUARD",
+      "textPreview": "VISIONGUARD",
+      "resolvedFontSize": 17,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 17,
+        "typeface": "+mn-lt",
+        "color": "#127C95",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "VISIONGUARD"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "VISIONGUARD",
+          "resolvedTextStyle": {
+            "fontSize": 17,
+            "color": "#127C95",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "VISIONGUARD",
+              "fontSize": 17,
+              "color": "#127C95",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/2h0r6pgz",
+      "id": "2",
+      "name": "slide-title",
+      "bbox": [
+        48,
+        72,
+        1030,
+        96
+      ],
+      "geometry": "rect",
+      "text": "The main workflow turns samples into confident actions",
+      "textPreview": "The main workflow turns samples into confident actions",
+      "resolvedFontSize": 42,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 42,
+        "typeface": "+mn-lt",
+        "color": "#050505",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "The main workflow turns samples into confident"
+          },
+          {
+            "index": 2,
+            "text": "actions"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "The main workflow turns samples into confident actions",
+          "resolvedTextStyle": {
+            "fontSize": 42,
+            "color": "#050505",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "The main workflow turns samples into confident actions",
+              "fontSize": 42,
+              "color": "#050505",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ni98fuhk",
+      "id": "3",
+      "name": "flow-0",
+      "bbox": [
+        78,
+        248,
+        246,
+        172
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#FFFFFF",
+      "lineColor": "#B8BCC4",
+      "lineWidth": 1
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/c729czy1",
+      "id": "4",
+      "name": "flow-0-title",
+      "bbox": [
+        96,
+        266,
+        210,
+        32
+      ],
+      "geometry": "rect",
+      "text": "Capture",
+      "textPreview": "Capture",
+      "resolvedFontSize": 22,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 22,
+        "typeface": "+mn-lt",
+        "color": "#050505",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Capture"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Capture",
+          "resolvedTextStyle": {
+            "fontSize": 22,
+            "color": "#050505",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Capture",
+              "fontSize": 22,
+              "color": "#050505",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/x8bal4zm",
+      "id": "5",
+      "name": "flow-0-body",
+      "bbox": [
+        96,
+        306,
+        210,
+        96
+      ],
+      "geometry": "rect",
+      "text": "User shows a hand gesture to the camera.",
+      "textPreview": "User shows a hand gesture to the camera.",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 16,
+        "typeface": "+mn-lt",
+        "color": "#525866",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "User shows a hand"
+          },
+          {
+            "index": 2,
+            "text": "gesture to the camera."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "User shows a hand gesture to the camera.",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "color": "#525866",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "User shows a hand gesture to the camera.",
+              "fontSize": 16,
+              "color": "#525866",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/al0rapgb",
+      "id": "6",
+      "name": "flow-1",
+      "bbox": [
+        358,
+        248,
+        246,
+        172
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#FFFFFF",
+      "lineColor": "#B8BCC4",
+      "lineWidth": 1
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/b69sjuhw",
+      "id": "7",
+      "name": "flow-1-title",
+      "bbox": [
+        376,
+        266,
+        210,
+        32
+      ],
+      "geometry": "rect",
+      "text": "Validate",
+      "textPreview": "Validate",
+      "resolvedFontSize": 22,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 22,
+        "typeface": "+mn-lt",
+        "color": "#050505",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Validate"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Validate",
+          "resolvedTextStyle": {
+            "fontSize": 22,
+            "color": "#050505",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Validate",
+              "fontSize": 22,
+              "color": "#050505",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/kb29gjyd",
+      "id": "8",
+      "name": "flow-1-body",
+      "bbox": [
+        376,
+        306,
+        210,
+        96
+      ],
+      "geometry": "rect",
+      "text": "Hand presence is checked before saving samples.",
+      "textPreview": "Hand presence is checked before saving samples.",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 16,
+        "typeface": "+mn-lt",
+        "color": "#525866",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 3,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Hand presence is"
+          },
+          {
+            "index": 2,
+            "text": "checked before saving"
+          },
+          {
+            "index": 3,
+            "text": "samples."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Hand presence is checked before saving samples.",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "color": "#525866",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Hand presence is checked before saving samples.",
+              "fontSize": 16,
+              "color": "#525866",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/lcbap4zy",
+      "id": "9",
+      "name": "flow-2",
+      "bbox": [
+        638,
+        248,
+        246,
+        172
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#FFFFFF",
+      "lineColor": "#B8BCC4",
+      "lineWidth": 1
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/t8rax0zi",
+      "id": "10",
+      "name": "flow-2-title",
+      "bbox": [
+        656,
+        266,
+        210,
+        32
+      ],
+      "geometry": "rect",
+      "text": "Train",
+      "textPreview": "Train",
+      "resolvedFontSize": 22,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 22,
+        "typeface": "+mn-lt",
+        "color": "#050505",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Train"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Train",
+          "resolvedTextStyle": {
+            "fontSize": 22,
+            "color": "#050505",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Train",
+              "fontSize": 22,
+              "color": "#050505",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/s7ytovix",
+      "id": "11",
+      "name": "flow-2-body",
+      "bbox": [
+        656,
+        306,
+        210,
+        96
+      ],
+      "geometry": "rect",
+      "text": "Samples become a local gesture model artifact.",
+      "textPreview": "Samples become a local gesture model artifact.",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 16,
+        "typeface": "+mn-lt",
+        "color": "#525866",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Samples become a local"
+          },
+          {
+            "index": 2,
+            "text": "gesture model artifact."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Samples become a local gesture model artifact.",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "color": "#525866",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Samples become a local gesture model artifact.",
+              "fontSize": 16,
+              "color": "#525866",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 12,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/76psvqhc",
+      "id": "12",
+      "name": "flow-3",
+      "bbox": [
+        918,
+        248,
+        246,
+        172
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#EAF7FB",
+      "lineColor": "#B8BCC4",
+      "lineWidth": 1
+    },
+    {
+      "order": 13,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/65gbml0r",
+      "id": "13",
+      "name": "flow-3-title",
+      "bbox": [
+        936,
+        266,
+        210,
+        32
+      ],
+      "geometry": "rect",
+      "text": "Execute",
+      "textPreview": "Execute",
+      "resolvedFontSize": 22,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 22,
+        "typeface": "+mn-lt",
+        "color": "#050505",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Execute"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Execute",
+          "resolvedTextStyle": {
+            "fontSize": 22,
+            "color": "#050505",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Execute",
+              "fontSize": 22,
+              "color": "#050505",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 14,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/hwru10ze",
+      "id": "14",
+      "name": "flow-3-body",
+      "bbox": [
+        936,
+        306,
+        210,
+        96
+      ],
+      "geometry": "rect",
+      "text": "High-confidence matches trigger mapped actions.",
+      "textPreview": "High-confidence matches trigger mapped actions.",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 16,
+        "typeface": "+mn-lt",
+        "color": "#525866",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "High-confidence matches"
+          },
+          {
+            "index": 2,
+            "text": "trigger mapped actions."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "High-confidence matches trigger mapped actions.",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "color": "#525866",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "High-confidence matches trigger mapped actions.",
+              "fontSize": 16,
+              "color": "#525866",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 15,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/gvitsvit",
+      "id": "15",
+      "name": "flow-arrow-0",
+      "bbox": [
+        331,
+        326,
+        20,
+        16
+      ],
+      "geometry": "rightArrow",
+      "fillColor": "#127C95",
+      "lineColor": "#127C95",
+      "lineWidth": 0
+    },
+    {
+      "order": 16,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/fa9szqh8",
+      "id": "16",
+      "name": "flow-arrow-1",
+      "bbox": [
+        611,
+        326,
+        20,
+        16
+      ],
+      "geometry": "rightArrow",
+      "fillColor": "#127C95",
+      "lineColor": "#127C95",
+      "lineWidth": 0
+    },
+    {
+      "order": 17,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/u90bq50n",
+      "id": "17",
+      "name": "flow-arrow-2",
+      "bbox": [
+        891,
+        326,
+        20,
+        16
+      ],
+      "geometry": "rightArrow",
+      "fillColor": "#127C95",
+      "lineColor": "#127C95",
+      "lineWidth": 0
+    },
+    {
+      "order": 18,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/x0napgza",
+      "id": "18",
+      "name": "threshold",
+      "bbox": [
+        154,
+        500,
+        970,
+        44
+      ],
+      "geometry": "rect",
+      "text": "Execution threshold: 0.92 confidence with a cooldown to avoid repeated commands.",
+      "textPreview": "Execution threshold: 0.92 confidence with a cooldown to avoid repeated commands.",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "+mn-lt",
+        "color": "#127C95",
+        "bold": true,
+        "alignment": "center",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Execution threshold: 0.92 confidence with a cooldown to avoid repeated"
+          },
+          {
+            "index": 2,
+            "text": "commands."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Execution threshold: 0.92 confidence with a cooldown to avoid repeated commands.",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "color": "#127C95",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Execution threshold: 0.92 confidence with a cooldown to avoid repeated commands.",
+              "fontSize": 24,
+              "color": "#127C95",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 19,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/wzetgbip",
+      "id": "19",
+      "name": "footer-5",
+      "bbox": [
+        1184,
+        654,
+        48,
+        24
+      ],
+      "geometry": "rect",
+      "text": "05",
+      "textPreview": "05",
+      "resolvedFontSize": 14,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 14,
+        "typeface": "+mn-lt",
+        "color": "#525866",
+        "alignment": "right",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "05"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "05",
+          "resolvedTextStyle": {
+            "fontSize": 14,
+            "color": "#525866",
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "05",
+              "fontSize": 14,
+              "color": "#525866",
+              "alignment": "right"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

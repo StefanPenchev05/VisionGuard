@@ -5,6 +5,8 @@ description = "VisionGuard AI model service"
 requires-python = ">=3.11"
 dependencies = [
   "fastapi>=0.116.0",
+  "mediapipe>=0.10.21",
+  "opencv-python-headless>=4.10.0",
   "uvicorn[standard]>=0.35.0"
 ]
 

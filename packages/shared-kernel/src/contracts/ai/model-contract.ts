@@ -82,6 +82,12 @@ export type InferenceResult = {
   createdAt: string;
 };
 
+export type HandPresenceResult = {
+  frameId: string;
+  handDetected: boolean;
+  reason?: string | null;
+};
+
 export type PredictionEvent = {
   id: string;
   resultId: string;
@@ -113,8 +119,13 @@ export type RunGestureInferenceRequest = {
   minConfidence?: number;
 };
 
+export type DetectHandPresenceRequest = {
+  frame: InferenceFrameReference;
+};
+
 export interface AiModelServiceContract {
   createTrainingDataset(request: CreateTrainingDatasetRequest): Promise<TrainingDataset>;
+  detectHandPresence(request: DetectHandPresenceRequest): Promise<HandPresenceResult>;
   getModelStatus(modelId?: string): Promise<ModelStatus>;
   getTrainingJob(jobId: string): Promise<TrainingJob>;
   listDatasets(): Promise<TrainingDataset[]>;

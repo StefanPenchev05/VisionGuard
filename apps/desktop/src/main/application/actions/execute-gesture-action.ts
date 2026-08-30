@@ -70,6 +70,42 @@ function buildShortcutScript(shortcut: string): string {
     : `tell application "System Events" to keystroke "${key}"`;
 }
 
+export function buildVolumeAdjustmentScript(delta: number): string[] {
+  const operation = delta >= 0 ? "+" : "-";
+  const amount = Math.abs(delta);
+
+  return [
+    "set currentVolume to output volume of (get volume settings)",
+    `set nextVolume to currentVolume ${operation} ${amount}`,
+    "if nextVolume < 0 then set nextVolume to 0",
+    "if nextVolume > 100 then set nextVolume to 100",
+    "set volume output volume nextVolume",
+    "return nextVolume"
+  ];
+}
+
+function buildMuteToggleScript(): string[] {
+  return [
+    "set isMuted to output muted of (get volume settings)",
+    "if isMuted then",
+    "set volume without output muted",
+    "return \"unmuted\"",
+    "else",
+    "set volume with output muted",
+    "return \"muted\"",
+    "end if"
+  ];
+}
+
+async function runAppleScript(lines: string[]): Promise<string> {
+  const { stdout } = await execFileAsync(
+    "osascript",
+    lines.flatMap((line) => ["-e", line])
+  );
+
+  return stdout.trim();
+}
+
 async function executeOnMac(request: GestureActionRequest): Promise<string> {
   if (request.actionType === "open-app") {
     await execFileAsync("open", ["-a", request.actionTarget]);
@@ -77,18 +113,18 @@ async function executeOnMac(request: GestureActionRequest): Promise<string> {
   }
 
   if (request.actionType === "volume-down") {
-    await execFileAsync("osascript", ["-e", "set volume output volume ((output volume of (get volume settings)) - 10)"]);
-    return "Reduced system volume";
+    const nextVolume = await runAppleScript(buildVolumeAdjustmentScript(-10));
+    return `Reduced system volume to ${nextVolume}%`;
   }
 
   if (request.actionType === "volume-up") {
-    await execFileAsync("osascript", ["-e", "set volume output volume ((output volume of (get volume settings)) + 10)"]);
-    return "Increased system volume";
+    const nextVolume = await runAppleScript(buildVolumeAdjustmentScript(10));
+    return `Increased system volume to ${nextVolume}%`;
   }
 
   if (request.actionType === "mute") {
-    await execFileAsync("osascript", ["-e", "set volume with output muted not (output muted of (get volume settings))"]);
-    return "Toggled system mute";
+    const muteState = await runAppleScript(buildMuteToggleScript());
+    return `Audio ${muteState}`;
   }
 
   if (request.actionType === "keyboard-shortcut") {

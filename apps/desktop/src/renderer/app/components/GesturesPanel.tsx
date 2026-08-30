@@ -25,10 +25,13 @@ type CapturedGestureSample = {
   id: string;
 };
 
+type HandCaptureStatus = "idle" | "checking" | "detected" | "missing" | "error";
+
 type GesturesPanelProps = Readonly<{
   gestures: GestureDefinition[];
   isCameraActive: boolean;
   onAddGesture: (gesture: GestureDefinition) => void;
+  onDeleteGesture: (gestureId: string) => Promise<void>;
   onSaveSamples: (
     gestureId: string,
     samples: CapturedGestureSample[]
@@ -118,6 +121,7 @@ export function GesturesPanel({
   gestures,
   isCameraActive,
   onAddGesture,
+  onDeleteGesture,
   onSaveSamples,
   onStartCamera,
   onStartTraining,
@@ -127,6 +131,8 @@ export function GesturesPanel({
   stream
 }: GesturesPanelProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const recordingActiveRef = useRef(false);
+  const handValidationInFlightRef = useRef(false);
   const [actionType, setActionType] = useState<GestureActionType>("open-app");
   const selectedAction = useMemo(
     () => actionOptions.find((option) => option.value === actionType) ?? actionOptions[0],
@@ -136,6 +142,8 @@ export function GesturesPanel({
   const [actionTarget, setActionTarget] = useState(selectedAction.target);
   const [capturedSamples, setCapturedSamples] = useState<CapturedGestureSample[]>([]);
   const [captureError, setCaptureError] = useState<string | null>(null);
+  const [handCaptureStatus, setHandCaptureStatus] = useState<HandCaptureStatus>("idle");
+  const [isDeletingGesture, setIsDeletingGesture] = useState(false);
   const [isSavingGesture, setIsSavingGesture] = useState(false);
   const [trainingGestureId, setTrainingGestureId] = useState<string | null>(null);
   const [trainingError, setTrainingError] = useState<string | null>(null);
@@ -161,6 +169,17 @@ export function GesturesPanel({
             : null;
 
   useEffect(() => {
+    if (gestures.length === 0) {
+      setSelectedGestureId(null);
+      return;
+    }
+
+    if (!selectedGestureId || !gestures.some((gesture) => gesture.id === selectedGestureId)) {
+      setSelectedGestureId(gestures[0].id);
+    }
+  }, [gestures, selectedGestureId]);
+
+  useEffect(() => {
     if (!videoRef.current) {
       return;
     }
@@ -174,37 +193,83 @@ export function GesturesPanel({
   }, [actionType, selectedAction.target]);
 
   useEffect(() => {
+    recordingActiveRef.current = isRecording;
+
     if (!isRecording) {
+      handValidationInFlightRef.current = false;
       return;
     }
 
     const intervalId = window.setInterval(() => {
-      setCapturedSamples((current) => {
-        if (current.length >= 12) {
-          window.clearInterval(intervalId);
-          setIsRecording(false);
-          return current;
+      if (handValidationInFlightRef.current) {
+        return;
+      }
+
+      if (capturedSamples.length >= 12) {
+        window.clearInterval(intervalId);
+        setIsRecording(false);
+        setHandCaptureStatus("detected");
+        return;
+      }
+
+      if (!videoRef.current) {
+        setCaptureError("Camera preview is not ready yet.");
+        setHandCaptureStatus("error");
+        return;
+      }
+
+      const sample = captureVideoSample(videoRef.current);
+
+      if (!sample) {
+        setCaptureError("Could not capture a readable video frame.");
+        setHandCaptureStatus("error");
+        return;
+      }
+
+      if (!window.visionGuard?.inference?.detectHandFrame) {
+        setCaptureError("Hand detection is available only in the Electron desktop app.");
+        setHandCaptureStatus("error");
+        setIsRecording(false);
+        return;
+      }
+
+      handValidationInFlightRef.current = true;
+      setHandCaptureStatus("checking");
+
+      window.visionGuard.inference.detectHandFrame({
+        capturedAt: sample.capturedAt,
+        dataUrl: sample.dataUrl,
+        frameId: sample.id
+      }).then((result) => {
+        if (!recordingActiveRef.current) {
+          return;
         }
 
-        if (!videoRef.current) {
-          setCaptureError("Camera preview is not ready yet.");
-          return current;
-        }
-
-        const sample = captureVideoSample(videoRef.current);
-
-        if (!sample) {
-          setCaptureError("Could not capture a readable video frame.");
-          return current;
+        if (!result.handDetected) {
+          setCaptureError("Show hand to capture samples.");
+          setHandCaptureStatus("missing");
+          return;
         }
 
         setCaptureError(null);
-        return [...current, sample];
+        setHandCaptureStatus("detected");
+        setCapturedSamples((current) => (
+          current.length >= 12 ? current : [...current, sample]
+        ));
+      }).catch((error: unknown) => {
+        if (!recordingActiveRef.current) {
+          return;
+        }
+
+        setCaptureError(error instanceof Error ? error.message : "Could not detect hand in frame.");
+        setHandCaptureStatus("error");
+      }).finally(() => {
+        handValidationInFlightRef.current = false;
       });
     }, 420);
 
     return () => window.clearInterval(intervalId);
-  }, [isRecording]);
+  }, [capturedSamples.length, isRecording]);
 
   const handleRecord = () => {
     if (!isCameraActive) {
@@ -213,6 +278,7 @@ export function GesturesPanel({
     }
 
     setIsRecording((current) => !current);
+    setHandCaptureStatus("idle");
   };
 
   const handleSaveGesture = async () => {
@@ -239,6 +305,7 @@ export function GesturesPanel({
       setSelectedGestureId(gesture.id);
       setCapturedSamples([]);
       setCaptureError(null);
+      setHandCaptureStatus("idle");
     } catch (error) {
       setCaptureError(error instanceof Error ? error.message : "Could not save gesture samples.");
     } finally {
@@ -305,6 +372,30 @@ export function GesturesPanel({
     }
   };
 
+  const handleDeleteGesture = async (gesture: GestureDefinition = selectedGesture) => {
+    if (!gesture) return;
+
+    const shouldDelete = window.confirm(
+      `Delete "${gesture.name}" and its saved sample files?`
+    );
+
+    if (!shouldDelete) {
+      return;
+    }
+
+    setIsDeletingGesture(true);
+    setTrainingError(null);
+
+    try {
+      await onDeleteGesture(gesture.id);
+      setSelectedGestureId(null);
+    } catch (error) {
+      setTrainingError(error instanceof Error ? error.message : "Could not delete gesture.");
+    } finally {
+      setIsDeletingGesture(false);
+    }
+  };
+
   const isSelectedGestureTraining = trainingGestureId === selectedGesture?.id;
   const isTrainingApiAvailable = Boolean(window.visionGuard?.training);
   const selectedGestureCanTrain = Boolean(selectedGesture && selectedGesture.sampleFiles.length >= 12);
@@ -333,7 +424,7 @@ export function GesturesPanel({
           <div
             className={`gesture-capture-frame${isRecording ? " is-recording" : ""}${
               isCameraActive ? " has-video" : ""
-            }`}
+            } hand-status-${handCaptureStatus}`}
           >
             {isCameraActive ? (
               <video
@@ -349,7 +440,17 @@ export function GesturesPanel({
             <div className="capture-reticle" />
             <div className="capture-overlay-text">
               <strong>{isRecording ? "Recording gesture" : "Ready to record"}</strong>
-              <span>{isCameraActive ? "Keep hand centered in frame" : "Start camera before recording"}</span>
+              <span>
+                {!isCameraActive
+                  ? "Start camera before recording"
+                  : handCaptureStatus === "checking"
+                    ? "Checking hand"
+                    : handCaptureStatus === "missing"
+                      ? "Show hand"
+                      : handCaptureStatus === "detected"
+                        ? "Hand detected"
+                        : "Keep hand centered in frame"}
+              </span>
             </div>
           </div>
 
@@ -417,6 +518,7 @@ export function GesturesPanel({
                   setIsRecording(false);
                   setCapturedSamples([]);
                   setCaptureError(null);
+                  setHandCaptureStatus("idle");
                 }}
               >
                 <RotateCcw size={18} />
@@ -500,23 +602,37 @@ export function GesturesPanel({
 
         <div className="gesture-library-list">
           {gestures.map((gesture) => (
-            <button
+            <div
               className={`gesture-library-row${selectedGesture?.id === gesture.id ? " is-selected" : ""}`}
               key={gesture.id}
-              onClick={() => setSelectedGestureId(gesture.id)}
-              type="button"
             >
-              <div className="gesture-row-icon">
-                <Hand size={20} />
-              </div>
-              <div>
-                <strong>{gesture.name}</strong>
-                <span>
-                  {gesture.samples} samples · {gesture.sampleFiles.length} files · {gesture.actionTarget}
-                </span>
-              </div>
-              <em className={gesture.status}>{gesture.status}</em>
-            </button>
+              <button
+                className="gesture-library-main"
+                onClick={() => setSelectedGestureId(gesture.id)}
+                type="button"
+              >
+                <div className="gesture-row-icon">
+                  <Hand size={20} />
+                </div>
+                <div>
+                  <strong>{gesture.name}</strong>
+                  <span>
+                    {gesture.samples} samples · {gesture.sampleFiles.length} files · {gesture.actionTarget}
+                  </span>
+                </div>
+                <em className={gesture.status}>{gesture.status}</em>
+              </button>
+              <button
+                aria-label={`Delete ${gesture.name}`}
+                className="gesture-row-delete"
+                disabled={isDeletingGesture || trainingGestureId === gesture.id}
+                onClick={() => handleDeleteGesture(gesture)}
+                title="Delete this gesture and its saved sample files."
+                type="button"
+              >
+                <Trash2 size={16} />
+              </button>
+            </div>
           ))}
         </div>
       </section>
@@ -600,6 +716,20 @@ export function GesturesPanel({
             >
               <Plus size={18} />
               <span>{isSelectedGestureTraining ? "Sending..." : "Send To Training"}</span>
+            </button>
+            <button
+              className="secondary-action danger-action"
+              disabled={isSelectedGestureTraining || isDeletingGesture}
+              onClick={() => handleDeleteGesture()}
+              title={
+                isSelectedGestureTraining
+                  ? "Wait for the training request to finish before deleting."
+                  : "Delete this gesture and its saved sample files."
+              }
+              type="button"
+            >
+              <Trash2 size={18} />
+              <span>{isDeletingGesture ? "Deleting..." : "Delete Gesture"}</span>
             </button>
           </div>
         ) : (

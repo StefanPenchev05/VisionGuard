@@ -1,7 +1,32 @@
 from pathlib import Path
 from time import sleep
 
+import cv2
+import numpy as np
 from fastapi.testclient import TestClient
+
+
+def write_hand_image(path: Path, variant: int) -> None:
+    image = np.zeros((360, 640, 3), dtype=np.uint8)
+    image[:, :] = (35, 35, 35)
+    center_x = 430 + (variant % 3) * 18
+    center_y = 248 + (variant % 2) * 12
+    cv2.rectangle(
+        image,
+        (center_x - 34, center_y - 8),
+        (center_x + 42, center_y + 78),
+        (80, 140, 200),
+        -1,
+    )
+    for finger_index, x_offset in enumerate([-32, -10, 12, 34]):
+        cv2.rectangle(
+            image,
+            (center_x + x_offset, center_y - 100 + finger_index * 4),
+            (center_x + x_offset + 13, center_y + 2),
+            (80, 140, 200),
+            -1,
+        )
+    assert cv2.imwrite(str(path), image)
 
 
 def write_sample_files(tmp_path: Path, count: int = 12) -> list[dict]:
@@ -9,7 +34,7 @@ def write_sample_files(tmp_path: Path, count: int = 12) -> list[dict]:
 
     for index in range(1, count + 1):
         sample_path = tmp_path / f"open-palm-{index}.jpg"
-        sample_path.write_bytes(b"\xff\xd8" + bytes([index]) * 128 + b"\xff\xd9")
+        write_hand_image(sample_path, index)
         sample_files.append(
             {
                 "id": f"sample-{index}",
@@ -168,6 +193,48 @@ def test_gesture_inference_returns_contract_shape(client: TestClient) -> None:
     assert body["bestPrediction"] is None
     assert body["inferenceTimeMs"] >= 0
     assert isinstance(body["createdAt"], str)
+
+
+def test_hand_presence_endpoint_detects_usable_hand_frame(
+    client: TestClient,
+    tmp_path: Path,
+) -> None:
+    hand_frame = tmp_path / "hand.jpg"
+    background_frame = tmp_path / "background.jpg"
+    write_hand_image(hand_frame, 1)
+    background = np.zeros((360, 640, 3), dtype=np.uint8)
+    background[:, :] = (35, 35, 35)
+    assert cv2.imwrite(str(background_frame), background)
+
+    hand_response = client.post(
+        "/inference/hand-presence",
+        json={
+            "frame": {
+                "capturedAt": "2026-08-26T00:00:00+00:00",
+                "frameId": "frame-hand",
+                "filePath": str(hand_frame),
+            },
+        },
+    )
+    background_response = client.post(
+        "/inference/hand-presence",
+        json={
+            "frame": {
+                "capturedAt": "2026-08-26T00:00:00+00:00",
+                "frameId": "frame-background",
+                "filePath": str(background_frame),
+            },
+        },
+    )
+
+    assert hand_response.status_code == 200
+    assert hand_response.json() == {
+        "frameId": "frame-hand",
+        "handDetected": True,
+        "reason": None,
+    }
+    assert background_response.status_code == 200
+    assert background_response.json()["handDetected"] is False
 
 
 def test_gesture_inference_uses_completed_model(client: TestClient, tmp_path: Path) -> None:

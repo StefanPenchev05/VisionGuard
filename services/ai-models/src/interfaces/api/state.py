@@ -8,12 +8,15 @@ from time import perf_counter
 from uuid import uuid4
 
 from application.training.gesture_training_worker import (
+    detect_hand_presence,
     load_model_artifact,
     predict_gesture,
     train_gesture_model,
 )
 from .schemas.model_contract import (
     CreateTrainingDatasetRequestSchema,
+    DetectHandPresenceRequestSchema,
+    HandPresenceResultSchema,
     InferenceResultSchema,
     ModelStatusSchema,
     RunGestureInferenceRequestSchema,
@@ -131,6 +134,21 @@ class InMemoryAiServiceState:
             bestPrediction=predictions[0] if predictions else None,
             inferenceTimeMs=round((perf_counter() - started_at) * 1000, 3),
             createdAt=utc_now(),
+        )
+
+    def detect_hand_presence(
+        self, request: DetectHandPresenceRequestSchema
+    ) -> HandPresenceResultSchema:
+        hand_detected = False
+        reason = "Frame file is missing."
+
+        if request.frame.filePath:
+            hand_detected, reason = detect_hand_presence(request.frame.filePath)
+
+        return HandPresenceResultSchema(
+            frameId=request.frame.frameId,
+            handDetected=hand_detected,
+            reason=reason,
         )
 
     def _set_job(

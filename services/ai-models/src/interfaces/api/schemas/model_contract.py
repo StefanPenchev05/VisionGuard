@@ -99,6 +99,10 @@ class RunGestureInferenceRequestSchema(BaseModel):
     minConfidence: float | None = Field(default=None, ge=0, le=1)
 
 
+class DetectHandPresenceRequestSchema(BaseModel):
+    frame: InferenceFrameReferenceSchema
+
+
 class InferenceResultSchema(BaseModel):
     id: str
     frameId: str
@@ -107,3 +111,9 @@ class InferenceResultSchema(BaseModel):
     bestPrediction: GesturePredictionSchema | None = None
     inferenceTimeMs: float
     createdAt: str
+
+
+class HandPresenceResultSchema(BaseModel):
+    frameId: str
+    handDetected: bool
+    reason: str | None = None

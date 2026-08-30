@@ -1,4 +1,5 @@
 import type {
+  HandPresenceResult,
   InferenceResult,
   TrainingDataset,
   TrainingJob
@@ -28,12 +29,18 @@ declare global {
         save: (gestures: GestureDefinition[]) => Promise<{ count: number }>;
       };
       samples: {
+        deleteGesture: (gestureId: string) => Promise<{ deleted: boolean }>;
         saveBatch: (
           gestureId: string,
           samples: CapturedGestureSample[]
         ) => Promise<GestureSample[]>;
       };
       inference: {
+        detectHandFrame: (frame: {
+          capturedAt: string;
+          dataUrl: string;
+          frameId: string;
+        }) => Promise<HandPresenceResult>;
         runGestureFrame: (frame: {
           capturedAt: string;
           dataUrl: string;
