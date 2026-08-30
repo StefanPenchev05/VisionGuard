@@ -40,6 +40,18 @@ export type TrainingJobStatus =
   | "failed"
   | "cancelled";
 
+export type TrainingEvaluationMetrics = {
+  accuracy: number | null;
+  confusionMatrix: Record<string, Record<string, number>>;
+  perGestureAccuracy: Record<string, number>;
+  sampleCount: number;
+};
+
+export type TrainingQualityMetrics = {
+  training?: TrainingEvaluationMetrics;
+  validation?: TrainingEvaluationMetrics;
+};
+
 export type TrainingJob = {
   id: string;
   datasetId: string;
@@ -50,6 +62,7 @@ export type TrainingJob = {
   completedAt?: string;
   modelArtifactPath?: string;
   errorMessage?: string;
+  metrics?: TrainingQualityMetrics;
 };
 
 export type ModelStatus = {

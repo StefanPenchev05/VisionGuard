@@ -54,6 +54,7 @@ class TrainingJob:
     completed_at: str | None = None
     model_artifact_path: str | None = None
     error_message: str | None = None
+    metrics: dict[str, object] | None = None
 
 
 @dataclass(frozen=True)

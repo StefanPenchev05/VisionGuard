@@ -1,3 +1,5 @@
+import type { TrainingQualityMetrics } from "@visionguard/shared-kernel/contracts/ai";
+
 export type GestureActionType =
   | "open-app"
   | "volume-down"
@@ -21,6 +23,7 @@ export type GestureTrainingMetadata = {
   datasetId?: string;
   errorMessage?: string;
   jobId?: string;
+  metrics?: TrainingQualityMetrics;
   jobProgress?: number;
   jobStatus?: "queued" | "running" | "completed" | "failed" | "cancelled";
   queuedAt?: string;

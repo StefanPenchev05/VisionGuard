@@ -169,6 +169,7 @@ class InMemoryAiServiceState:
         *,
         completed_at: str | None = None,
         error_message: str | None = None,
+        metrics: dict | None = None,
         model_artifact_path: str | None = None,
         progress: float,
         started_at: str | None = None,
@@ -186,6 +187,7 @@ class InMemoryAiServiceState:
                 completedAt=completed_at,
                 modelArtifactPath=model_artifact_path,
                 errorMessage=error_message,
+                metrics=metrics if metrics is not None else current.metrics,
             )
 
     def _run_training_job(self, job_id: str) -> None:
@@ -223,6 +225,7 @@ class InMemoryAiServiceState:
             self._set_job(
                 job_id,
                 completed_at=completed_at,
+                metrics=model.metrics,
                 model_artifact_path=model.artifact_path,
                 progress=1,
                 status="completed",

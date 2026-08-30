@@ -61,6 +61,18 @@ class TrainGestureModelRequestSchema(BaseModel):
     modelConfig: ModelConfigSchema | None = None
 
 
+class TrainingEvaluationMetricsSchema(BaseModel):
+    accuracy: float | None = Field(default=None, ge=0, le=1)
+    confusionMatrix: dict[str, dict[str, int]]
+    perGestureAccuracy: dict[str, float]
+    sampleCount: int = Field(ge=0)
+
+
+class TrainingQualityMetricsSchema(BaseModel):
+    training: TrainingEvaluationMetricsSchema | None = None
+    validation: TrainingEvaluationMetricsSchema | None = None
+
+
 class TrainingJobSchema(BaseModel):
     id: str
     datasetId: str
@@ -71,6 +83,7 @@ class TrainingJobSchema(BaseModel):
     completedAt: str | None = None
     modelArtifactPath: str | None = None
     errorMessage: str | None = None
+    metrics: TrainingQualityMetricsSchema | None = None
 
 
 class ModelStatusSchema(BaseModel):

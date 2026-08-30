@@ -15,8 +15,13 @@ import {
   Search,
   Volume2
 } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
-import type { HandPresenceResult, TrainingDataset, TrainingJob } from "@visionguard/shared-kernel/contracts/ai";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
+import type {
+  HandPresenceResult,
+  TrainingDataset,
+  TrainingEvaluationMetrics,
+  TrainingJob
+} from "@visionguard/shared-kernel/contracts/ai";
 import type { GestureActionType, GestureDefinition, GestureSample } from "../types/gestures";
 
 type CapturedGestureSample = {
@@ -225,6 +230,30 @@ function attachHandMetadata(
     handDetectionConfidence: result.confidence,
     handLandmarkCount: result.landmarkCount
   };
+}
+
+export function formatMetricPercent(value?: number | null): string {
+  return typeof value === "number" ? `${Math.round(value * 100)}%` : "Not available";
+}
+
+function resolveGestureName(gestures: GestureDefinition[], gestureId: string): string {
+  return gestures.find((gesture) => gesture.id === gestureId)?.name ?? gestureId;
+}
+
+function getTrainingQualityLabel(metrics?: TrainingEvaluationMetrics): string {
+  if (!metrics || metrics.sampleCount === 0 || metrics.accuracy === null) {
+    return "Waiting for completed training metrics.";
+  }
+
+  if (metrics.accuracy >= 0.9) {
+    return "Good separation for demo use.";
+  }
+
+  if (metrics.accuracy >= 0.75) {
+    return "Usable, but record more varied samples.";
+  }
+
+  return "Weak separation. Record cleaner samples before demo.";
 }
 
 export function GesturesPanel({
@@ -543,6 +572,7 @@ export function GesturesPanel({
           training: {
             datasetId: result.dataset.id,
             jobId: result.job.id,
+            metrics: result.job.metrics,
             jobProgress: result.job.progress,
             jobStatus: result.job.status,
             queuedAt: result.job.startedAt ?? new Date().toISOString(),
@@ -625,6 +655,14 @@ export function GesturesPanel({
   );
   const selectedTrainingProgress = selectedGesture?.training?.jobProgress ?? 0;
   const selectedTrainingStatus = selectedGesture?.training?.jobStatus;
+  const selectedTrainingMetrics = selectedGesture?.training?.metrics;
+  const selectedValidationMetrics = selectedTrainingMetrics?.validation;
+  const selectedModelQualityMetrics =
+    selectedValidationMetrics && selectedValidationMetrics.sampleCount > 0
+      ? selectedValidationMetrics
+      : selectedTrainingMetrics?.training;
+  const confusionMatrix = selectedModelQualityMetrics?.confusionMatrix ?? {};
+  const confusionLabels = Object.keys(confusionMatrix);
   const detectedSampleCount = capturedSamples.filter((sample) => sample.handDetected).length;
   const confidenceSamples = capturedSamples
     .map((sample) => sample.handDetectionConfidence)
@@ -942,6 +980,14 @@ export function GesturesPanel({
                     : "Pending"}
                 </dd>
               </div>
+              <div>
+                <dt>Validation accuracy</dt>
+                <dd>{formatMetricPercent(selectedValidationMetrics?.accuracy)}</dd>
+              </div>
+              <div>
+                <dt>Training accuracy</dt>
+                <dd>{formatMetricPercent(selectedTrainingMetrics?.training?.accuracy)}</dd>
+              </div>
             </dl>
             {trainingError || selectedGesture.training?.errorMessage ? (
               <p className="training-message error">
@@ -964,6 +1010,64 @@ export function GesturesPanel({
             {selectedGesture.training?.jobId ? (
               <div className="training-progress" aria-label="Training progress">
                 <span style={{ width: `${Math.round(selectedTrainingProgress * 100)}%` }} />
+              </div>
+            ) : null}
+            {selectedTrainingMetrics ? (
+              <div className="training-metrics-panel">
+                <div className="training-metrics-summary">
+                  <div>
+                    <span>Quality</span>
+                    <strong>{getTrainingQualityLabel(selectedModelQualityMetrics)}</strong>
+                  </div>
+                  <div>
+                    <span>Validation samples</span>
+                    <strong>{selectedValidationMetrics?.sampleCount ?? 0}</strong>
+                  </div>
+                </div>
+
+                {selectedModelQualityMetrics?.perGestureAccuracy ? (
+                  <div className="per-gesture-quality">
+                    {Object.entries(selectedModelQualityMetrics.perGestureAccuracy).map(([gestureId, accuracy]) => (
+                      <div key={gestureId}>
+                        <span>{resolveGestureName(gestures, gestureId)}</span>
+                        <strong>{formatMetricPercent(accuracy)}</strong>
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
+
+                {confusionLabels.length > 0 ? (
+                  <div className="confusion-matrix" aria-label="Training confusion matrix">
+                    <div
+                      className="confusion-matrix-grid"
+                      style={{
+                        gridTemplateColumns: `minmax(86px, 1.2fr) repeat(${confusionLabels.length}, minmax(58px, 1fr))`
+                      }}
+                    >
+                      <span />
+                      {confusionLabels.map((labelId) => (
+                        <strong key={`predicted-${labelId}`}>
+                          {resolveGestureName(gestures, labelId)}
+                        </strong>
+                      ))}
+                      {confusionLabels.map((actualId) => (
+                        <Fragment key={`row-${actualId}`}>
+                          <strong key={`actual-${actualId}`}>
+                            {resolveGestureName(gestures, actualId)}
+                          </strong>
+                          {confusionLabels.map((predictedId) => (
+                            <span
+                              className={actualId === predictedId ? "correct" : ""}
+                              key={`${actualId}-${predictedId}`}
+                            >
+                              {confusionMatrix[actualId]?.[predictedId] ?? 0}
+                            </span>
+                          ))}
+                        </Fragment>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
               </div>
             ) : null}
             {testActionMessage ? (

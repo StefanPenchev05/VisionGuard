@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  formatMetricPercent,
   getGestureCaptureInstruction,
   validateHandSampleQuality
 } from "../../../../../src/renderer/app/components/GesturesPanel";
@@ -133,5 +134,13 @@ describe("validateHandSampleQuality", () => {
       message: null,
       ok: true
     });
+  });
+});
+
+describe("formatMetricPercent", () => {
+  it("formats available and missing training metrics", () => {
+    expect(formatMetricPercent(0.916)).toBe("92%");
+    expect(formatMetricPercent(null)).toBe("Not available");
+    expect(formatMetricPercent(undefined)).toBe("Not available");
   });
 });

@@ -517,6 +517,7 @@ export function App() {
             gesture.status !== nextStatus ||
             gesture.training?.errorMessage !== job.errorMessage ||
             gesture.training?.jobId !== job.id ||
+            gesture.training?.metrics !== job.metrics ||
             gesture.training?.jobProgress !== job.progress ||
             gesture.training?.jobStatus !== job.status;
 
@@ -531,6 +532,7 @@ export function App() {
               ...gesture.training,
               errorMessage: job.errorMessage,
               jobId: job.id,
+              metrics: job.metrics ?? gesture.training?.metrics,
               jobProgress: job.progress,
               jobStatus: job.status,
               updatedAt: new Date().toISOString()

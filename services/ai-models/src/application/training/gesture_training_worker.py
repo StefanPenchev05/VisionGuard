@@ -23,6 +23,8 @@ NetworkWeights = dict[str, list]
 ClassCentroids = dict[str, FeatureVector]
 ClassRadii = dict[str, float]
 ConfusionMatrix = dict[str, dict[str, int]]
+TrainingEvaluationMetrics = dict[str, object]
+TrainingQualityMetrics = dict[str, TrainingEvaluationMetrics]
 
 
 class NoHandRegionDetected(ValueError):
@@ -36,6 +38,7 @@ MEDIAPIPE_HANDS = mp.solutions.hands
 class TrainedGestureModel:
     accuracy: float
     artifact_path: str
+    metrics: TrainingQualityMetrics
     model_id: str
     version: str
 
@@ -936,6 +939,7 @@ def train_gesture_model(
             else training_metrics["accuracy"] or 0
         ),
         artifact_path=str(artifact_path),
+        metrics=payload["metrics"],
         model_id=model_id,
         version=model_version,
     )

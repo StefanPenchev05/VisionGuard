@@ -48,6 +48,32 @@ class InMemoryAiModelService implements AiModelServiceContract {
     return {
       datasetId: "dataset-1",
       id: jobId,
+      metrics: {
+        training: {
+          accuracy: 1,
+          confusionMatrix: {
+            "gesture-open-palm": {
+              "gesture-open-palm": 12
+            }
+          },
+          perGestureAccuracy: {
+            "gesture-open-palm": 1
+          },
+          sampleCount: 12
+        },
+        validation: {
+          accuracy: 0.92,
+          confusionMatrix: {
+            "gesture-open-palm": {
+              "gesture-open-palm": 3
+            }
+          },
+          perGestureAccuracy: {
+            "gesture-open-palm": 0.92
+          },
+          sampleCount: 3
+        }
+      },
       modelFamily: "gesture-recognition",
       progress: 1,
       status: "completed"
@@ -111,6 +137,23 @@ describe("AiModelServiceContract", () => {
     expect(dataset).toMatchObject({
       id: "dataset-1",
       sampleCount: 1
+    });
+  });
+
+  it("supports completed training job quality metrics", async () => {
+    const service = new InMemoryAiModelService();
+
+    await expect(service.getTrainingJob("job-1")).resolves.toMatchObject({
+      metrics: {
+        training: {
+          accuracy: 1,
+          sampleCount: 12
+        },
+        validation: {
+          accuracy: 0.92,
+          sampleCount: 3
+        }
+      }
     });
   });
 });

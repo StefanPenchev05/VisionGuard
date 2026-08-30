@@ -13,7 +13,9 @@ from .model_contract import (
     RunGestureInferenceRequestSchema,
     TrainGestureModelRequestSchema,
     TrainingDatasetSchema,
+    TrainingEvaluationMetricsSchema,
     TrainingJobSchema,
+    TrainingQualityMetricsSchema,
 )
 
 __all__ = [
@@ -29,5 +31,7 @@ __all__ = [
     "RunGestureInferenceRequestSchema",
     "TrainGestureModelRequestSchema",
     "TrainingDatasetSchema",
+    "TrainingEvaluationMetricsSchema",
     "TrainingJobSchema",
+    "TrainingQualityMetricsSchema",
 ]

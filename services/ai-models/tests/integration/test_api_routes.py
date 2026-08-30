@@ -140,6 +140,9 @@ def test_training_job_lifecycle(client: TestClient, tmp_path: Path) -> None:
     assert completed_job["status"] == "completed"
     assert completed_job["progress"] == 1
     assert completed_job["modelArtifactPath"]
+    assert completed_job["metrics"]["training"]["sampleCount"] > 0
+    assert completed_job["metrics"]["training"]["confusionMatrix"]
+    assert completed_job["metrics"]["validation"]["sampleCount"] >= 0
     assert Path(completed_job["modelArtifactPath"]).exists()
 
 

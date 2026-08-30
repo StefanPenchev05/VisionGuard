@@ -2064,6 +2064,98 @@ h2 {
   transition: width 220ms ease;
 }
 
+.training-metrics-panel {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid rgba(140, 170, 184, 0.14);
+  border-radius: 8px;
+  background: rgba(5, 14, 20, 0.42);
+}
+
+.training-metrics-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+}
+
+.training-metrics-summary div,
+.per-gesture-quality div {
+  min-width: 0;
+}
+
+.training-metrics-summary span,
+.per-gesture-quality span {
+  display: block;
+  color: #90a3ac;
+  font-size: 0.72rem;
+}
+
+.training-metrics-summary strong,
+.per-gesture-quality strong {
+  display: block;
+  margin-top: 4px;
+  color: #f2f8f9;
+  font-size: 0.78rem;
+}
+
+.per-gesture-quality {
+  display: grid;
+  gap: 8px;
+}
+
+.per-gesture-quality div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(140, 170, 184, 0.1);
+}
+
+.per-gesture-quality span,
+.per-gesture-quality strong {
+  margin: 0;
+}
+
+.confusion-matrix {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.confusion-matrix-grid {
+  display: grid;
+  min-width: max-content;
+  overflow: hidden;
+  border: 1px solid rgba(140, 170, 184, 0.12);
+  border-radius: 6px;
+}
+
+.confusion-matrix-grid span,
+.confusion-matrix-grid strong {
+  min-width: 0;
+  padding: 7px 8px;
+  border-right: 1px solid rgba(140, 170, 184, 0.08);
+  border-bottom: 1px solid rgba(140, 170, 184, 0.08);
+  font-size: 0.7rem;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.confusion-matrix-grid strong {
+  color: #a9bcc4;
+  font-weight: 700;
+}
+
+.confusion-matrix-grid span {
+  color: #dcebed;
+}
+
+.confusion-matrix-grid span.correct {
+  background: rgba(94, 227, 151, 0.16);
+  color: #b8f5ce;
+  font-weight: 800;
+}
+
 .empty-state {
   margin-top: 16px;
   padding: 24px;
