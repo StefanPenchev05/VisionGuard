@@ -22,6 +22,7 @@ JpegDimensions = tuple[int | None, int | None]
 NetworkWeights = dict[str, list]
 ClassCentroids = dict[str, FeatureVector]
 ClassRadii = dict[str, float]
+ConfusionMatrix = dict[str, dict[str, int]]
 
 
 class NoHandRegionDetected(ValueError):
@@ -723,8 +724,130 @@ def predict_with_class_profiles(
     return sorted(predictions, key=lambda prediction: prediction.confidence, reverse=True)
 
 
+def class_profile_scores(
+    features: FeatureVector,
+    centroids: ClassCentroids,
+    radii: ClassRadii,
+) -> dict[str, float]:
+    scores: dict[str, float] = {}
+
+    for label_id, centroid in centroids.items():
+        radius = max(radii.get(label_id, 0.08), 0.001)
+        feature_distance = distance(features, centroid)
+        scores[label_id] = max(0.0, 1 - (feature_distance / radius))
+
+    return scores
+
+
+def apply_unknown_rejection(
+    predictions: list[GesturePredictionSchema],
+    profile_scores: dict[str, float],
+    *,
+    min_profile_confidence: float,
+    min_confidence_margin: float,
+) -> list[GesturePredictionSchema]:
+    if not predictions:
+        return []
+
+    adjusted_predictions: list[GesturePredictionSchema] = []
+    sorted_profile_scores = sorted(profile_scores.values(), reverse=True)
+    profile_margin = (
+        sorted_profile_scores[0] - sorted_profile_scores[1]
+        if len(sorted_profile_scores) > 1
+        else sorted_profile_scores[0] if sorted_profile_scores else 0
+    )
+
+    if len(sorted_profile_scores) > 1 and profile_margin < min_confidence_margin:
+        return []
+
+    for prediction in predictions:
+        profile_confidence = profile_scores.get(prediction.gestureId, 0.0)
+
+        if profile_confidence < min_profile_confidence:
+            continue
+
+        adjusted_predictions.append(
+            GesturePredictionSchema(
+                gestureId=prediction.gestureId,
+                label=prediction.label,
+                confidence=round((prediction.confidence * 0.65) + (profile_confidence * 0.35), 4),
+            )
+        )
+
+    return sorted(adjusted_predictions, key=lambda prediction: prediction.confidence, reverse=True)
+
+
 def distance(left: FeatureVector, right: FeatureVector) -> float:
     return math.sqrt(sum((a - b) ** 2 for a, b in zip(left, right, strict=True)))
+
+
+def split_training_validation_rows(
+    features_by_label: dict[str, list[FeatureVector]],
+) -> tuple[list[tuple[FeatureVector, str]], list[tuple[FeatureVector, str]]]:
+    training_rows: list[tuple[FeatureVector, str]] = []
+    validation_rows: list[tuple[FeatureVector, str]] = []
+
+    for label_id, vectors in features_by_label.items():
+        validation_count = max(1, len(vectors) // 5) if len(vectors) >= 5 else 0
+        split_index = len(vectors) - validation_count
+
+        for vector in vectors[:split_index]:
+            training_rows.append((vector, label_id))
+
+        for vector in vectors[split_index:]:
+            validation_rows.append((vector, label_id))
+
+    return training_rows, validation_rows
+
+
+def evaluate_model_metrics(
+    rows: list[tuple[FeatureVector, str]],
+    labels: list[dict],
+    network: NetworkWeights,
+    centroids: ClassCentroids,
+    class_radii: ClassRadii,
+) -> dict:
+    if not rows:
+        return {
+            "accuracy": None,
+            "confusionMatrix": {},
+            "perGestureAccuracy": {},
+            "sampleCount": 0,
+        }
+
+    correct_by_label: dict[str, int] = defaultdict(int)
+    total_by_label: dict[str, int] = defaultdict(int)
+    confusion_matrix: ConfusionMatrix = defaultdict(lambda: defaultdict(int))
+    correct = 0
+
+    for features, expected_label_id in rows:
+        network_predictions = predict_with_network(features, labels, network)
+        predictions = apply_unknown_rejection(
+            network_predictions,
+            class_profile_scores(features, centroids, class_radii),
+            min_profile_confidence=0.18,
+            min_confidence_margin=0.02,
+        )
+        predicted_label_id = predictions[0].gestureId if predictions else "__unknown__"
+        total_by_label[expected_label_id] += 1
+        confusion_matrix[expected_label_id][predicted_label_id] += 1
+
+        if predicted_label_id == expected_label_id:
+            correct += 1
+            correct_by_label[expected_label_id] += 1
+
+    return {
+        "accuracy": correct / len(rows),
+        "confusionMatrix": {
+            label_id: dict(predictions)
+            for label_id, predictions in confusion_matrix.items()
+        },
+        "perGestureAccuracy": {
+            label_id: correct_by_label[label_id] / total
+            for label_id, total in total_by_label.items()
+        },
+        "sampleCount": len(rows),
+    }
 
 
 def train_gesture_model(
@@ -761,8 +884,23 @@ def train_gesture_model(
 
     labels = [label.model_dump() for label in dataset.labels]
     label_ids = [label.id for label in dataset.labels]
-    network = train_neural_network(training_rows, label_ids)
     centroids, class_radii = build_class_profiles(features_by_label)
+    model_training_rows, validation_rows = split_training_validation_rows(features_by_label)
+    network = train_neural_network(model_training_rows or training_rows, label_ids)
+    training_metrics = evaluate_model_metrics(
+        model_training_rows or training_rows,
+        labels,
+        network,
+        centroids,
+        class_radii,
+    )
+    validation_metrics = evaluate_model_metrics(
+        validation_rows,
+        labels,
+        network,
+        centroids,
+        class_radii,
+    )
     model_version = dataset.updatedAt.replace(":", "").replace("+", "-")
     artifact_directory.mkdir(parents=True, exist_ok=True)
     artifact_path = artifact_directory / f"{model_id}-{dataset.id}.json"
@@ -773,17 +911,30 @@ def train_gesture_model(
         "featureExtractor": "mediapipe-hand-landmarks-v6",
         "inputSize": len(training_rows[0][0]),
         "labels": labels,
+        "metrics": {
+            "training": training_metrics,
+            "validation": validation_metrics,
+        },
         "modelBackend": "pure-python-mlp",
         "modelFamily": "gesture-recognition",
         "modelId": model_id,
         "network": network,
+        "rejection": {
+            "minConfidenceMargin": 0.02,
+            "minProfileConfidence": 0.18,
+            "unknownLabel": "__unknown__",
+        },
         "trainedSampleCount": len(samples),
         "version": model_version,
     }
     artifact_path.write_text(f"{json.dumps(payload, indent=2)}\n", encoding="utf-8")
 
     return TrainedGestureModel(
-        accuracy=estimate_training_accuracy(training_rows, labels, network),
+        accuracy=(
+            validation_metrics["accuracy"]
+            if validation_metrics["accuracy"] is not None
+            else training_metrics["accuracy"] or 0
+        ),
         artifact_path=str(artifact_path),
         model_id=model_id,
         version=model_version,
@@ -831,7 +982,18 @@ def predict_gesture(
                 artifact.get("classRadii", {}),
             )
         else:
-            predictions = predict_with_network(feature, labels, artifact["network"])
+            network_predictions = predict_with_network(feature, labels, artifact["network"])
+            rejection_config = artifact.get("rejection", {})
+            predictions = apply_unknown_rejection(
+                network_predictions,
+                class_profile_scores(
+                    feature,
+                    artifact.get("centroids", {}),
+                    artifact.get("classRadii", {}),
+                ),
+                min_profile_confidence=rejection_config.get("minProfileConfidence", 0.18),
+                min_confidence_margin=rejection_config.get("minConfidenceMargin", 0.02),
+            )
 
         return [
             prediction

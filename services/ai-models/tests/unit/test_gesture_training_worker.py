@@ -261,6 +261,15 @@ def test_train_gesture_model_writes_neural_network_artifact(tmp_path: Path) -> N
     assert artifact["modelBackend"] == "pure-python-mlp"
     assert artifact["featureExtractor"] == "mediapipe-hand-landmarks-v6"
     assert artifact["inputSize"] > 50
+    assert artifact["metrics"]["training"]["sampleCount"] > 0
+    assert artifact["metrics"]["training"]["perGestureAccuracy"]
+    assert artifact["metrics"]["training"]["confusionMatrix"]
+    assert artifact["metrics"]["validation"]["sampleCount"] > 0
+    assert artifact["rejection"] == {
+        "minConfidenceMargin": 0.02,
+        "minProfileConfidence": 0.18,
+        "unknownLabel": "__unknown__",
+    }
     assert trained_model.accuracy >= 0.9
 
     predictions = predict_gesture(
@@ -269,6 +278,17 @@ def test_train_gesture_model_writes_neural_network_artifact(tmp_path: Path) -> N
         min_confidence=None,
     )
     assert predictions[0].gestureId == "open-palm"
+
+    unknown_path = tmp_path / "unknown.jpg"
+    write_different_hand_like_image(unknown_path)
+
+    unknown_predictions = predict_gesture(
+        artifact,
+        str(unknown_path),
+        min_confidence=0.75,
+    )
+
+    assert unknown_predictions == []
 
 
 def test_single_label_model_rejects_unlike_hand_region(tmp_path: Path) -> None:
